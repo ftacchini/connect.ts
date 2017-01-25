@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
-        "module": "system",
+        "module": "commonjs",
+        "target": "es6",
         "noImplicitAny": true,
         "removeComments": true,
-        "preserveConstEnums": true,
-        "outFile": "../../built/local/tsc.js",
-        "sourceMap": true
+        "sourceMap": true,
+        "outDir": "generated",
+        "experimentalDecorators": true,
+        "types": ["reflect-metadata"],
+        "emitDecoratorMetadata": true
     },
     "include": [
         "src/**/*"
