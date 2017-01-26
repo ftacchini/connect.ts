@@ -7,6 +7,6 @@ export class ApplicationConfigurator {
     configure(app: express.Application, config: ApplicationConfig) {
         app.use(bodyParser());
         config.controllerLoaders = [TYPES.DefaultControllerLoader];
-        config.routers = [TYPES.DefaultRouteMapper, TYPES.ApiRouteMapper];
+        config.routers = [TYPES.DefaultRouteMapper];
     };
 }

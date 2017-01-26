@@ -4,9 +4,7 @@ import { Get } from "../controller-information/get-action.core";
 @Controller({ name: "someName"})
 export class SomeController {
 
-    constructor(){
-
-    }
+    constructor(){}
 
     @Get()
     foo(){

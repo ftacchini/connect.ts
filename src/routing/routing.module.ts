@@ -1,4 +1,3 @@
-export * from "./api-route-mapper.core";
 export * from "./default-route-mapper.core";
 export * from "./route-mapper.core";
 export * from "./default-controller-loader.core";

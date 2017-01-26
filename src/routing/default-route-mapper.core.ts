@@ -1,11 +1,24 @@
 import * as _ from "lodash";
+import { RouteMapper } from "./route-mapper.core";
+import { ControllerRouter } from "./controller-router.core";
+import { PropertyRoute } from "./property-route.core";
+import * as express from "express";
+import { ControllerMetadataBuilder } from "../controller-information/controller-information.module"
 
+export class DefaultRouteMapper implements RouteMapper {
 
-export class DefaultRouteMapper implements IRouteMapper{
-    mapControllers(controllerMetadata: ControllerMetadata) : void {
-        var controllers = controllerGetter();
-        _.each(controllers, function(controller){
-            
-        })
+    mapController(controller: any): ControllerRouter {
+
+        let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
+
+        let controllerRouter = new ControllerRouter(express.Router(), metadata.name);
+        _.each(metadata.properties, (property, key) => {
+            controllerRouter.propertyRoutes.push(new PropertyRoute(
+                property.name,
+                key
+            ));
+        });
+
+        return controllerRouter;
     }
 }

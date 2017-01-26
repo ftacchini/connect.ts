@@ -6,7 +6,7 @@ import { ControllerLoader } from "./controller-loader.core";
 export class DefaultControllerLoader implements ControllerLoader {
 
     loadControllers() : any {
-        var controllers = includeAll({
+        let controllers = includeAll({
             dirname: process.cwd(),
             filter: /^\.controller\.js$/,
             excludeDirs: /^\.(git|svn)$/

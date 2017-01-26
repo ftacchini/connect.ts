@@ -14,11 +14,10 @@ export class ControllerMetadataBuilder{
     private registry: any;
 
     public attachInformation(target: any, propertyKey: string, information: any){
-        target.__controllerMetadata || (target.__controllerMetadata = {});
+        target.__controllerMetadata || (target.__controllerMetadata = { properties: {} });
         
-        var metadata = propertyKey ? target.__controllerMetadata[propertyKey] : target.__controllerMetadata;
-        metadata = _.extend(metadata, information);
-        target.__controllerMetadata = metadata;
+        var metadata = propertyKey ? target.__controllerMetadata.properties[propertyKey] : target.__controllerMetadata;
+        _.extend(metadata, information);
     }
 
     public controllerInformation(target: any): any{

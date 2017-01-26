@@ -1,3 +1,5 @@
+import { ControllerRouter } from "./controller-router.core";
+
 export interface RouteMapper {
-    mapControllers(controllerGetter: () => Object[]) : void;
+    mapController(controller: any) : ControllerRouter;
 }
