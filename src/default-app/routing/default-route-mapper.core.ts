@@ -11,10 +11,11 @@ export class DefaultRouteMapper implements RouteMapper {
 
         let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
 
-        let controllerRouter = new ControllerRouter(express.Router(), metadata.name);
+        let controllerRouter = new ControllerRouter(metadata.name);
         _.each(metadata.properties, (property, key) => {
             controllerRouter.propertyRoutes.push(new PropertyRoute(
                 property.name,
+                property.type,
                 key
             ));
         });

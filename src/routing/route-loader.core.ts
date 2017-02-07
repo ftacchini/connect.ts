@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import { ControllerLoader } from "./controller-loader.core";
 import { RouteMapper } from "./route-mapper.core";
 import { ControllerRouter } from "./controller-router.core";
+import { RouteBuilder } from "./route-builder.core";
 
 export class RouteLoader {
 
@@ -17,34 +18,30 @@ export class RouteLoader {
     public loadRoutes(
         container: Container, 
         configuration: ApplicationConfig, 
-        application: Express.Application): void {
+        application: express.Application): void {
 
             let controllers: any[] = []; 
 
-            _.each(configuration.controllerLoaders, (loader) => {
-                controllers = _.union(controllers, container.get<ControllerLoader>(loader).loadControllers());
+            _.each(configuration.routerConfig.controllerLoaders, (loader) => {
+                controllers = _.union(controllers, new loader(configuration.routerConfig, container).loadControllers());
             });
             
             if(controllers.length){
-                
-                let routers: RouteMapper[] = []; 
-
-                _.each(configuration.routers, (router) => {
-                    routers.push(container.get<RouteMapper>(router));
+                              
+                let routers: RouteMapper[] = _.map(configuration.routerConfig.routeMappers, (router) => {
+                    return new router(configuration.routerConfig, container);
                 });
 
-                let controllerRouters: ControllerRouter[] = [];
+                let routeBuilder: RouteBuilder = new configuration.routerConfig.routeBuilder(configuration.routerConfig, container);
 
                 _.each(controllers, (controller) => {
-                    _.each(routers, (router) => {
-                        let controllerRouter = router.mapController(controller)
-                        controllerRouter && controllerRouters.push(controllerRouter);
+                   let controllerRouters: ControllerRouter[] = _.map(routers, (router) => {
+                        return router.mapController(controller);
                     });
-                });
 
-                _.each(controllerRouters, (controllerRouter) => {
-                    
-                })
+                    routeBuilder.buildRoutes(controllerRouters, container, application);
+
+                });
             }
     }
 }

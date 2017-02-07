@@ -1,14 +1,11 @@
-import { ControllerMetadataBuilder } from "./controller-metadata-builder.core";
+
 import { ControllerInformation } from "./controller-information.core";
-import { injectable, inject } from "inversify";
+import { ControllerResolver } from "./controller-resolver.core";
 
 
 export function Controller(information?: ControllerInformation) {
 
     information || (information = new ControllerInformation());
 
-    return function(target: any){
-        information.name || (information.name = target.constructor.name.toLowerCase());
-        ControllerMetadataBuilder.instance.attachInformation(target, null, information);
-    }
+    return ControllerResolver(information);
 }

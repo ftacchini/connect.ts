@@ -8,7 +8,7 @@ export function ActionResolver(information: ActionInformation){
             throw "Action Attribute is only applicable to a class method";
         }
 
-        information.name || (information.name = propertyKey.toLowerCase().replace("controller", ""));
+        information.name || (information.name = propertyKey.toLowerCase());
         ControllerMetadataBuilder.instance.attachInformation(target, null, information);
     }
 }

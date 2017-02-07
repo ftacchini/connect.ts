@@ -1,1 +1,1 @@
-export type ActionType = "GET" | "POST" | "HEAD" | "PUT" | "DELETE";
+export type ActionType = "get" | "post" | "head" | "put" | "delete";
