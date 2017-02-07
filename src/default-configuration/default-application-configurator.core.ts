@@ -6,6 +6,7 @@ import { DefaultControllerLoader, DefaultRouteBuilder, DefaultRouteMapper } from
 export class DefaultApplicationConfigurator {
     configure(app: Application, config: ApplicationConfiguration) {
         app.use(bodyParser());
+        config.port = 8080;
         config.routerConfig.controllerLoaders = [DefaultControllerLoader];
         config.routerConfig.routeMappers = [DefaultRouteMapper];
         config.routerConfig.routeBuilder = DefaultRouteBuilder;

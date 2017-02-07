@@ -27,7 +27,7 @@ export class RouteLoader {
             });
             
             if(controllers.length){
-                              
+                        
                 let routers: RouteMapper[] = _.map(configuration.routerConfig.routeMappers, (router) => {
                     return new router(configuration.routerConfig, container);
                 });

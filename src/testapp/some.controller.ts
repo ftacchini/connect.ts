@@ -1,7 +1,8 @@
 import { Controller, Get } from "../core/controller-information/controller-information.module";
+import "reflect-metadata";
 
 @Controller({ name: "someName"})
-export class SomeController {
+export default class SomeController {
 
     constructor(){}
 

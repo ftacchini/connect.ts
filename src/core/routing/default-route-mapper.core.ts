@@ -8,7 +8,8 @@ import { ControllerMetadataBuilder } from "../controller-information/controller-
 export class DefaultRouteMapper implements RouteMapper {
 
     mapController(controller: any): ControllerRouter {
-
+        
+                   console.log(controller);   
         let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
 
         let controllerRouter = new ControllerRouter(metadata.name);

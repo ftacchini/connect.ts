@@ -4,6 +4,8 @@ import { ActionInformation } from "./action-information.core";
 export function ActionInformationResolver(information: ActionInformation){
     return (target: any, propertyKey: string) => {
 
+        information || (information = new ActionInformation());
+
         if(!propertyKey){
             throw "Action Attribute is only applicable to a class method";
         }

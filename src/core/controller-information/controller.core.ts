@@ -4,8 +4,5 @@ import { ControllerInformationResolver } from "./controller-information-resolver
 
 
 export function Controller(information?: ControllerInformation) {
-
-    information || (information = new ControllerInformation());
-
     return ControllerInformationResolver(information);
 }

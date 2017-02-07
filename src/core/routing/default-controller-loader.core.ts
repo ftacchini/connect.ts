@@ -1,16 +1,18 @@
-import { injectable, inject } from "inversify";
 var includeAll = require("include-all");
 import { ControllerLoader } from "./controller-loader.core";
+import * as _ from "lodash";
 
-@injectable()
 export class DefaultControllerLoader implements ControllerLoader {
 
     loadControllers() : any {
-        let controllers = includeAll({
+        let controllerFiles = includeAll({
             dirname: process.cwd(),
-            filter: /^\.controller\.js$/,
-            excludeDirs: /^\.(git|svn)$/
+            filter: /(.+)\.controller\.js$/,
+            excludeDirs: /^\.(git|svn)$/,
+            flatten: true
         });
+
+        let controllers = _.values(controllerFiles);
 
         return controllers;
     }

@@ -24,6 +24,8 @@ export class Server {
     //configure application
     this.config();
     this.routes();
+
+    this.app.listen(this.configuration.port);
   }
 
   private config(): void{
