@@ -1,11 +1,11 @@
 
 import { ControllerInformation } from "./controller-information.core";
-import { ControllerResolver } from "./controller-resolver.core";
+import { ControllerInformationResolver } from "./controller-information-resolver.core";
 
 
 export function Controller(information?: ControllerInformation) {
 
     information || (information = new ControllerInformation());
 
-    return ControllerResolver(information);
+    return ControllerInformationResolver(information);
 }

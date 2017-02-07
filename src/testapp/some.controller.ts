@@ -1,5 +1,4 @@
-import { Controller } from "../controller-information/controller.core";
-import { Get } from "../controller-information/get-action.core";
+import { Controller, Get } from "../core/controller-information/controller-information.module";
 
 @Controller({ name: "someName"})
 export class SomeController {

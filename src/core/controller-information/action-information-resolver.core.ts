@@ -1,7 +1,7 @@
 import { ControllerMetadataBuilder } from "./controller-metadata-builder.core";
 import { ActionInformation } from "./action-information.core";
 
-export function ActionResolver(information: ActionInformation){
+export function ActionInformationResolver(information: ActionInformation){
     return (target: any, propertyKey: string) => {
 
         if(!propertyKey){
@@ -9,6 +9,6 @@ export function ActionResolver(information: ActionInformation){
         }
 
         information.name || (information.name = propertyKey.toLowerCase());
-        ControllerMetadataBuilder.instance.attachInformation(target, null, information);
+        ControllerMetadataBuilder.instance.attachInformation(target, propertyKey, information);
     }
 }

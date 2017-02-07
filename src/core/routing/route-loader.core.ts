@@ -1,5 +1,5 @@
-import * as express from "express";
-import { ApplicationConfig, TYPES } from "../configuration/configuration.module";
+import { Application } from "express";
+import { ApplicationConfiguration } from "../configuration/configuration.module";
 import { Container } from "inversify";
 import * as _ from "lodash";
 import { ControllerLoader } from "./controller-loader.core";
@@ -17,8 +17,8 @@ export class RouteLoader {
     
     public loadRoutes(
         container: Container, 
-        configuration: ApplicationConfig, 
-        application: express.Application): void {
+        configuration: ApplicationConfiguration, 
+        application: Application): void {
 
             let controllers: any[] = []; 
 

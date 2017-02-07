@@ -5,7 +5,5 @@ import { DefaultRouteMapper, DefaultControllerLoader } from "../routing/routing.
 
 export class DefaultInjectorConfigurator {
     configure(container: Container) {
-        container.bind<DefaultControllerLoader>(TYPES.ControllerLoader).to(DefaultControllerLoader);
-        container.bind<DefaultRouteMapper>(TYPES.DefaultRouteMapper).to(DefaultRouteMapper);    
     };
 }
