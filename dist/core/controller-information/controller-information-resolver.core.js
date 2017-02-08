@@ -5,7 +5,7 @@ function ControllerInformationResolver(information) {
     return (target) => {
         information || (information = new controller_information_core_1.ControllerInformation());
         information.name || (information.name = target.constructor.name.toLowerCase());
-        controller_metadata_builder_core_1.ControllerMetadataBuilder.instance.attachInformation(target, null, information);
+        controller_metadata_builder_core_1.ControllerMetadataBuilder.instance.attachInformation(target.prototype, null, information);
     };
 }
 exports.ControllerInformationResolver = ControllerInformationResolver;

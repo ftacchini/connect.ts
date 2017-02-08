@@ -1,4 +1,4 @@
-import { Controller, Get } from "../core/controller-information/controller-information.module";
+import { Controller, Get, FromBody } from "../core/controller-information/controller-information.module";
 import "reflect-metadata";
 
 @Controller({ name: "someName"})
@@ -7,7 +7,7 @@ export default class SomeController {
     constructor(){}
 
     @Get()
-    foo(){
+    foo(@FromBody() param: string){
         console.log("foo being called");
     }
 

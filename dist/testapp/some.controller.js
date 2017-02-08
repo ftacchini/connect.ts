@@ -8,19 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 const controller_information_module_1 = require("../core/controller-information/controller-information.module");
 require("reflect-metadata");
 let SomeController = class SomeController {
     constructor() {
     }
-    foo() {
+    foo(param) {
         console.log("foo being called");
     }
 };
 __decorate([
-    controller_information_module_1.Get(), 
+    controller_information_module_1.Get(),
+    __param(0, controller_information_module_1.FromBody()), 
     __metadata('design:type', Function), 
-    __metadata('design:paramtypes', []), 
+    __metadata('design:paramtypes', [String]), 
     __metadata('design:returntype', void 0)
 ], SomeController.prototype, "foo", null);
 SomeController = __decorate([
