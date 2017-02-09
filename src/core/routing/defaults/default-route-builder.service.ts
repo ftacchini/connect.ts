@@ -1,19 +1,19 @@
-import { RouteBuilder } from "./route-builder.core";
-import { ControllerRouter } from "./controller-router.core";
-import * as express from "express";
+import { RouteBuilder } from "../route-builder.service";
+import { ControllerRoutes } from "../controller-routes.model";
+import { Application, Router } from "express";
 import { Container } from "inversify";
 
 export class DefaultRouteBuilder implements RouteBuilder{
 
     buildRoutes(
-        controllerRouters: ControllerRouter[],
+        controllerRouters: ControllerRoutes[],
         //middleware: ControllerMiddleware,
         container: Container, 
-        application: express.Application) : void{
+        application: Application) : void{
         
         controllerRouters.forEach((controllerRouter) => {
             
-            var router = express.Router();
+            var router = Router();
 
             controllerRouter.propertyRoutes.forEach((property) => {
                 let matcher = router[property.type];     

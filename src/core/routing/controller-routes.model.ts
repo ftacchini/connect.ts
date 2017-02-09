@@ -1,7 +1,7 @@
 import * as express from "express";
-import { PropertyRoute } from "./property-route.core"
+import { PropertyRoute } from "./property-route.model"
 
-export class ControllerRouter{
+export class ControllerRoutes{
         constructor(
             public controllerPath?: string
     ) {

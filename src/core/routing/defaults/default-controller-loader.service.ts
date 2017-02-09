@@ -1,5 +1,5 @@
 var includeAll = require("include-all");
-import { ControllerLoader } from "./controller-loader.core";
+import { ControllerLoader } from "../controller-loader.service";
 import * as _ from "lodash";
 
 export class DefaultControllerLoader implements ControllerLoader {

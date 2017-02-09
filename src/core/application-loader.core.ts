@@ -4,6 +4,8 @@ import { ApplicationConfigurator, InjectorConfigurator } from "./configuration/c
 
 export class ApplicationLoader{
 
+    private constructor(){}
+
     private static _instance: ApplicationLoader;
     public static get instance(): ApplicationLoader{
         return this._instance || (this._instance = new ApplicationLoader());

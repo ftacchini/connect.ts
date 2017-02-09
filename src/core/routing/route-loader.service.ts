@@ -2,12 +2,15 @@ import { Application } from "express";
 import { ApplicationConfiguration } from "../configuration/configuration.module";
 import { Container } from "inversify";
 import * as _ from "lodash";
-import { ControllerLoader } from "./controller-loader.core";
-import { RouteMapper } from "./route-mapper.core";
-import { ControllerRouter } from "./controller-router.core";
-import { RouteBuilder } from "./route-builder.core";
+import { ControllerLoader } from "./controller-loader.service";
+import { RouteMapper } from "./route-mapper.service";
+import { ControllerRoutes } from "./controller-routes.model";
+import { RouteBuilder } from "./route-builder.service";
+import { ControllerMetadataBuilder } from "../controller-information/controller-information.module"
 
 export class RouteLoader {
+
+    private constructor(){}
 
     private static _instance: RouteLoader;
     public static get instance(): RouteLoader{
@@ -35,8 +38,9 @@ export class RouteLoader {
                 let routeBuilder: RouteBuilder = new configuration.routerConfig.routeBuilder(configuration.routerConfig, container);
 
                 _.each(controllers, (controller) => {
-                   let controllerRouters: ControllerRouter[] = _.map(routers, (router) => {
-                        return router.mapController(controller);
+                   let controllerRouters: ControllerRoutes[] = _.map(routers, (router) => {
+                        let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
+                        return router.mapController(metadata);
                     });
 
                     routeBuilder.buildRoutes(controllerRouters, container, application);
