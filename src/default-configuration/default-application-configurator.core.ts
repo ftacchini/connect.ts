@@ -1,6 +1,6 @@
 import * as bodyParser from "body-parser";
 import { Application } from "express";
-import { ApplicationConfiguration } from "../core/configuration/application-configuration.core";
+import { ApplicationConfiguration } from "../core/configuration/application-configuration.config";
 import { DefaultControllerLoader, DefaultRouteBuilder, DefaultRouteMapper } from "../core/routing/routing.module";
 
 export class DefaultApplicationConfigurator {
