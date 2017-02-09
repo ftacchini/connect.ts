@@ -1,4 +1,4 @@
-import { RouterConfiguration } from "./router-configuration.core";
+import { RouterConfiguration } from "./router-configuration.config";
 
 export class ApplicationConfiguration {
     port: number;

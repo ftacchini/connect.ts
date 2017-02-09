@@ -1,3 +1,3 @@
-export * from "./application-configurator.core";
-export * from "./injector-configurator.core";
-export * from "./application-configuration.core";
+export * from "./application-configurator.service";
+export * from "./injector-configurator.service";
+export * from "./application-configuration.config";

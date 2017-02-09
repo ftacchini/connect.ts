@@ -1,6 +1,4 @@
-import { ControllerLoader } from "../routing/controller-loader.core";
-import { RouteMapper } from "../routing/route-mapper.core";
-import { RouteBuilder } from "../routing/route-builder.core";
+import { ControllerLoader, RouteBuilder, RouteMapper } from "../routing/routing.module";
 import { Container } from "inversify";
 
 export class RouterConfiguration {
