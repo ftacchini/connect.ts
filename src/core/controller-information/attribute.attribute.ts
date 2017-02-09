@@ -1,3 +1,3 @@
-export interface Attribute<T> {
-    getInformation(): T;
+export interface Attribute<T>{
+    processInformation(info: T): T;
 }
