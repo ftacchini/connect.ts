@@ -1,6 +1,8 @@
 "use strict";
 const server_core_1 = require("./server.core");
 class ApplicationLoader {
+    constructor() {
+    }
     static get instance() {
         return this._instance || (this._instance = new ApplicationLoader());
     }

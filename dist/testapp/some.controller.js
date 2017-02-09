@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 const controller_information_module_1 = require("../core/controller-information/controller-information.module");
 require("reflect-metadata");
 let SomeController = class SomeController {
@@ -21,8 +18,7 @@ let SomeController = class SomeController {
     }
 };
 __decorate([
-    controller_information_module_1.Get(),
-    __param(0, controller_information_module_1.FromBody()), 
+    controller_information_module_1.Get(), 
     __metadata('design:type', Function), 
     __metadata('design:paramtypes', [String]), 
     __metadata('design:returntype', void 0)
@@ -31,6 +27,5 @@ SomeController = __decorate([
     controller_information_module_1.Controller({ name: "someName" }), 
     __metadata('design:paramtypes', [])
 ], SomeController);
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = SomeController;
+exports.SomeController = SomeController;
 //# sourceMappingURL=some.controller.js.map

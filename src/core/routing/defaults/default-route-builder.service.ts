@@ -13,10 +13,10 @@ export class DefaultRouteBuilder implements RouteBuilder{
         
         controllerRouters.forEach((controllerRouter) => {
             
-            var router = Router();
+            var router = Router();   
 
             controllerRouter.propertyRoutes.forEach((property) => {
-                let matcher = router[property.type];     
+                let matcher = router[property.type];  
                 
                 console.log("controller route created: " + property.routePath);
                 matcher(property.routePath, (req, res) => {

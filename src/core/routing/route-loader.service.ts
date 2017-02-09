@@ -39,7 +39,7 @@ export class RouteLoader {
 
                 _.each(controllers, (controller) => {
                    let controllerRouters: ControllerRoutes[] = _.map(routers, (router) => {
-                        let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
+                        let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller.prototype);
                         return router.mapController(metadata);
                     });
 

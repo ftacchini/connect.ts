@@ -7,7 +7,7 @@ export function ActionAttributeFactory<T>(informationBuilder: AttributeConstruct
     return function attributeDefinition(information?: T) {
 
         return function(target: any, propertyKey: string){
-            var result = new informationBuilder(target).processInformation(information);
+            var result = new informationBuilder(target, propertyKey).processInformation(information);
             ControllerMetadataBuilder.instance.attachPropertyInformation(target, propertyKey, information);
         }
 

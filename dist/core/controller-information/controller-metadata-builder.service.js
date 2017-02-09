@@ -1,35 +1,27 @@
-import * as _ from "lodash";
-
-export class ControllerMetadataBuilder{
-
-    private static _instance: ControllerMetadataBuilder;
-
-    static get instance(): ControllerMetadataBuilder {
-        return this._instance || new ControllerMetadataBuilder();
-    } 
-
-    private constructor(){
+"use strict";
+const _ = require("lodash");
+class ControllerMetadataBuilder {
+    constructor() {
     }
-
-    private registry: any;
-
-    public attachControllerInformation(target: any, moreInformation: any){
+    static get instance() {
+        return this._instance || new ControllerMetadataBuilder();
+    }
+    attachControllerInformation(target, moreInformation) {
         let controllerInformation = this.controllerInformation(target.prototype);
         _.extend(controllerInformation, moreInformation);
     }
-
-    public attachPropertyInformation(targetPrototype: any, propertyKey: string, moreInformation: any){
+    attachPropertyInformation(targetPrototype, propertyKey, moreInformation) {
         let propertyInformation = this.propertyInformation(targetPrototype, propertyKey);
         _.extend(propertyInformation, moreInformation);
-        
     }
-
-    public controllerInformation(target: any): any{
+    controllerInformation(target) {
         return target.__controllerMetadata || (target.__controllerMetadata = { properties: {} });
     }
-
-    public propertyInformation(target:any, propertyKey: string){
+    propertyInformation(target, propertyKey) {
         let controllerInformation = this.controllerInformation(target);
         return controllerInformation.properties[propertyKey] || (controllerInformation.properties[propertyKey] = {});
     }
-};
+}
+exports.ControllerMetadataBuilder = ControllerMetadataBuilder;
+;
+//# sourceMappingURL=controller-metadata-builder.service.js.map
