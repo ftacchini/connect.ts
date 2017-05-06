@@ -1,3 +1,4 @@
+declare var require, process: any;
 var includeAll = require("include-all");
 import { ControllerLoader } from "../controller-loader.service";
 import * as _ from "lodash";
@@ -5,7 +6,7 @@ import * as _ from "lodash";
 export class DefaultControllerLoader implements ControllerLoader {
 
     loadControllers() : any {
-        let controllerFiles = includeAll({
+        let controllerFiles = includeAll(<any>{
             dirname: process.cwd(),
             filter: /(.+)\.controller\.js$/,
             excludeDirs: /^\.(git|svn)$/,

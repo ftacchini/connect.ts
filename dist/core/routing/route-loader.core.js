@@ -7,7 +7,7 @@ class RouteLoader {
     loadRoutes(container, configuration, application) {
         let controllers = [];
         _.each(configuration.routerConfig.controllerLoaders, (loader) => {
-            controllers = _.union(controllers, new loader(configuration.routerConfig, container).loadControllers());
+            controllers = _.union(controllers, new loader(configuration.routerConfig, container).loadControllerBuilders());
         });
         if (controllers.length) {
             let routers = _.map(configuration.routerConfig.routeMappers, (router) => {

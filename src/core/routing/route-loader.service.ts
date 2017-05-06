@@ -2,9 +2,6 @@ import { Application } from "express";
 import { ApplicationConfiguration } from "../configuration/configuration.module";
 import { Container } from "inversify";
 import * as _ from "lodash";
-import { ControllerLoader } from "./controller-loader.service";
-import { RouteMapper } from "./route-mapper.service";
-import { ControllerRoutes } from "./controller-routes.model";
 import { RouteBuilder } from "./route-builder.service";
 import { ControllerMetadataBuilder } from "../controller-information/controller-information.module"
 
@@ -26,24 +23,16 @@ export class RouteLoader {
             let controllers: any[] = []; 
 
             _.each(configuration.routerConfig.controllerLoaders, (loader) => {
-                controllers = _.union(controllers, new loader(configuration.routerConfig, container).loadControllers());
+                controllers = _.union(controllers, new loader(configuration.routerConfig, container).loadControllerBuilders());
             });
             
             if(controllers.length){
-                        
-                let routers: RouteMapper[] = _.map(configuration.routerConfig.routeMappers, (router) => {
-                    return new router(configuration.routerConfig, container);
-                });
 
                 let routeBuilder: RouteBuilder = new configuration.routerConfig.routeBuilder(configuration.routerConfig, container);
 
                 _.each(controllers, (controller) => {
-                   let controllerRouters: ControllerRoutes[] = _.map(routers, (router) => {
-                        let metadata = ControllerMetadataBuilder.instance.controllerInformation(controller.prototype);
-                        return router.mapController(metadata);
-                    });
-
-                    routeBuilder.buildRoutes(controllerRouters, container, application);
+                    var metadata = ControllerMetadataBuilder.instance.controllerInformation(controller);
+                    routeBuilder.buildRoutes(metadata, application);
 
                 });
             }

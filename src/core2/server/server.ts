@@ -1,19 +1,28 @@
-/**
- * Created by Federico on 25/4/2017.
- */
+import * as express from "express";
+import { Container } from "inversify";
+
 export class Server {
 
-    constructor(
-        private _injector,
-        private _configuration){
+    private _app: express.Application;
+    private _container: Container;
+
+    public static bootstrap(): Server {
+        return new Server();
+    }
+
+    private constructor() {
+
+        this._app = express();
+        this._container = new Container();
 
     }
 
-    public get injector(){
-        return this._injector;
+    public get application(): express.Application{
+        return this._app;
     }
 
-    public get configuration(){
-        return this._configuration;
+    public get container(): Container{
+        return this._container;
     }
+
 }

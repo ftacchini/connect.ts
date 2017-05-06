@@ -1,10 +1,9 @@
-import { ControllerLoader, RouteBuilder, RouteMapper } from "../routing/routing.module";
+import { ControllerLoader, RouteBuilder } from "../routing/routing.module";
 import { Container } from "inversify";
 
 export class RouterConfiguration {
     routeBuilder: { new(applicationConfig?: RouterConfiguration, injector?: Container): RouteBuilder};
-    routeMappers: { new(applicationConfig?: RouterConfiguration, injector?: Container): RouteMapper}[];
-    middlewareMappers: { new(applicationConfig?: RouterConfiguration, injector?: Container): ControllerLoader}[];
+    activator: { new(applicationConfig?: RouterConfiguration, injector?: Container): RouteBuilder};
     controllerLoaders: { new(applicationConfig?: RouterConfiguration, injector?: Container): ControllerLoader}[];
     extraConfig: any;
 }

@@ -1,33 +1,35 @@
 import { RouteBuilder } from "../route-builder.service";
-import { ControllerRoutes } from "../controller-routes.model";
 import { Application, Router } from "express";
-import { Container } from "inversify";
+import * as _ from "lodash";
+import { Activator } from "../../activator/activator.module";
 
 export class DefaultRouteBuilder implements RouteBuilder{
 
-    buildRoutes(
-        controllerRouters: ControllerRoutes[],
-        //middleware: ControllerMiddleware,
-        container: Container, 
-        application: Application) : void{
-        
-        controllerRouters.forEach((controllerRouter) => {
-            
-            var router = Router();   
+    constructor(){
 
-            controllerRouter.propertyRoutes.forEach((property) => {
-                let matcher = router[property.type];  
-                
-                console.log("controller route created: " + property.routePath);
-                matcher(property.routePath, (req, res) => {
-                    console.log("the controller route was matched correctly")
-                    
-                });
+    }
+
+    buildRoutes(
+        controllerMetadata: any,
+        activator: Activator,
+        application: Application) : void{
+
+        if(!controllerMetadata.name){
+            return;
+        }
+
+        var router = Router();
+
+        _.each(controllerMetadata.properties, (property, key) => {
+            let matcher = router[property.type] || router["all"];
+
+            matcher(property.name, (req, res) => {
+                activator.createActivatorMiddleware(key, req, res);
             });
-            
-            console.log("controller route created: " + controllerRouter.controllerPath);
-            application.use(controllerRouter.controllerPath, router);
         });
+
+        console.log("controller route created: " + controllerMetadata.name);
+        application.use(controllerMetadata.name, router);
 
     }
 

@@ -1,39 +1,29 @@
 
 import * as express from "express";
-import { ApplicationConfigurator, InjectorConfigurator, ApplicationConfiguration } from "./configuration/configuration.module";
-import { RouteLoader } from "./routing/routing.module";
 import { Container } from "inversify";
 
 export class Server {
 
-  private app: express.Application;
-  private container: Container;
-  private configuration: ApplicationConfiguration;
+  private _app: express.Application;
+  private _container: Container;
 
-  public static bootstrap(configurator: ApplicationConfigurator, injector: InjectorConfigurator): Server {
-    return new Server(configurator, injector);
+  public static bootstrap(): Server {
+    return new Server();
   }
 
-  private constructor(
-    private configurator: ApplicationConfigurator, 
-    private injector: InjectorConfigurator) {
-    //create expressjs application
-    this.app = express();
-    this.container = new Container();
-    this.configuration = new ApplicationConfiguration();
-    //configure application
-    this.config();
-    this.routes();
+  private constructor() {
 
-    this.app.listen(this.configuration.port);
+    this._app = express();
+    this._container = new Container();
+
   }
 
-  private config(): void{
-    this.injector.configure(this.container);
-    this.configurator.configure(this.app, this.configuration);
+  public get application(): express.Application{
+    return this._app;
   }
 
-  private routes(): void{
-    RouteLoader.instance.loadRoutes(this.container, this.configuration, this.app);
+  public get container(): Container{
+    return this._container;
   }
+
 }

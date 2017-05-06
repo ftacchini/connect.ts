@@ -1,10 +1,9 @@
-import { ControllerRoutes } from "./controller-routes.model";
 import { Application } from "express";
-import { Container } from "inversify";
+import { Activator } from "../activator/activator.module";
 
 export interface RouteBuilder {
     buildRoutes(
-        controllerRouters: ControllerRoutes[], 
-        container: Container, 
+        controllerMetadata: any,
+        activator: Activator,
         application: Application) : void;
 }
