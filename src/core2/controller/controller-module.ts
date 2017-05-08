@@ -3,3 +3,5 @@
  */
 export * from "./controller-builder";
 export * from "./controller-loader";
+export * from "./controller-metadata";
+export * from "./controller-activator";

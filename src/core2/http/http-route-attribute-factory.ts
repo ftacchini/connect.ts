@@ -1,8 +1,8 @@
 /**
  * Created by Federico on 26/4/2017.
  */
-import { ControllerBuilder } from "./http";
 import * as ControllerMetadata from "./http-metadata";
+import {HttpRouteBuilder} from "./route-builders/http-route-builder";
 
 export function RouteAttributeFactory<T>(constructor: new(target: any, property: string, information?: T) => HttpRouteBuilder){
 

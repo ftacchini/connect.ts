@@ -3,9 +3,10 @@
  */
 
 import {Router} from "../server/server-module";
+import {ControllerActivator} from "./controller-activator";
 
 export interface ControllerBuilder {
 
-    buildRouter(): Router;
+    buildRouter(controllerActivator: ControllerActivator): Router;
 
 }
