@@ -4,7 +4,8 @@ import {HttpRoute} from "../http-route";
 import {HttpRouteType} from "../http-route-type";
 import {HttpMiddleware} from "../middleware/http-middleware";
 import {HttpEmptyMiddleware} from "../middleware/http-empty-middleware";
-import {DefaultHttpParametersReader} from "../parameters/default-http-parameters-reader";
+import {HttpDefaultParametersReader} from "../parameters/default-http-parameters-reader";
+import * as MetadataKeys from "../http-metadata"
 import * as _ from "lodash";
 
 export class HttpRouteBuilder {
@@ -21,7 +22,6 @@ export class HttpRouteBuilder {
     public buildRoute(controllerActivator: ControllerActivator) : HttpRoute{
         var route = new HttpRoute();
         route.middleware = _.union(
-            [this.buildHttpParamsWriterMiddleware()], 
             this.buildRouteMiddleware(), 
             [this.buildControllerActivatorMiddleware(controllerActivator)]);
             
@@ -30,21 +30,18 @@ export class HttpRouteBuilder {
         return route;
     }
 
-    private buildHttpParamsWriterMiddleware(): HttpMiddleware {
-        var middleware = new HttpEmptyMiddleware();
-
-        return middleware;
-    }
-
     private buildControllerActivatorMiddleware(controllerActivator: ControllerActivator): HttpMiddleware {
         var activatorFunction = controllerActivator.buildControllerActivationFunction(this.target, this.property);
-        var paramsReader = new DefaultHttpParametersReader();
+        var paramsReader = new HttpDefaultParametersReader();
         var middleware = new HttpEmptyMiddleware(activatorFunction, paramsReader, 0);
 
         return middleware;
     }  
 
     private buildRouteMiddleware(): HttpMiddleware[] {
-
+        return _.map(Reflect.getMetadata(MetadataKeys.HTTP_ROUTE_MIDDLEWARE, this.target), 
+            target => {
+                return <HttpMiddleware>target;
+            });
     }
 }

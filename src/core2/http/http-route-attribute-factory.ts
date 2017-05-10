@@ -8,7 +8,7 @@ export function RouteAttributeFactory<T>(constructor: new(target: any, property:
 
     return function attributeDefinition(information?: T) {
 
-        return function(target: any){
+        return function(target: any, property: string){
             var controllerBuilder = new constructor(target, property, information);
             Reflect.defineMetadata(ControllerMetadata.HTTP_ROUTE_BUILDER, controllerBuilder, target);
         }
