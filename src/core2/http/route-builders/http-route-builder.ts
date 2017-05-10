@@ -4,6 +4,7 @@ import {HttpRoute} from "../http-route";
 import {HttpRouteType} from "../http-route-type";
 import {HttpMiddleware} from "../middleware/http-middleware";
 import {HttpEmptyMiddleware} from "../middleware/http-empty-middleware";
+import {DefaultHttpParametersReader} from "../parameters/default-http-parameters-reader";
 import * as _ from "lodash";
 
 export class HttpRouteBuilder {
@@ -30,12 +31,17 @@ export class HttpRouteBuilder {
     }
 
     private buildHttpParamsWriterMiddleware(): HttpMiddleware {
+        var middleware = new HttpEmptyMiddleware();
 
+        return middleware;
     }
 
     private buildControllerActivatorMiddleware(controllerActivator: ControllerActivator): HttpMiddleware {
         var activatorFunction = controllerActivator.buildControllerActivationFunction(this.target, this.property);
+        var paramsReader = new DefaultHttpParametersReader();
+        var middleware = new HttpEmptyMiddleware(activatorFunction, paramsReader, 0);
 
+        return middleware;
     }  
 
     private buildRouteMiddleware(): HttpMiddleware[] {
