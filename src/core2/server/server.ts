@@ -14,7 +14,6 @@ export class Server {
 
         this._app = express();
         this._container = new Container();
-
     }
 
     public get application(): express.Application{

@@ -2,15 +2,14 @@
  * Created by Federico on 26/4/2017.
  */
 
-import { Router as ExpressRouter } from "Express";
-import { Middleware } from "./middleware";
-import { HttpRoute } from "./route";
-import { Server } from "./server";
+import { Router as ExpressRouter, RequestHandler } from "Express";
+import { HttpRoute } from "./http-route";
+import { Server } from "../server/server-module";
 
 export class HttpRouter{
 
     public routerName: string;
-    public middleware: HttpMiddleware[];
+    public middleware: RequestHandler[];
     public routes: HttpRoute[];
 
     public attachToServer(server: Server) : ExpressRouter{

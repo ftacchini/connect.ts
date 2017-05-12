@@ -1,10 +1,14 @@
 import {HttpRouteInformation} from "./http-route-information";
-import {ControllerActivator} from "../../controller/controller-module";
 import {HttpRoute} from "../http-route";
 import {HttpRouteType} from "../http-route-type";
-import {HttpMiddleware} from "../middleware/http-middleware";
-import {HttpEmptyMiddleware} from "../middleware/http-empty-middleware";
-import {HttpDefaultParametersReader} from "../parameters/default-http-parameters-reader";
+
+import {ControllerActivator} from "../../controller/controller-module"
+import {RequestHandler} from "express";
+
+import {DefaultMiddleware} from "../../middleware/middleware-module";
+import {HttpMiddlewareBuilder} from "../middleware/http-middleware-builder";
+import {HttpDefaultMiddlewareBuilder} from "../middleware/http-default-middleware-builder";
+import {HttpDataParametersReader} from "../parameters/http-data-parameters-reader";
 import * as MetadataKeys from "../http-metadata"
 import * as _ from "lodash";
 
@@ -30,18 +34,20 @@ export class HttpRouteBuilder {
         return route;
     }
 
-    private buildControllerActivatorMiddleware(controllerActivator: ControllerActivator): HttpMiddleware {
+    private buildControllerActivatorMiddleware(controllerActivator: ControllerActivator): RequestHandler {
         var activatorFunction = controllerActivator.buildControllerActivationFunction(this.target, this.property);
-        var paramsReader = new HttpDefaultParametersReader();
-        var middleware = new HttpEmptyMiddleware(activatorFunction, paramsReader, 0);
-
-        return middleware;
+        var middlewareBuilder = new HttpDefaultMiddlewareBuilder(this.target, this.property);
+        middlewareBuilder.setMiddleware(new DefaultMiddleware(activatorFunction));
+        middlewareBuilder.setParamsReader(new HttpDataParametersReader())
+        middlewareBuilder.setPriority(0)
+        return middlewareBuilder.buildRequestHandler();
     }  
 
-    private buildRouteMiddleware(): HttpMiddleware[] {
+    private buildRouteMiddleware(): RequestHandler[] {
         return _.map(Reflect.getMetadata(MetadataKeys.HTTP_ROUTE_MIDDLEWARE, this.target), 
             target => {
-                return <HttpMiddleware>target;
+                var middlewareBuilder =  <HttpMiddlewareBuilder>target;
+                return middlewareBuilder.buildRequestHandler();
             });
     }
 }

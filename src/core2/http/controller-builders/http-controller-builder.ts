@@ -4,11 +4,12 @@
 
 import {ControllerBuilder, ControllerActivator} from "../../controller/controller-module";
 import {HttpControllerInformation} from "./http-controller-information";
-import {HttpMiddleware} from "../middleware/http-middleware";
+import {HttpMiddlewareBuilder} from "../middleware/http-middleware-builder";
 import {Router} from "../../server/server-module";
 import {HttpRouter} from "../http-router";
 import {HttpRoute} from "../http-route";
 import {HttpRouteBuilder} from "../route-builders/http-route-builder";
+import {RequestHandler} from "express";
 import * as MetadataKeys from "../http-metadata"
 import * as _ from "lodash";
 
@@ -31,10 +32,11 @@ export class HttpControllerBuilder implements ControllerBuilder {
         return router;
     }
 
-    private buildControllerMiddleware(): HttpMiddleware[] {
+    private buildControllerMiddleware(): RequestHandler[] {
         return _.map(Reflect.getMetadata(MetadataKeys.HTTP_CONTROLLER_MIDDLEWARE, this.target), 
             target => {
-                return <HttpMiddleware>target;
+                var middlewareBuilder = <HttpMiddlewareBuilder>target;
+                return middlewareBuilder.buildRequestHandler();
             });
     }
 

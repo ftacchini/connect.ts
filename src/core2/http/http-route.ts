@@ -2,13 +2,12 @@
  * Created by Federico on 26/4/2017.
  */
 
-import { Router as ExpressRouter } from "Express";
-import {Middleware} from "./middleware";
-import {RouteType} from "./route-type";
+import { Router as ExpressRouter, RequestHandler } from "Express";
+import {HttpRouteType} from "./http-route-type";
 
 export class HttpRoute {
 
-    public routeType: RouteType;
+    public routeType: HttpRouteType;
     public routeName: string;
     public middleware: RequestHandler[];
 

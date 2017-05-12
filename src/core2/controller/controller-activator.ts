@@ -1,3 +1,3 @@
 export interface ControllerActivator {
-    buildControllerActivationFunction(controller: any, action: string): Function;
+    buildControllerActivationFunction(controller: any, action: string): () => any;
 }

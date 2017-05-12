@@ -7,7 +7,7 @@ export class DefaultControllerActivator implements ControllerActivator{
 
     }
 
-    public buildControllerActivationFunction(controller: any, action: string): Function {
+    public buildControllerActivationFunction(controller: any, action: string): () => any {
         var controllerInstance = this.controllerFactory.createController(controller);
         return controllerInstance[action];
     }
