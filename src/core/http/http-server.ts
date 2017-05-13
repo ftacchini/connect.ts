@@ -1,19 +1,16 @@
 import * as express from "express";
 import { Container } from "inversify";
 
-export class Server {
+export class HttpServer {
 
     private _app: express.Application;
-    private _container: Container;
 
-    public static bootstrap(): Server {
-        return new Server();
+    public static bootstrap(container: Container): HttpServer {
+        return new HttpServer(container);
     }
 
-    private constructor() {
-
+    private constructor(private _container: Container) {
         this._app = express();
-        this._container = new Container();
     }
 
     public get application(): express.Application{

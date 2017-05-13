@@ -4,16 +4,16 @@
 
 import { Router as ExpressRouter, RequestHandler } from "Express";
 import { HttpRoute } from "./http-route";
-import { Server } from "../server/server-module";
+import { HttpServer } from "./http-server";
+import { Router, Server } from "../server/server-module";
 
-export class HttpRouter{
+export class HttpRouter implements Router{
 
     public routerName: string;
     public middleware: RequestHandler[];
     public routes: HttpRoute[];
 
-    public attachToServer(server: Server) : ExpressRouter{
-
+    public attachToServer(server: HttpServer) : ExpressRouter{
         var router = ExpressRouter();
 
         router.use(this.middleware);
@@ -24,6 +24,10 @@ export class HttpRouter{
         });
 
         return router;
+    }
+
+    public supportsServer(server: Server): server is HttpServer{
+        return server.application instanceof HttpServer;
     }
 
 }
