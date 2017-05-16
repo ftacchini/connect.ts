@@ -6,12 +6,18 @@ import * as ControllerMetadata from "./controller-metadata";
 
 export class DefaultControllerLoader implements ControllerLoader {
 
+    constructor(
+        private filePattern?: RegExp,
+        private ignorePattern?: RegExp){
+        
+        }
+
     loadControllerBuilders() : ControllerBuilder[] {
         
         let controllerFiles = includeAll(<any>{
             dirname: process.cwd(),
-            filter: /(.+)\-controller\.js$/,
-            excludeDirs: /^\.(git|svn)$/,
+            filter: this.filePattern || /(.+)\-controller\.js$/,
+            excludeDirs: this.ignorePattern || /^\.(git|svn)$/,
             flatten: true
         });
 

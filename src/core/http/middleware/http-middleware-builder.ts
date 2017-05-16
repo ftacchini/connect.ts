@@ -1,6 +1,11 @@
 import {RequestHandler} from "express";
+import {HttpParametersReader} from "../parameters/http-parameters-reader";
+import {Middleware} from "../../middleware/middleware-module";
 
 export interface HttpMiddlewareBuilder {
-    readonly priority: number;
+    setPriority(priority: number): HttpMiddlewareBuilder;
+    setParamsReader(paramsReader: HttpParametersReader) : HttpMiddlewareBuilder;
+    setMiddleware(middleware: Middleware): HttpMiddlewareBuilder;
+
     buildRequestHandler(): RequestHandler;
 }

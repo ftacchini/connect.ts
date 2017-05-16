@@ -3,3 +3,6 @@
  */
 export * from "./router";
 export * from "./server";
+export * from "./hub-builder";
+export * from "./hub";
+export * from "./server-configurator";

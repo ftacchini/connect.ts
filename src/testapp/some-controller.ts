@@ -1,12 +1,12 @@
-import { Controller, Get } from "../core/controller-information/controller-information.module";
+import { HttpController, HttpGet } from "../core/core-module";
 import "reflect-metadata";
 
-@Controller({ name: "someName"})
+@HttpController({ name: "someName"})
 export class SomeController {
 
     constructor(){}
 
-    @Get()
+    @HttpGet()
     foo( param: string){
         console.log("foo being called");
     }

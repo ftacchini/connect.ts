@@ -37,10 +37,10 @@ export class HttpRouteBuilder {
     private buildControllerActivatorMiddleware(controllerActivator: ControllerActivator): RequestHandler {
         var activatorFunction = controllerActivator.buildControllerActivationFunction(this.target, this.property);
         var middlewareBuilder = new HttpDefaultMiddlewareBuilder(this.target, this.property);
-        middlewareBuilder.setMiddleware(new DefaultMiddleware(activatorFunction));
-        middlewareBuilder.setParamsReader(new HttpDataParametersReader())
-        middlewareBuilder.setPriority(0)
-        return middlewareBuilder.buildRequestHandler();
+        return middlewareBuilder.setMiddleware(new DefaultMiddleware(activatorFunction))
+                         .setParamsReader(new HttpDataParametersReader())
+                         .setPriority(0)
+                         .buildRequestHandler();
     }  
 
     private buildRouteMiddleware(): RequestHandler[] {

@@ -1,8 +1,9 @@
-import { ApplicationLoader } from "../core/core.module";
-import { DefaultApplicationConfigurator } from "../default-configuration/default-application-configurator.core";
-import { DefaultInjectorConfigurator } from "../default-configuration/default-injector-configurator.core";
+import { HubBuilder, HttpServer } from "../core/core-module";
 
-var applicationConfigurator = new DefaultApplicationConfigurator();
-var injectorConfigurator = new DefaultInjectorConfigurator();
+var httpServer = HttpServer.bootstrap();
 
-ApplicationLoader.instance.loadApp(applicationConfigurator, injectorConfigurator);
+var hub = HubBuilder.instance
+    .setServerSupport(httpServer)
+    .buildHub();
+
+hub.run();

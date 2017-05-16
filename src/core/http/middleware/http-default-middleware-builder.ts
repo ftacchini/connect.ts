@@ -13,16 +13,19 @@ export class HttpDefaultMiddlewareBuilder implements HttpMiddlewareBuilder {
     protected paramsReader: HttpParametersReader = new HttpPlainParametersReader();
     public priority: number = 1;
 
-    public setPriority(priority: number) {
+    public setPriority(priority: number) : HttpMiddlewareBuilder {
         this.priority = priority;
+        return this;
     }
 
-    public setParamsReader(paramsReader: HttpParametersReader): void{
+    public setParamsReader(paramsReader: HttpParametersReader) : HttpMiddlewareBuilder{
         this.paramsReader = paramsReader;
+        return this;
     }
 
-    public setMiddleware(middleware: Middleware): void{
+    public setMiddleware(middleware: Middleware): HttpMiddlewareBuilder{
         this.middleware = middleware;
+        return this;
     }
 
     public buildRequestHandler(): RequestHandler{

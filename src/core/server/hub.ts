@@ -1,21 +1,23 @@
 import {Server} from "./server";
 import {ServerConfigurator} from "./server-configurator";
 import {ControllerActivator,ControllerFactory,ControllerLoader} from "../controller/controller-module";
+import {Container} from "inversify";
 
 export class Hub {
 
     constructor(
         private servers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[],
+        public container: Container,
         private controllerActivator: ControllerActivator,
         private controllerFactory: ControllerFactory,
         private controllerLoader: ControllerLoader){
 
     }
 
-    public Run(): void {
+    public run(): void {
         
         this.servers.forEach((server) => {
-            server.serverConfigurator.configureServer(server.server);
+            server.serverConfigurator && server.serverConfigurator.configureServer(server.server);
         });
 
         var controllerBuilders = this.controllerLoader.loadControllerBuilders();

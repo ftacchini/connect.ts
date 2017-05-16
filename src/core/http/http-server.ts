@@ -1,24 +1,20 @@
 import * as express from "express";
-import { Container } from "inversify";
+import { Server } from "../server/server-module";
 
-export class HttpServer {
+export class HttpServer implements Server {
 
     private _app: express.Application;
 
-    public static bootstrap(container: Container): HttpServer {
-        return new HttpServer(container);
+    public static bootstrap(): HttpServer {
+        return new HttpServer();
     }
 
-    private constructor(private _container: Container) {
+    private constructor() {
         this._app = express();
     }
 
     public get application(): express.Application{
         return this._app;
-    }
-
-    public get container(): Container{
-        return this._container;
     }
 
 }
