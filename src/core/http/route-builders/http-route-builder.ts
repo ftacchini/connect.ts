@@ -14,7 +14,7 @@ import * as _ from "lodash";
 
 export class HttpRouteBuilder {
 
-    constructor(private target: any, private property: string, private information: HttpRouteInformation){
+    constructor(protected target: any, protected property: string, protected information: HttpRouteInformation){
         
         this.information || (this.information = {
             route: this.target.constructor.name,

@@ -1,6 +1,3 @@
 "use strict";
-exports.TYPES = {
-    DefaultControllerLoader: Symbol("DefaultControllerLoader"),
-    DefaultRouteMapper: Symbol("DefaultRouteMapper")
-};
+exports.TYPES = {};
 //# sourceMappingURL=types.constant.js.map

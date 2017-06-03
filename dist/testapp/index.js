@@ -1,8 +1,8 @@
 "use strict";
-const core_module_1 = require("../core/core.module");
-const default_application_configurator_core_1 = require("../default-configuration/default-application-configurator.core");
-const default_injector_configurator_core_1 = require("../default-configuration/default-injector-configurator.core");
-var applicationConfigurator = new default_application_configurator_core_1.DefaultApplicationConfigurator();
-var injectorConfigurator = new default_injector_configurator_core_1.DefaultInjectorConfigurator();
-core_module_1.ApplicationLoader.instance.loadApp(applicationConfigurator, injectorConfigurator);
+const core_module_1 = require("../core/core-module");
+var httpServer = core_module_1.HttpServer.bootstrap();
+var hub = core_module_1.HubBuilder.instance
+    .setServerSupport(httpServer)
+    .buildHub();
+hub.run();
 //# sourceMappingURL=index.js.map
