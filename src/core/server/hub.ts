@@ -1,6 +1,6 @@
 import {Server} from "./server";
 import {ServerConfigurator} from "./server-configurator";
-import {ControllerActivator,ControllerFactory,ControllerLoader} from "../controller/controller-module";
+import {ControllerActivator,ControllerFactory,ControllerLoader} from "../controller";
 import {Container} from "inversify";
 
 export class Hub {

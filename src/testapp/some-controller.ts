@@ -1,4 +1,4 @@
-import { HttpController, HttpGet } from "../core/core-module";
+import { HttpController, HttpGet } from "../core";
 import "reflect-metadata";
 
 @HttpController({ name: "someName"})

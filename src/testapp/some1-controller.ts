@@ -1,4 +1,4 @@
-import { Controller, Get } from "../core/controller-information/controller-information.module";
+import { Controller, Get } from "../core/controller-information";
 import "reflect-metadata";
 
 @Controller({ name: "someName"})

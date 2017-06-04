@@ -2,10 +2,10 @@
  * Created by Federico on 26/4/2017.
  */
 
-import {ControllerBuilder, ControllerActivator} from "../../controller/controller-module";
+import {ControllerBuilder, ControllerActivator} from "../../controller/";
 import {HttpControllerInformation} from "./http-controller-information";
 import {HttpMiddlewareBuilder} from "../middleware/http-middleware-builder";
-import {Router} from "../../server/server-module";
+import {Router} from "../../server/";
 import {HttpRouter} from "../http-router";
 import {HttpRoute} from "../http-route";
 import {HttpRouteBuilder} from "../route-builders/http-route-builder";
