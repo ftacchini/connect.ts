@@ -1,2 +1,2 @@
-export * from "./server/server-module";
-export * from "./http/http-module";
+export * from "./server/";
+export * from "./http/";
