@@ -1,5 +1,5 @@
-import {ControllerActivator} from "./controller-activator";
-import {ControllerFactory} from "./controller-factory";
+import {ControllerActivator} from "./";
+import {ControllerFactory} from "../factory";
 
 export class DefaultControllerActivator implements ControllerActivator{
     

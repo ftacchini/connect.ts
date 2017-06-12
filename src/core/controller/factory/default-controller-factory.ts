@@ -1,4 +1,4 @@
-import {ControllerFactory} from "./controller-factory";
+import {ControllerFactory} from "./";
 import { Container } from "inversify";
 
 export class DefaultControllerFactory implements ControllerFactory {
