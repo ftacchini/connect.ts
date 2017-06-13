@@ -1,4 +1,5 @@
-import {ControllerBuilder, ControllerMetadata} from "./";
+import {ControllerMetadata, DefaultControllerBuilderFactory} from "./";
+import {ControllerBuilder} from "../builder";
 
 export class ControllerMetadataBuilder {
 
