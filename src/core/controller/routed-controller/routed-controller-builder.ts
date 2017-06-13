@@ -1,19 +1,14 @@
-import { ControllerBuilder } from "./controller-builder";
+import {ControllerBuilder} from "../builder";
 import {ControllerActivator} from "../activator";
 import {Controller} from "../controller";
 
 
-export abstract class RoutedControllerBuilder implements ControllerBuilder {
+export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder> implements ControllerBuilder {
 
-    constructor(private target: any, private information: HttpControllerInformation){
-        
-        this.information || (this.information = {
-            name: this.target.constructor.name
-        });
-
+    constructor(private target: any, private information: Information){
     }
 
-    public buildController(controllerActivator: ControllerActivator) : Controller{
+    public buildController() : Controller{
         var router = new HttpRouter();
         router.routerName = this.information.name;
         router.middleware = this.buildControllerMiddleware();

@@ -7,6 +7,6 @@ import {ControllerActivator} from "../activator";
 
 export interface ControllerBuilder {
 
-    buildController(controllerActivator: ControllerActivator): Controller;
+    buildController(): Controller;
 
 }
