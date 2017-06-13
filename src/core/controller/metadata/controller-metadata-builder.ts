@@ -12,6 +12,8 @@ export class ControllerMetadataBuilder {
 
     }
 
+    
+
     public buildControllerMetadata<T>(
         constructor: new (target: any, information?: T) => ControllerBuilder,
         extraMetadataTags?: symbol[]) {
@@ -19,7 +21,7 @@ export class ControllerMetadataBuilder {
         return function attributeDefinition(information?: T) {
 
             return function (target: any) {
-                var controllerBuilder = new constructor(target, information);
+                var controllerBuilder = (container: Container) => { return new constructor(target, information) };
                 Reflect.defineMetadata(ControllerMetadata.CONTROLLER_BUILDER, controllerBuilder, target);
 
                 extraMetadataTags.forEach((metadata) => {
