@@ -1,2 +1,2 @@
-export * from "./container-extension";
-export * from "./inversify-container-extension";
+export * from "./hub-container";
+export * from "./inversify-container";

@@ -1,14 +1,14 @@
 import {ControllerActivator} from "./";
-import {ControllerFactory} from "../factory";
+import {HubContainer} from "../../";
 
 export class DefaultControllerActivator implements ControllerActivator{
     
-    constructor(private controllerFactory: ControllerFactory){
+    constructor(private hubContainer: HubContainer){
 
     }
 
     public buildControllerActivationFunction(controller: any, action: string): () => any {
-        var controllerInstance = this.controllerFactory.createController(controller);
+        var controllerInstance = this.hubContainer.bindAndGet<any>(controller);
         return controllerInstance[action];
     }
 }

@@ -3,7 +3,6 @@
  */
 
 import {Controller} from "../controller";
-import {ControllerActivator} from "../activator";
 
 export interface ControllerBuilder {
 

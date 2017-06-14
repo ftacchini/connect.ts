@@ -1,6 +1,7 @@
-import * as Metadata from "./controller-metadata";
+import * as Metadata from "./controller-metadata-keys";
 
-export const ControllerMetadata = Metadata;
-export * from "./controller-builder-factory";
-export * from "./default-controller-builder-factory";
+export const ControllerMetadataKeys = Metadata;
+export * from "./class-metadata";
+export * from "./method-metadata";
+export * from "./argument-metadata";
 export * from "./controller-metadata-builder";

@@ -1,5 +1,5 @@
-import {ControllerMetadata, DefaultControllerBuilderFactory} from "./";
-import {ControllerBuilder} from "../builder";
+import {ClassMetadata, MethodMetadata, ArgumentMetadata} from "./";
+import {HubContainer} from "../../";
 
 export class ControllerMetadataBuilder {
 
@@ -14,68 +14,69 @@ export class ControllerMetadataBuilder {
 
     
 
-    public buildControllerMetadata<T>(
-        constructor: new (target: any, information?: T) => ControllerBuilder,
-        extraMetadataTags?: symbol[]) {
+    public buildControllerLevelMetadata<T>(
+        constructor: new (...args: any[]) => ClassMetadata<T>,
+        metadataTags: symbol[]) {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any) {
-                var controllerBuilder = (container: Container) => { return new constructor(target, information) };
-                Reflect.defineMetadata(ControllerMetadata.CONTROLLER_BUILDER, controllerBuilder, target);
+                var controllerBuilder = (container: HubContainer): any => { 
+                    var instance =  container.bindAndGet<ClassMetadata<T>>(constructor); 
+                    instance.target = target;
+                    instance.information = information;
 
-                extraMetadataTags.forEach((metadata) => {
+                    return instance;
+                };
+
+                metadataTags && metadataTags.forEach((metadata) => {
                     Reflect.defineMetadata(metadata, controllerBuilder, target);
                 });
             }
         }
     }
 
-    public buildRouteMetadata<T>(
-        constructor: new (target: any, propertyKey: string, information?: T) => RouteBuilder,
-        extraMetadataTags?: symbol[]) {
+    public buildMethodLevelMetadata<T>(
+        constructor: new (...args: any[]) => MethodMetadata<T>,
+        metadataTags: symbol[]) {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any, propertyKey: string) {
-                var controllerBuilder = new constructor(target, propertyKey, information);
-                Reflect.defineMetadata(ControllerMetadata.CONTROLLER_BUILDER, controllerBuilder, target);
+                var controllerBuilder = (container: HubContainer): any => { 
+                    var instance =  container.bindAndGet<MethodMetadata<T>>(constructor); 
+                    instance.target = target;
+                    instance.information = information;
+                    instance.propertyKey = propertyKey;
 
-                extraMetadataTags.forEach((metadata) => {
+                    return instance;
+                };
+
+                metadataTags && metadataTags.forEach((metadata) => {
                     Reflect.defineMetadata(metadata, controllerBuilder, target);
                 });
             }
         }
     }
 
-    public buildMiddlewareMetadata<T>(
-        constructor: new (target: any, propertyKey: string, information?: T) => MiddlewareBuilder,
-        extraMetadataTags?: symbol[]) {
-
-        return function attributeDefinition(information?: T) {
-
-            return function (target: any, propertyKey: string) {
-                var controllerBuilder = new constructor(target, propertyKey, information);
-                Reflect.defineMetadata(ControllerMetadata.CONTROLLER_BUILDER, controllerBuilder, target);
-
-                extraMetadataTags.forEach((metadata) => {
-                    Reflect.defineMetadata(metadata, controllerBuilder, target);
-                });
-            }
-        }
-    }
-
-    public buildParamsReaderMetadata<T>(
-        constructor: new (target: any, propertyKey: string, arg: number, information?: T) => ParamsReaderBuilder,
-        extraMetadataTags?: symbol[]) {
+    public buildArgumentLevelMetadata<T>(
+        constructor: new (...args: any[]) => ArgumentMetadata<T>,
+        metadataTags: symbol[]) {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any, propertyKey: string, arg: number) {
-                var controllerBuilder = new constructor(target, propertyKey, arg, information);
-                Reflect.defineMetadata(ControllerMetadata.CONTROLLER_BUILDER, controllerBuilder, target);
+                var controllerBuilder = (container: HubContainer): any => { 
+                    var instance =  container.bindAndGet<ArgumentMetadata<T>>(constructor); 
+                    instance.target = target;
+                    instance.information = information;
+                    instance.propertyKey = propertyKey;
+                    instance.arg = arg;
 
-                extraMetadataTags.forEach((metadata) => {
+                    return instance;
+                };
+
+                metadataTags && metadataTags.forEach((metadata) => {
                     Reflect.defineMetadata(metadata, controllerBuilder, target);
                 });
             }

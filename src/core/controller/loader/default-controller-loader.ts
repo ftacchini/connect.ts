@@ -1,8 +1,8 @@
 import {ControllerLoader} from "./controller-loader";
-import {ControllerBuilder} from "./controller-builder";
+import {ControllerBuilder} from "../builder";
 var includeAll = require("include-all");
 import * as _ from "lodash";
-import * as ControllerMetadata from "./controller-metadata";
+import * as ControllerMetadata from "../metadata";
 
 export class DefaultControllerLoader implements ControllerLoader {
 

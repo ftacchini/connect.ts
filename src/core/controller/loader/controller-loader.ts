@@ -1,5 +1,6 @@
-import {ControllerBuilder} from "./controller-builder";
+import {ControllerBuilder} from "../";
+import {HubContainer} from "../../"
 
 export interface ControllerLoader {
-    loadControllerBuilders() : ControllerBuilder[];
+    loadControllerBuilders(container: HubContainer) : ControllerBuilder[];
 }
