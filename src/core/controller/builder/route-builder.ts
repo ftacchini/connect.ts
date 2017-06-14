@@ -1,7 +1,7 @@
 import {Controller} from "../controller";
 import {ControllerActivator} from "../activator";
 
-export interface RouteBuiilder<Information> {
+export interface RouteBuilder<Information> {
 
     buildRoute(): Controller;
     information: Information;
