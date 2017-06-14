@@ -12,8 +12,6 @@ export class ControllerMetadataBuilder {
 
     }
 
-    
-
     public buildControllerLevelMetadata<T>(
         constructor: new (...args: any[]) => ClassMetadata<T>,
         metadataTags: symbol[]) {

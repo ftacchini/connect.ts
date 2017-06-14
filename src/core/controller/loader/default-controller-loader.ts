@@ -1,4 +1,4 @@
-import {ControllerLoader} from "./controller-loader";
+import {ControllerLoader} from "./";
 import {ControllerBuilder} from "../builder";
 var includeAll = require("include-all");
 import * as _ from "lodash";

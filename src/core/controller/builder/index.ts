@@ -1,2 +1,2 @@
 export * from "./controller-builder";
-export * from "./generic-controller-builder";
+export * from "./metadata-controller-builder";
