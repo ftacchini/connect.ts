@@ -1,11 +1,15 @@
-import {MetadataControllerBuilder} from "../builder";
+import {ControllerBuilder} from "../";
 import {ControllerActivator} from "../activator";
 import {Controller} from "../controller";
+import {ClassMetadata} from "../../";
 
+export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder>  
+    implements ClassMetadata<Information>, ControllerBuilder {
+    
+    public information: Information;
+    public target: any;   
 
-export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder> implements MetadataControllerBuilder {
-
-    constructor(private target: any, private information: Information){
+    constructor(){
     }
 
     public buildController() : Controller{

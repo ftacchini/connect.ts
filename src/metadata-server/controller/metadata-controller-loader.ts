@@ -1,8 +1,9 @@
 import {ControllerLoader} from "./";
-import {ControllerBuilder} from "../builder";
 var includeAll = require("include-all");
 import * as _ from "lodash";
-import * as ControllerMetadata from "../metadata";
+import {ControllerBuilder} from "../";
+import { ControllerMetadataKeys, HubContainer } from "../../";
+
 
 export class DefaultControllerLoader implements ControllerLoader {
 
@@ -12,7 +13,7 @@ export class DefaultControllerLoader implements ControllerLoader {
         
         }
 
-    loadControllerBuilders() : ControllerBuilder[] {
+    loadControllerBuilders(container: HubContainer) : ControllerBuilder[] {
         
         let controllerFiles = includeAll(<any>{
             dirname: process.cwd(),
@@ -21,20 +22,21 @@ export class DefaultControllerLoader implements ControllerLoader {
             flatten: true
         });
 
-        let controllers: any[] = [];
+        let controllerBuilderFactory: ((container: HubContainer) => ControllerBuilder)[] = [];
         
         _.each(_.values(controllerFiles), (exports: any) => {
 
-
             let filteredExports = _.filter(exports, (value: any) => {
-                return Reflect.hasMetadata(ControllerMetadata.CONTROLLER_BUILDER, value);
+                return Reflect.hasMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value) 
+                && Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
             });
             
-            controllers = _.union(controllers, filteredExports);
+            controllerBuilderFactory = _.union(controllerBuilderFactory, filteredExports);
         });
+        
 
 
-        return controllers;
+        return controllerBuilderFactory.map(factory => factory(container));
     }
 
     

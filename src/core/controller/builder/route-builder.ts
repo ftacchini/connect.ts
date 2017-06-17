@@ -1,10 +1,8 @@
-import {Controller} from "../controller";
-import {ControllerActivator} from "../activator";
+import {Route} from "../";
+import {Server} from "../../";
 
-export interface RouteBuilder<Information> {
+export interface RouteBuilder {
 
-    buildRoute(): Controller;
-    information: Information;
-    target: any;
-
+    buildMiddleware(): Route;
+    suppertsServer(server: Server): boolean;
 }
