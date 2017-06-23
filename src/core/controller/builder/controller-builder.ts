@@ -8,5 +8,5 @@ import {Server} from "../../";
 export interface ControllerBuilder {
 
     buildController(): Controller;
-    suppertsServer(server: Server): boolean;
+    supportsServer(server: Server): boolean;
 }

@@ -1,11 +1,10 @@
-import {ControllerLoader} from "./";
 var includeAll = require("include-all");
 import * as _ from "lodash";
-import {ControllerBuilder} from "../";
-import { ControllerMetadataKeys, HubContainer } from "../../";
+import {ControllerBuilder, HubContainer, ControllerLoader} from "../../core";
+import { ControllerMetadataKeys } from "../../";
 
 
-export class DefaultControllerLoader implements ControllerLoader {
+export class MetadataControllerLoader implements ControllerLoader {
 
     constructor(
         private filePattern?: RegExp,

@@ -1,5 +1,5 @@
 import {ClassMetadata, MethodMetadata, ArgumentMetadata} from "./";
-import {HubContainer} from "../";
+import {HubContainer} from "../core";
 
 export class ControllerMetadataBuilder {
 

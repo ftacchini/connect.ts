@@ -4,5 +4,5 @@ import {Server} from "../../";
 export interface MiddlewareBuilder {
 
     buildMiddleware(): Middleware;
-    suppertsServer(server: Server): boolean;
+    supportsServer(server: Server): boolean;
 }
