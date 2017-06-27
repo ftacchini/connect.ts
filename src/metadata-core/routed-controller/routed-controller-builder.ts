@@ -1,7 +1,5 @@
-import {ControllerBuilder} from "../";
-import {ControllerActivator} from "../activator";
-import {Controller} from "../controller";
-import {ClassMetadata} from "../../";
+import {ControllerBuilder, ControllerActivator, Controller} from "../../core";
+import {ClassMetadata, ControllerMetadataKeys} from "../";
 
 export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder>  
     implements ClassMetadata<Information>, ControllerBuilder {
@@ -22,7 +20,7 @@ export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder
     }
 
     protected buildControllerMiddleware(): RequestHandler[] {
-        return _.map(Reflect.getMetadata(MetadataKeys.HTTP_CONTROLLER_MIDDLEWARE, this.target), 
+        return _.map(Reflect.getMetadata(ControllerMetadataKeys.MIDDLEWARE_BUILDER, this.target), 
             target => {
                 var middlewareBuilder = <HttpMiddlewareBuilder>target;
                 return middlewareBuilder.buildRequestHandler();
@@ -30,7 +28,7 @@ export abstract class RoutedControllerBuilder<Information, Handler, RouteBuilder
     }
 
     protected buildControllerRoutes(controllerActivator: ControllerActivator): HttpRoute[] {
-        return _.map(Reflect.getMetadata(MetadataKeys.HTTP_ROUTE_BUILDER, this.target), 
+        return _.map(Reflect.getMetadata(ControllerMetadataKeys.ROUTE_BUILDER, this.target), 
             target => {
                 var routeBuilder = <HttpRouteBuilder>target; 
                 return routeBuilder.buildRoute(controllerActivator);
