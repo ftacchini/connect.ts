@@ -1,18 +1,15 @@
-import {Server} from "./server";
-import {ServerConfigurator} from "./server-configurator";
-import {
-    ControllerActivator,ControllerFactory,ControllerLoader,
-    DefaultControllerActivator,DefaultControllerFactory,DefaultControllerLoader} from "../controller/controller-module";
-import {Container} from "inversify";
+import {Server,ServerConfigurator} from "./";
+import {ControllerActivator,ControllerLoader,DefaultControllerActivator,InversifyContainer,HubContainer} from "../"
+import {MetadataControllerLoader} from "../../metadata-core";
+
 import {Hub} from "./hub";
  
 export class HubBuilder {
 
     private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
     private controllerActivator: ControllerActivator;
-    private controllerFactory: ControllerFactory;
     private controllerLoader: ControllerLoader;
-    private container: Container;
+    private container: HubContainer;
 
     private static _instance: HubBuilder;
     public static get instance() {
@@ -23,7 +20,7 @@ export class HubBuilder {
 
     }
 
-    public setContainer(container: Container): HubBuilder {
+    public setContainer(container: HubContainer): HubBuilder {
         this.container = container;
         return this;
     }
@@ -31,12 +28,6 @@ export class HubBuilder {
     public setControllerActivator(controllerActivator: ControllerActivator): HubBuilder{
         this.controllerActivator = controllerActivator;
         return this;
-    }
-
-    public setControllerFactory(controllerFactory: ControllerFactory): HubBuilder {
-        this.controllerFactory = controllerFactory;
-        return this;
-
     }
 
     public setControllerLoader(controllerLoader: ControllerLoader): HubBuilder {
@@ -51,16 +42,14 @@ export class HubBuilder {
 
     public buildHub() : Hub {
 
-        var controllerFactory = this.controllerFactory || new DefaultControllerFactory(this.container);
-        var controllerActivator = this.controllerActivator || new DefaultControllerActivator(controllerFactory);
-        var controllerLoader = this.controllerLoader || new DefaultControllerLoader();
-        var container = this.container || new Container();
+        var container = this.container || new InversifyContainer();
+        var controllerActivator = this.controllerActivator || new DefaultControllerActivator(container);
+        var controllerLoader = this.controllerLoader || new MetadataControllerLoader();
 
         return new Hub(
             this.supportedServers, 
             container, 
             controllerActivator,
-            controllerFactory, 
             controllerLoader);
     }
 
