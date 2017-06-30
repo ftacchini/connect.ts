@@ -1,2 +1,3 @@
 export * from "./metadata-builder";
-export * from "./controller";
+export * from "./metadata-controller-loader";
+export * from "./routed-controller";

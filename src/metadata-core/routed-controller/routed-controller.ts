@@ -1,7 +1,9 @@
-import {Controller} from "../";
-import { Server } from "../../server";
+import {Controller, Server} from "../../core";
 
-export abstract class RoutedController implements Controller {
+export abstract class RoutedController<Information> implements Controller {
+
+    public information: Information;
+
     abstract attachToServer(server: Server): any;
     abstract supportsServer(server: Server) : boolean;
 }

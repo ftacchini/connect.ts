@@ -1,8 +1,16 @@
 import {Route} from "../";
-import {Server} from "../../";
+import {MethodMetadata} from "../../../";
 
-export interface RouteBuilder {
+export abstract class RouteBuilder<Information> implements MethodMetadata<Information> {
 
-    buildMiddleware(): Route;
-    supportsServer(server: Server): boolean;
+    public information: Information;
+    public target: any;   
+    public propertyKey: string; 
+
+    public constructor(){
+
+    }
+
+    public abstract buildRoute(): Route;
+
 }
