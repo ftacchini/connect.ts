@@ -12,8 +12,8 @@ export abstract class RoutedControllerBuilder<
     implements ClassMetadata<Information>, ControllerBuilder {
     
     public information: Information;
-    public target: any;   
-
+    public target: any;
+    
     constructor(){
     }
 
