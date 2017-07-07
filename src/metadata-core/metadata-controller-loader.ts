@@ -1,7 +1,7 @@
 var includeAll = require("include-all");
 import * as _ from "lodash";
-import {ControllerBuilder, HubContainer, ControllerLoader} from "../../core";
-import { ControllerMetadataKeys } from "../";
+import {ControllerBuilder, HubContainer, ControllerLoader} from "../core";
+import { ControllerMetadataKeys } from "./";
 
 
 export class MetadataControllerLoader implements ControllerLoader {
