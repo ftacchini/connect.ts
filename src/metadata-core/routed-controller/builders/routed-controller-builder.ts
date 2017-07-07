@@ -6,6 +6,7 @@ import * as _ from "lodash";
 export abstract class RoutedControllerBuilder<
     Information, 
     GenericRouter,
+    GenericRoutedController extends RoutedController<Information, GenericRouter>,
     GenericMiddlewareBuilder extends MiddlewareBuilder<GenericRouter>, 
     GenericRouteBuilder extends RouteBuilder<Information, GenericRouter>> 
 
@@ -30,7 +31,7 @@ export abstract class RoutedControllerBuilder<
         return controller;
     }
 
-    protected abstract buildRoutedController() : RoutedController<Information, GenericRouter>;
+    protected abstract buildRoutedController() : GenericRoutedController;
 
     protected buildControllerMiddleware(): Middleware<GenericRouter>[] {
         return _.map(Reflect.getMetadata(ControllerMetadataKeys.MIDDLEWARE_BUILDER, this.target), 
