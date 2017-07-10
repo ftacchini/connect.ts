@@ -1,4 +1,5 @@
-import {Controller, Server} from "../../core";
+import {Controller} from "../controller";
+import {Server} from "../server";
 import {Middleware, Route} from "./";
 
 export abstract class RoutedController<Information, GenericRouter> implements Controller {
