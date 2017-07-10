@@ -1,6 +1,7 @@
 import {ControllerBuilder, ControllerActivator, Controller, Server} from "../../../core";
-import {ClassMetadata, ControllerMetadataKeys} from "../../";
-import {RoutedController, RouteBuilder, MiddlewareBuilder, Middleware, Route} from "../";
+import {RoutedController, Middleware, Route} from "../";
+import {RouteBuilder} from "./route-builder";
+import {MiddlewareBuilder} from "./middleware-builder";
 import * as _ from "lodash";
 
 export abstract class RoutedControllerBuilder<
@@ -8,9 +9,7 @@ export abstract class RoutedControllerBuilder<
     GenericRouter,
     GenericRoutedController extends RoutedController<Information, GenericRouter>,
     GenericMiddlewareBuilder extends MiddlewareBuilder<GenericRouter>, 
-    GenericRouteBuilder extends RouteBuilder<Information, GenericRouter>> 
-
-    implements ClassMetadata<Information>, ControllerBuilder {
+    GenericRouteBuilder extends RouteBuilder<Information, GenericRouter>> {
     
     public information: Information;
     public target: any;
