@@ -1,8 +1,7 @@
 import {Route} from "../";
-import {MethodMetadata} from "../../";
 import {Server} from "../../../core"
 
-export abstract class RouteBuilder<Information, GenericRouter> implements MethodMetadata<Information> {
+export abstract class RouteBuilder<Information, GenericRouter> {
 
     public information: Information;
     public target: any;   
