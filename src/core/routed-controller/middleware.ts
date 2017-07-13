@@ -1,5 +1,5 @@
 import {Server} from "../server";
 
-export interface Middleware<GenericRouter> {
-    attachToRouter(server: GenericRouter): any;
+export interface Middleware<Information, GenericRouter> {
+    attachToServer(server: GenericRouter): GenericRouter;
 }

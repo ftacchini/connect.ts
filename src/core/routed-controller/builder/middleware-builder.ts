@@ -1,8 +1,8 @@
 import {Middleware} from "../";
 import {Server} from "../../../core";
 
-export interface MiddlewareBuilder<GenericRouter> {
+export interface MiddlewareBuilder<Information, GenericRouter> {
 
-    buildMiddleware(): Middleware<GenericRouter>;
-    supportsServer(server: Server): boolean;
+    buildMiddleware(): Middleware<Information, GenericRouter>;
+    supportsRouter(router: GenericRouter): boolean;
 }

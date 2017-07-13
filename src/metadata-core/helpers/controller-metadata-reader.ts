@@ -15,14 +15,19 @@ export class ControllerMetadataReader {
     }
 
     public readControllerLevelMetadata<T extends ClassMetadata<Y>, Y>(metadataTags: symbol[], target: Object) : T[] {
-        return _.flatten(metadataTags.map<T[]>((key) => { return Reflect.getMetadata(key, target)}));
+        return this.readMetadata<T>(metadataTags, target);   
     }
 
     public readMethodLevelMetadata<T extends MethodMetadata<Y>, Y>(metadataTags: symbol[], target: Object) : T[] {
-        return this.readControllerLevelMetadata(metadataTags, target);   
+        return this.readMetadata<T>(metadataTags, target);   
     }
 
     public readArgumentLevelMetadata<T extends ArgumentMetadata<Y>, Y>(metadataTags: symbol[], target: Object) : T[] {
-        return this.readControllerLevelMetadata(metadataTags, target);
+        return this.readMetadata<T>(metadataTags, target);
+    }
+
+    public readMetadata<T>(metadataTags: symbol[], target: Object): T[]{
+        return _.flatten(metadataTags.map<any[]>((key) => { return Reflect.getMetadata(key, target)}));
+
     }
 }

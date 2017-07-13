@@ -11,7 +11,7 @@ export abstract class RouteBuilder<Information, GenericRouter> {
 
     }
 
-    public abstract supportsServer(server: Server): boolean;
-    public abstract buildRoute(): Route<GenericRouter>;
+    public abstract supportsRouter(router: GenericRouter): boolean;
+    public abstract buildRoute(): Route<Information, GenericRouter>;
 
 }
