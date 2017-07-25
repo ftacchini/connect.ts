@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const core_module_1 = require("../core/core-module");
+const core_1 = require("../core");
 require("reflect-metadata");
 let SomeController = class SomeController {
     constructor() { }
@@ -17,13 +17,13 @@ let SomeController = class SomeController {
     }
 };
 __decorate([
-    core_module_1.HttpGet(),
+    core_1.HttpGet(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SomeController.prototype, "foo", null);
 SomeController = __decorate([
-    core_module_1.HttpController({ name: "someName" }),
+    core_1.HttpController({ name: "someName" }),
     __metadata("design:paramtypes", [])
 ], SomeController);
 exports.SomeController = SomeController;

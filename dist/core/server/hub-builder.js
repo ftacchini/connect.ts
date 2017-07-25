@@ -1,6 +1,6 @@
 "use strict";
-const controller_module_1 = require("../controller/controller-module");
-const inversify_1 = require("inversify");
+const _1 = require("../");
+const metadata_core_1 = require("../../metadata-core");
 const hub_1 = require("./hub");
 class HubBuilder {
     constructor() {
@@ -17,10 +17,6 @@ class HubBuilder {
         this.controllerActivator = controllerActivator;
         return this;
     }
-    setControllerFactory(controllerFactory) {
-        this.controllerFactory = controllerFactory;
-        return this;
-    }
     setControllerLoader(controllerLoader) {
         this.controllerLoader = controllerLoader;
         return this;
@@ -30,11 +26,10 @@ class HubBuilder {
         return this;
     }
     buildHub() {
-        var controllerFactory = this.controllerFactory || new controller_module_1.DefaultControllerFactory(this.container);
-        var controllerActivator = this.controllerActivator || new controller_module_1.DefaultControllerActivator(controllerFactory);
-        var controllerLoader = this.controllerLoader || new controller_module_1.DefaultControllerLoader();
-        var container = this.container || new inversify_1.Container();
-        return new hub_1.Hub(this.supportedServers, container, controllerActivator, controllerFactory, controllerLoader);
+        var container = this.container || new _1.InversifyContainer();
+        var controllerActivator = this.controllerActivator || new _1.DefaultControllerActivator(container);
+        var controllerLoader = this.controllerLoader || new metadata_core_1.MetadataControllerLoader();
+        return new hub_1.Hub(this.supportedServers, container, controllerActivator, controllerLoader);
     }
 }
 exports.HubBuilder = HubBuilder;

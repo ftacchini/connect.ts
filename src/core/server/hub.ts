@@ -4,7 +4,7 @@ import {HubContainer, ControllerActivator, ControllerLoader} from "../";
 export class Hub {
 
     constructor(
-        private servers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[],
+        private serverConfigs: { server: Server, serverConfigurator: ServerConfigurator<Server> }[],
         public container: HubContainer,
         private controllerActivator: ControllerActivator,
         private controllerLoader: ControllerLoader){
@@ -12,20 +12,22 @@ export class Hub {
     }
 
     public run(): void {
-        
-        this.servers.forEach((server) => {
-            server.serverConfigurator && server.serverConfigurator.configureServer(server.server);
-        });
-
         var controllerBuilders = this.controllerLoader.loadControllerBuilders(this.container);
-        var routers = controllerBuilders.map((controllerBuilder) => {
-            return controllerBuilder.buildController();
-        });
+        
+        this.serverConfigs.forEach((serverConfig) => {
+            serverConfig.serverConfigurator && serverConfig.serverConfigurator.configureServer(serverConfig.server);
+            
+            controllerBuilders = controllerBuilders.filter((controllerBuilder) => {
+                if(controllerBuilder.supportsServer(serverConfig.server))
+                {
+                    var controller = controllerBuilder.buildController();
+                    controller.attachToServer(serverConfig.server);
+                    return false;
+                }
 
-        routers.forEach((router) => {
-            this.servers.forEach((server) => {
-                router.supportsServer(server.server) && router.attachToServer(server.server);
+                return true;
             });
+
         });
         
     }

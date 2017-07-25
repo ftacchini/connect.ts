@@ -24,7 +24,6 @@ export abstract class RoutedControllerBuilder<
         controller.information = this.information;
         controller.middleware = this.buildControllerMiddleware(controller);
         controller.routes = this.buildControllerRoutes(controller);
-
         return controller;
     }
 
@@ -32,7 +31,7 @@ export abstract class RoutedControllerBuilder<
     protected abstract buildRoutedController() : GenericRoutedController;
     
     protected buildControllerMiddleware(controller: GenericRoutedController): Middleware<any, GenericRouter>[] {
-        var builders = this.middlewareReader.readMiddleware<GenericRouter>(controller.router, "Controller", this.target);
+        var builders = this.middlewareReader.readControllerMiddleware<GenericRouter>(controller.router, this.target);
         return builders.map((builder) => builder.buildMiddleware());
     }
 

@@ -1,4 +1,4 @@
-import {MiddlewareReader} from "../../../core";
+import {MiddlewareReader, MiddlewareBuilder} from "../../../core";
 import {ControllerMetadataReader} from "../../helpers";
 
 export class MetadataMiddlewareReader implements MiddlewareReader{
@@ -9,7 +9,15 @@ export class MetadataMiddlewareReader implements MiddlewareReader{
         this.metadataTags = [];
     }
 
-    readMiddleware<GenericRouter>(router: GenericRouter, target: Object): Middleware<any, GenericRouter>[] {
-        return ControllerMetadataReader.instance.readMethodLevelMetadata(this.metadataTags, target);
+    readControllerMiddleware<GenericRouter>(router: GenericRouter, target: Object): MiddlewareBuilder<any, GenericRouter>[] {
+        return this.filterMiddleware(router, ControllerMetadataReader.instance.readControllerLevelMetadata<MiddlewareBuilder<any, GenericRouter>>(this.metadataTags, target));
+    }
+
+    readRouteMiddleware<GenericRouter>(router: GenericRouter, target: Object, property: string): MiddlewareBuilder<any, GenericRouter>[] {
+        return this.filterMiddleware(router, ControllerMetadataReader.instance.readMethodLevelMetadata<MiddlewareBuilder<any, GenericRouter>>(this.metadataTags, target, property));
+    }
+
+    filterMiddleware<GenericRouter>(router: GenericRouter, middlewareBuilders: MiddlewareBuilder<any, GenericRouter>[]): MiddlewareBuilder<any, GenericRouter>[] {
+        return middlewareBuilders.filter(middlewareBuilder => middlewareBuilder.supportsRouter(router));
     }
 }

@@ -1,23 +1,22 @@
 "use strict";
 class Hub {
-    constructor(servers, container, controllerActivator, controllerFactory, controllerLoader) {
-        this.servers = servers;
+    constructor(serverConfigs, container, controllerActivator, controllerLoader) {
+        this.serverConfigs = serverConfigs;
         this.container = container;
         this.controllerActivator = controllerActivator;
-        this.controllerFactory = controllerFactory;
         this.controllerLoader = controllerLoader;
     }
     run() {
-        this.servers.forEach((server) => {
-            server.serverConfigurator && server.serverConfigurator.configureServer(server.server);
-        });
-        var controllerBuilders = this.controllerLoader.loadControllerBuilders();
-        var routers = controllerBuilders.map((controllerBuilder) => {
-            return controllerBuilder.buildRouter(this.controllerActivator);
-        });
-        routers.forEach((router) => {
-            this.servers.forEach((server) => {
-                router.supportsServer(server.server) && router.attachToServer(server.server);
+        var controllerBuilders = this.controllerLoader.loadControllerBuilders(this.container);
+        this.serverConfigs.forEach((serverConfig) => {
+            serverConfig.serverConfigurator && serverConfig.serverConfigurator.configureServer(serverConfig.server);
+            controllerBuilders = controllerBuilders.filter((controllerBuilder) => {
+                if (controllerBuilder.supportsServer(serverConfig.server)) {
+                    var controller = controllerBuilder.buildController();
+                    controller.attachToServer(serverConfig.server);
+                    return false;
+                }
+                return true;
             });
         });
     }
