@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Server } from "../server/server-module";
+import { Server } from "../../core";
 
 export class HttpServer implements Server {
 

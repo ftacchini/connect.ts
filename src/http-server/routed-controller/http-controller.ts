@@ -1,5 +1,5 @@
 import { RoutedController, Middleware, Route } from "../../core";
-import { HttpServer } from "../http-server";
+import { HttpServer } from "../server/http-server";
 import { HttpControllerInformation } from "./http-controller-information";
 import { Router as ExpressRouter, RequestHandler } from "express";
 
