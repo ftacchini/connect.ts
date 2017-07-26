@@ -1,17 +1,21 @@
 "use strict";
 class RouteBuilder {
-    constructor(middlewareReader) {
+    constructor(middlewareReader, activator) {
         this.middlewareReader = middlewareReader;
+        this.activator = activator;
     }
     buildRoute() {
         var route = this.createRouteInstance();
         route.middleware = this.buildRouteMiddleware(route);
         route.information = this.information;
-        return null;
+        return route;
     }
     buildRouteMiddleware(router) {
         var builders = this.middlewareReader.readRouteMiddleware(router, this.target, this.propertyKey);
-        return builders.map((builder) => builder.buildMiddleware());
+        var middleware = builders.map((builder) => builder.buildMiddleware());
+        var activatorFunction = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
+        middleware.push(this.createActivatorMiddleware(activatorFunction));
+        return middleware;
     }
 }
 exports.RouteBuilder = RouteBuilder;

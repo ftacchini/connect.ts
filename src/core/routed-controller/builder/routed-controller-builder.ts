@@ -19,7 +19,7 @@ export abstract class RoutedControllerBuilder<
                 protected routeReader: RouteReader){
     }
 
-    public buildController() : Controller{
+    public buildController() : GenericRoutedController{
         var controller = this.buildRoutedController();
         controller.information = this.information;
         controller.middleware = this.buildControllerMiddleware(controller);

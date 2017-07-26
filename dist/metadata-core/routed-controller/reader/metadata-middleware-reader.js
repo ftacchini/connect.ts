@@ -5,10 +5,13 @@ class MetadataMiddlewareReader {
         this.metadataTags = [];
     }
     readControllerMiddleware(router, target) {
-        return helpers_1.ControllerMetadataReader.instance.readControllerLevelMetadata(this.metadataTags, target);
+        return this.filterMiddleware(router, helpers_1.ControllerMetadataReader.instance.readControllerLevelMetadata(this.metadataTags, target));
     }
     readRouteMiddleware(router, target, property) {
-        return helpers_1.ControllerMetadataReader.instance.readMethodLevelMetadata(this.metadataTags, target, property);
+        return this.filterMiddleware(router, helpers_1.ControllerMetadataReader.instance.readMethodLevelMetadata(this.metadataTags, target, property));
+    }
+    filterMiddleware(router, middlewareBuilders) {
+        return middlewareBuilders.filter(middlewareBuilder => middlewareBuilder.supportsRouter(router));
     }
 }
 exports.MetadataMiddlewareReader = MetadataMiddlewareReader;
