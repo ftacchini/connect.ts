@@ -13,7 +13,8 @@ class RoutedControllerBuilder {
     }
     buildControllerMiddleware(controller) {
         var builders = this.middlewareReader.readControllerMiddleware(controller.router, this.target);
-        return builders.map((builder) => builder.buildMiddleware());
+        return builders.map((builder) => builder.buildMiddleware())
+            .sort(middleware => middleware.priority);
     }
     buildControllerRoutes(controller) {
         var builders = this.routeReader.readRoutes(controller.router, this.target);

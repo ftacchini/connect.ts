@@ -1,5 +1,6 @@
 import {Server} from "../server";
 
-export interface Middleware<Information, GenericRouter> {
-    attachToServer(server: GenericRouter): GenericRouter;
+export interface Middleware<Information, RequestHandler> {
+    priority: number;
+    getRequestHandler(): RequestHandler;
 }

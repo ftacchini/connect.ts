@@ -15,7 +15,7 @@ class RouteBuilder {
         var middleware = builders.map((builder) => builder.buildMiddleware());
         var activatorFunction = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
         middleware.push(this.createActivatorMiddleware(activatorFunction));
-        return middleware;
+        return middleware.sort(middleware => middleware.priority);
     }
 }
 exports.RouteBuilder = RouteBuilder;

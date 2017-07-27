@@ -9,9 +9,9 @@ export class MetadataRouteReader implements RouteReader{
         this.metadataTags = [];
     }
 
-    readRoutes<GenericRouter>(router: GenericRouter, target: Object): RouteBuilder<any, GenericRouter>[] {
+    readRoutes<GenericRouter, RequestHandler>(router: GenericRouter, target: Object): RouteBuilder<any, GenericRouter, RequestHandler>[] {
         return ControllerMetadataReader.instance
-                .readControllerLevelMetadata<RouteBuilder<any, GenericRouter>>(this.metadataTags, target)
+                .readControllerLevelMetadata<RouteBuilder<any, GenericRouter, RequestHandler>>(this.metadataTags, target)
                 .filter(route => route.supportsRouter(router));
     }
 }

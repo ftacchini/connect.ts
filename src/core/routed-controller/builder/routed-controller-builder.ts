@@ -10,7 +10,8 @@ import * as _ from "lodash";
 export abstract class RoutedControllerBuilder<
     Information, 
     GenericRouter,
-    GenericRoutedController extends RoutedController<Information, GenericRouter>> {
+    RequestHandler,
+    GenericRoutedController extends RoutedController<Information, GenericRouter, RequestHandler>> {
     
     public information: Information;
     public target: any;
@@ -30,13 +31,14 @@ export abstract class RoutedControllerBuilder<
     public abstract supportsServer(server: Server) : boolean;
     protected abstract buildRoutedController() : GenericRoutedController;
     
-    protected buildControllerMiddleware(controller: GenericRoutedController): Middleware<any, GenericRouter>[] {
-        var builders = this.middlewareReader.readControllerMiddleware<GenericRouter>(controller.router, this.target);
-        return builders.map((builder) => builder.buildMiddleware());
+    protected buildControllerMiddleware(controller: GenericRoutedController): Middleware<any, RequestHandler>[] {
+        var builders = this.middlewareReader.readControllerMiddleware<RequestHandler>(controller.router, this.target);
+        return builders.map((builder) => builder.buildMiddleware())
+                       .sort(middleware => middleware.priority);
     }
 
-    protected buildControllerRoutes(controller: GenericRoutedController): Route<any, GenericRouter>[]{
-        var builders = this.routeReader.readRoutes<GenericRouter>(controller.router, this.target);
+    protected buildControllerRoutes(controller: GenericRoutedController): Route<any, GenericRouter, RequestHandler>[]{
+        var builders = this.routeReader.readRoutes<GenericRouter, RequestHandler>(controller.router, this.target);
         return builders.map((builder) => builder.buildRoute())
     }
     

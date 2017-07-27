@@ -4,7 +4,7 @@ import { HttpController } from "../http-controller";
 import { HttpServer } from "../../server/http-server";
 import { Router as ExpressRouter, RequestHandler } from "express";
 
-export class HttpControllerBuilder extends RoutedControllerBuilder<HttpControllerInformation, ExpressRouter, HttpController> {
+export class HttpControllerBuilder extends RoutedControllerBuilder<HttpControllerInformation, ExpressRouter, RequestHandler, HttpController> {
 
     constructor(middlewareReader: MiddlewareReader,
                 routeReader: RouteReader){

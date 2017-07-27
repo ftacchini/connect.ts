@@ -3,14 +3,14 @@ import { HttpRouteInformation } from "./http-route-information";
 import { HttpRouteType } from "../http-route-type";
 import { Router as ExpressRouter, RequestHandler } from "express";
 
-export class HttpRoute implements Route<HttpRouteInformation, ExpressRouter> {
+export class HttpRoute implements Route<HttpRouteInformation, ExpressRouter, RequestHandler> {
 
     public information: HttpRouteInformation;
-    public middleware: Middleware<any, ExpressRouter>[];
+    public middleware: Middleware<any, RequestHandler>[];
     attachToServer(server: ExpressRouter): ExpressRouter {
-        var route = server[this.information.type](this.information.path);
-        this.middleware.forEach(middleware => middleware.attachToServer(route));
-
+        var handlers = this.middleware.map(middleware => middleware.getRequestHandler());
+        var route = server[this.information.type](this.information.path, handlers);
+        
         return route;
     }
 }
