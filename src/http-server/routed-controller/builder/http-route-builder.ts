@@ -5,7 +5,9 @@ import { HttpRoute } from "../http-route";
 
 export class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, ExpressRouter, RequestHandler> {
 
-    constructor(middlewareReader: MiddlewareReader, controllerActivator: ControllerActivator) {
+    constructor(
+        middlewareReader: MiddlewareReader, 
+        controllerActivator: ControllerActivator<RequestHandler>) {
         super(middlewareReader, controllerActivator);
     }
 
@@ -25,8 +27,5 @@ export class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, Express
         return new HttpRoute();
     }
 
-    protected createActivatorMiddleware(activatorFunction: any): Middleware<any, RequestHandler> {
-
-    } 
     
 }

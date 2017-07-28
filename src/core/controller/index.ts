@@ -3,5 +3,4 @@
  */
 export * from "./builder";
 export * from "./loader";
-export * from "./activator";
 export * from "./controller";

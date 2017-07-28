@@ -1,6 +1,6 @@
 import {Route, Middleware} from "../";
 import {Server} from "../../server"
-import {ControllerActivator} from "../../controller";
+import {ControllerActivator} from "../activator/controller-activator";
 import {MiddlewareReader} from "../reader";
 
 export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
@@ -11,7 +11,7 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
 
     public constructor(
         protected middlewareReader: MiddlewareReader, 
-        protected activator: ControllerActivator){
+        protected activator: ControllerActivator<RequestHandler>){
 
     }
 
@@ -25,14 +25,13 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
     }
 
     protected abstract createRouteInstance(): Route<Information, GenericRouter, RequestHandler>;
-    protected abstract createActivatorMiddleware(activatorFunction: any): Middleware<any, RequestHandler>; 
     protected buildRouteMiddleware(router: any): Middleware<any, RequestHandler>[] {
 
         var builders = this.middlewareReader.readRouteMiddleware<RequestHandler>(router, this.target, this.propertyKey);
         var middleware = builders.map((builder) => builder.buildMiddleware());
 
-        var activatorFunction = this.activator.buildControllerActivationFunction(this.target, this.propertyKey); 
-        middleware.push(this.createActivatorMiddleware(activatorFunction));
+        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey); 
+        middleware.push(activatorMiddleware);
 
         return middleware.sort(middleware => middleware.priority);
     }
