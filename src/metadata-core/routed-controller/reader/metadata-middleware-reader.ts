@@ -1,5 +1,5 @@
 import {MiddlewareReader, MiddlewareBuilder} from "../../../core";
-import {ControllerMetadataReader} from "../../helpers";
+import {ControllerMetadataReader} from "../../helper";
 
 export class MetadataMiddlewareReader implements MiddlewareReader{
 

@@ -1,7 +1,7 @@
-import { HttpController, HttpGet } from "../core";
+import { HttpHandler, HttpGet } from "../http-server";
 import "reflect-metadata";
 
-@HttpController({ name: "someName"})
+@HttpHandler({ name: "someName"})
 export class SomeController {
 
     constructor(){}

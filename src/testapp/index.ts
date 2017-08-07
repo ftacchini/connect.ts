@@ -1,4 +1,5 @@
-import { HubBuilder, HttpServer } from "../core/";
+import { HubBuilder } from "../core";
+import { HttpServer } from "../http-server";
 
 var httpServer = HttpServer.bootstrap();
 
