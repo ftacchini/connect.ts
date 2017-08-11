@@ -4,6 +4,5 @@ function __export(m) {
 }
 __export(require("./server/"));
 __export(require("./container"));
-__export(require("./controller"));
 __export(require("./routed-controller"));
 //# sourceMappingURL=index.js.map

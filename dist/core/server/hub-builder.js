@@ -13,10 +13,6 @@ class HubBuilder {
         this.container = container;
         return this;
     }
-    setControllerActivator(controllerActivator) {
-        this.controllerActivator = controllerActivator;
-        return this;
-    }
     setControllerLoader(controllerLoader) {
         this.controllerLoader = controllerLoader;
         return this;
@@ -27,9 +23,8 @@ class HubBuilder {
     }
     buildHub() {
         var container = this.container || new _1.InversifyContainer();
-        var controllerActivator = this.controllerActivator || new _1.DefaultControllerActivator(container);
         var controllerLoader = this.controllerLoader || new metadata_core_1.MetadataControllerLoader();
-        return new hub_1.Hub(this.supportedServers, container, controllerActivator, controllerLoader);
+        return new hub_1.Hub(this.supportedServers, container, controllerLoader);
     }
 }
 exports.HubBuilder = HubBuilder;

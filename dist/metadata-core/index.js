@@ -4,5 +4,5 @@ function __export(m) {
 }
 __export(require("./controller"));
 __export(require("./routed-controller"));
-__export(require("./helpers"));
+__export(require("./helper"));
 //# sourceMappingURL=index.js.map

@@ -13,8 +13,8 @@ class RouteBuilder {
     buildRouteMiddleware(router) {
         var builders = this.middlewareReader.readRouteMiddleware(router, this.target, this.propertyKey);
         var middleware = builders.map((builder) => builder.buildMiddleware());
-        var activatorFunction = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
-        middleware.push(this.createActivatorMiddleware(activatorFunction));
+        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
+        middleware.push(activatorMiddleware);
         return middleware.sort(middleware => middleware.priority);
     }
 }

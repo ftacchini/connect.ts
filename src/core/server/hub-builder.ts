@@ -1,5 +1,5 @@
 import {Server,ServerConfigurator} from "./";
-import {ControllerActivator,ControllerLoader,DefaultControllerActivator,InversifyContainer,HubContainer} from "../"
+import {ControllerActivator,ControllerLoader,/*DefaultControllerActivator,*/InversifyContainer,HubContainer} from "../"
 import {MetadataControllerLoader} from "../../metadata-core";
 
 import {Hub} from "./hub";
@@ -7,7 +7,7 @@ import {Hub} from "./hub";
 export class HubBuilder {
 
     private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
-    private controllerActivator: ControllerActivator;
+    //private controllerActivator: ControllerActivator;
     private controllerLoader: ControllerLoader;
     private container: HubContainer;
 
@@ -24,11 +24,11 @@ export class HubBuilder {
         this.container = container;
         return this;
     }
-
+/*
     public setControllerActivator(controllerActivator: ControllerActivator): HubBuilder{
         this.controllerActivator = controllerActivator;
         return this;
-    }
+    }*/
 
     public setControllerLoader(controllerLoader: ControllerLoader): HubBuilder {
         this.controllerLoader = controllerLoader;
@@ -43,13 +43,13 @@ export class HubBuilder {
     public buildHub() : Hub {
 
         var container = this.container || new InversifyContainer();
-        var controllerActivator = this.controllerActivator || new DefaultControllerActivator(container);
+        /*var controllerActivator = this.controllerActivator || new DefaultControllerActivator(container);*/
         var controllerLoader = this.controllerLoader || new MetadataControllerLoader();
 
         return new Hub(
             this.supportedServers, 
             container, 
-            controllerActivator,
+            /*controllerActivator,*/
             controllerLoader);
     }
 

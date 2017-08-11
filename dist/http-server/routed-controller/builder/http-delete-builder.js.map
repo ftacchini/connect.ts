@@ -1,0 +1,1 @@
+{"version":3,"file":"http-delete-builder.js","sourceRoot":"","sources":["../../../../src/http-server/routed-controller/builder/http-delete-builder.ts"],"names":[],"mappings":";AACA,6DAAwD;AAIxD,uBAA+B,SAAQ,qCAAgB;IAEnD,YACI,gBAAkC,EAClC,mBAAwD;QACxD,KAAK,CAAC,gBAAgB,EAAE,mBAAmB,CAAC,CAAC;IACjD,CAAC;IAEM,mBAAmB;QACtB,MAAM,CAAC,QAAQ,CAAC;IACpB,CAAC;CAGJ;AAbD,8CAaC"}

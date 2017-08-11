@@ -1,11 +1,11 @@
 "use strict";
-const helpers_1 = require("../../helpers");
+const helper_1 = require("../../helper");
 class MetadataRouteReader {
     constructor() {
         this.metadataTags = [];
     }
     readRoutes(router, target) {
-        return helpers_1.ControllerMetadataReader.instance
+        return helper_1.ControllerMetadataReader.instance
             .readControllerLevelMetadata(this.metadataTags, target)
             .filter(route => route.supportsRouter(router));
     }

@@ -2,5 +2,7 @@
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-__export(require("./http-server"));
+__export(require("./server"));
+__export(require("./routed-controller"));
+__export(require("./metadata"));
 //# sourceMappingURL=index.js.map

@@ -1,7 +1,7 @@
 "use strict";
 var includeAll = require("include-all");
 const _ = require("lodash");
-const ControllerMetadataKeys = require("../../helpers/controller-metadata-keys");
+const ControllerMetadataKeys = require("../../helper/controller-metadata-keys");
 class MetadataControllerLoader {
     constructor(filePattern, ignorePattern) {
         this.filePattern = filePattern;

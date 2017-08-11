@@ -1,5 +1,5 @@
 import {RouteReader, RouteBuilder} from "../../../core";
-import {ControllerMetadataReader} from "../../helpers";
+import {ControllerMetadataReader} from "../../helper";
 
 export class MetadataRouteReader implements RouteReader{
 

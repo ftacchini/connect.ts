@@ -1,9 +1,8 @@
 "use strict";
 class Hub {
-    constructor(serverConfigs, container, controllerActivator, controllerLoader) {
+    constructor(serverConfigs, container, controllerLoader) {
         this.serverConfigs = serverConfigs;
         this.container = container;
-        this.controllerActivator = controllerActivator;
         this.controllerLoader = controllerLoader;
     }
     run() {
