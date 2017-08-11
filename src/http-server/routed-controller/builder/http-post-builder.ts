@@ -3,7 +3,7 @@ import { HttpRouteBuilder } from "./http-route-builder";
 import { HttpRouteType } from "../../http-route-type";
 import { Router as RequestHandler } from "express";
 
-export class HttpGetBuilder extends HttpRouteBuilder {
+export class HttpPostBuilder extends HttpRouteBuilder {
 
     constructor(
         middlewareReader: MiddlewareReader, 
@@ -12,7 +12,7 @@ export class HttpGetBuilder extends HttpRouteBuilder {
     }
 
     public getDefaultRouteType(): HttpRouteType {
-        return "get";
+        return "post";
     }
 
     

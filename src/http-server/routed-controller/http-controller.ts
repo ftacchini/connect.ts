@@ -1,6 +1,6 @@
 import { RoutedController, Middleware, Route } from "../../core";
 import { HttpServer } from "../server/http-server";
-import { HttpControllerInformation } from "./http-controller-information";
+import { HttpControllerInformation } from "./information";
 import { Router as ExpressRouter, RequestHandler } from "express";
 
 export class HttpController implements RoutedController<HttpControllerInformation, ExpressRouter, RequestHandler> {

@@ -1,1 +1,1 @@
-export type HttpRouteType = "get" | "post" | "head" | "put" | "delete" | "all";
+export type HttpRouteType = "get" | "post" | "head" | "put" | "delete" | "all" | "patch";

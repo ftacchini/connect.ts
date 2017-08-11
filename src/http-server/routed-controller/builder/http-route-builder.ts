@@ -1,9 +1,11 @@
 import { RouteBuilder, MiddlewareReader, RouteReader, ControllerActivator, Middleware } from "../../../core";
-import { HttpRouteInformation } from "../http-route-information";
+import { HttpRouteInformation } from "../information";
+import { HttpRouteType } from "../../http-route-type";
 import { Router as ExpressRouter, RequestHandler } from "express";
 import { HttpRoute } from "../http-route";
+import * as _ from "lodash";
 
-export class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, ExpressRouter, RequestHandler> {
+export abstract class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, ExpressRouter, RequestHandler> {
 
     constructor(
         middlewareReader: MiddlewareReader, 
@@ -15,10 +17,15 @@ export class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, Express
         return router instanceof ExpressRouter;
     }
 
+    public abstract getDefaultRouteType(): HttpRouteType;
+
+
     public buildRoute(): HttpRoute {
-        this.information || (this.information = new HttpRouteInformation());
+
+        var information = new HttpRouteInformation();
+        this.information = (this.information &&  _.merge(information, this.information)) || information;
         this.information.path || (this.information.path = this.propertyKey);
-        this.information.type || (this.information.type = "all");
+        this.information.type || (this.information.type = this.getDefaultRouteType());
         
         return super.buildRoute();
     }

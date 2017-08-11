@@ -1,5 +1,5 @@
 import { RoutedControllerBuilder, Server, MiddlewareReader, RouteReader } from "../../../core";
-import { HttpControllerInformation } from "../http-controller-information";
+import { HttpControllerInformation } from "../information";
 import { HttpController } from "../http-controller";
 import { HttpServer } from "../../server/http-server";
 import { Router as ExpressRouter, RequestHandler } from "express";

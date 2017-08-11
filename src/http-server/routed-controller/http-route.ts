@@ -1,5 +1,5 @@
 import { Route, Middleware } from "../../core"
-import { HttpRouteInformation } from "./http-route-information";
+import { HttpRouteInformation } from "./information";
 import { HttpRouteType } from "../http-route-type";
 import { Router as ExpressRouter, RequestHandler } from "express";
 
