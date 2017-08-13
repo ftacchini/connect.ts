@@ -3,7 +3,9 @@ import { HttpControllerInformation } from "../information";
 import { HttpController } from "../http-controller";
 import { HttpServer } from "../../server/http-server";
 import { Router as ExpressRouter, RequestHandler } from "express";
+import { injectable } from "inversify";
 
+@injectable()
 export class HttpControllerBuilder extends RoutedControllerBuilder<HttpControllerInformation, ExpressRouter, RequestHandler, HttpController> {
 
     constructor(middlewareReader: MiddlewareReader,

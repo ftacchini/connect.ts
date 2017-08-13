@@ -16,10 +16,9 @@ class MetadataControllerLoader {
         });
         let controllerBuilderFactory = [];
         _.each(_.values(controllerFiles), (exports) => {
-            let filteredExports = _.filter(exports, (value) => {
-                return Reflect.hasMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value)
-                    && Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
-            });
+            let filteredExports = _.filter(_.map(exports, (value) => {
+                return Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
+            }), metadata => metadata);
             controllerBuilderFactory = _.union(controllerBuilderFactory, filteredExports);
         });
         return controllerBuilderFactory.map(factory => factory(container));

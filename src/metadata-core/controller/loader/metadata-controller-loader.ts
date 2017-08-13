@@ -25,10 +25,9 @@ export class MetadataControllerLoader implements ControllerLoader {
         
         _.each(_.values(controllerFiles), (exports: any) => {
 
-            let filteredExports = _.filter(exports, (value: any) => {
-                return Reflect.hasMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value) 
-                && Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
-            });
+            let filteredExports = _.filter(_.map(exports, (value: any) => {
+                return Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
+            }), metadata => metadata);
             
             controllerBuilderFactory = _.union(controllerBuilderFactory, filteredExports);
         });
