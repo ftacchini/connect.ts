@@ -1,6 +1,8 @@
 import {RouteReader, RouteBuilder} from "../../../core";
 import {ControllerMetadataReader} from "../../helper";
+import {injectable} from "inversify";
 
+@injectable()
 export class MetadataRouteReader implements RouteReader{
 
     private metadataTags: symbol[];
