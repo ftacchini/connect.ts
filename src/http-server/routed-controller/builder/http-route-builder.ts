@@ -4,6 +4,7 @@ import { HttpRouteType } from "../../http-route-type";
 import { Router as ExpressRouter, RequestHandler } from "express";
 import { HttpRoute } from "../http-route";
 import * as _ from "lodash";
+import { injectable } from "inversify";
 
 export abstract class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, ExpressRouter, RequestHandler> {
 

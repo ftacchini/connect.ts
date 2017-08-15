@@ -1,6 +1,8 @@
 import {MiddlewareReader, MiddlewareBuilder} from "../../../core";
 import {ControllerMetadataReader} from "../../helper";
+import {injectable} from "inversify";
 
+@injectable()
 export class MetadataMiddlewareReader implements MiddlewareReader{
 
     private metadataTags: symbol[];
