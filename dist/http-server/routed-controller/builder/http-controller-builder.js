@@ -12,6 +12,7 @@ const core_1 = require("../../../core");
 const information_1 = require("../information");
 const http_controller_1 = require("../http-controller");
 const http_server_1 = require("../../server/http-server");
+require("reflect-metadata");
 const inversify_1 = require("inversify");
 let HttpControllerBuilder = class HttpControllerBuilder extends core_1.RoutedControllerBuilder {
     constructor(middlewareReader, routeReader) {
