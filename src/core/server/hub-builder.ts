@@ -1,14 +1,17 @@
-import {Server,ServerConfigurator} from "./";
-import {ControllerActivator,ControllerLoader,/*DefaultControllerActivator,*/InversifyContainer,HubContainer} from "../"
-import {MetadataControllerLoader} from "../../metadata-core";
+import { MetadataRouteReader, MetadataMiddlewareReader, MetadataControllerLoader } from '../../metadata-core';
+import { MiddlewareReader, RouteReader } from '../routed-controller';
+import { Server, ServerConfigurator } from "./";
+import { ControllerActivator, ControllerLoader, InversifyContainer, HubContainer } from "../"
+import { Hub } from "./hub";
 
-import {Hub} from "./hub";
- 
 export class HubBuilder {
 
     private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
-    //private controllerActivator: ControllerActivator;
+
     private controllerLoader: ControllerLoader;
+    private routeReader: RouteReader;
+    private middlewareReader: MiddlewareReader;
+
     private container: HubContainer;
 
     private static _instance: HubBuilder;
@@ -20,37 +23,51 @@ export class HubBuilder {
 
     }
 
-    public setContainer(container: HubContainer): HubBuilder {
+    public setContainer(container: HubContainer): this {
         this.container = container;
         return this;
     }
-/*
-    public setControllerActivator(controllerActivator: ControllerActivator): HubBuilder{
-        this.controllerActivator = controllerActivator;
-        return this;
-    }*/
 
-    public setControllerLoader(controllerLoader: ControllerLoader): HubBuilder {
+    public setControllerLoader(controllerLoader: ControllerLoader): this {
         this.controllerLoader = controllerLoader;
         return this;
     }
 
-    public setServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): HubBuilder {
-        this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator});
+    public setRouteReader(routeReader: RouteReader): this {
+        this.routeReader = routeReader;
         return this;
     }
 
-    public buildHub() : Hub {
+    public setMiddlewareReader(middlewareReader: MiddlewareReader): this {
+        this.middlewareReader = middlewareReader;
+        return this;
+    }
+
+    public setServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
+        this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
+        return this;
+    }
+
+    public buildHub(): Hub {
 
         var container = this.container || new InversifyContainer();
-        /*var controllerActivator = this.controllerActivator || new DefaultControllerActivator(container);*/
         var controllerLoader = this.controllerLoader || new MetadataControllerLoader();
 
+        var routeReader = this.routeReader || new MetadataRouteReader();
+        var middlewareReader = this.middlewareReader || new MetadataMiddlewareReader();
+        
         return new Hub(
-            this.supportedServers, 
-            container, 
-            /*controllerActivator,*/
+            this.supportedServers,
+            container,
             controllerLoader);
+    }
+
+    private setupRouteReader(routeReader: RouteReader, container: HubContainer): void {
+
+    }
+
+    private setupMiddlewareReader(middlewareReader: MiddlewareReader, container: HubContainer): void {
+        
     }
 
 }
