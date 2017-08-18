@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class ControllerMetadataBuilder {
     static get instance() {
         return this._instance || (this._instance = new ControllerMetadataBuilder());

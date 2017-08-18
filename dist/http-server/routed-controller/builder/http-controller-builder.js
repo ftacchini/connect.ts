@@ -8,12 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("../../../core");
 const information_1 = require("../information");
 const http_controller_1 = require("../http-controller");
 const http_server_1 = require("../../server/http-server");
-require("reflect-metadata");
 const inversify_1 = require("inversify");
+require("reflect-metadata");
 let HttpControllerBuilder = class HttpControllerBuilder extends core_1.RoutedControllerBuilder {
     constructor(middlewareReader, routeReader) {
         super(middlewareReader, routeReader);
@@ -32,6 +36,8 @@ let HttpControllerBuilder = class HttpControllerBuilder extends core_1.RoutedCon
 };
 HttpControllerBuilder = __decorate([
     inversify_1.injectable(),
+    __param(0, inversify_1.inject(core_1.TYPES.MiddlewareReader)),
+    __param(1, inversify_1.inject(core_1.TYPES.RouteReader)),
     __metadata("design:paramtypes", [Object, Object])
 ], HttpControllerBuilder);
 exports.HttpControllerBuilder = HttpControllerBuilder;

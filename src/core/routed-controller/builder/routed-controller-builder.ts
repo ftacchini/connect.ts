@@ -1,10 +1,12 @@
-import {ControllerBuilder, ControllerActivator, Controller, Server} from "../../../core";
+import {ControllerBuilder, ControllerActivator, Controller, Server, TYPES} from "../../../core";
 import {RoutedController} from "../routed-controller";
 import {Middleware} from "../middleware";
 import {MiddlewareBuilder} from "./middleware-builder";
 import {RouteBuilder} from "./route-builder";
 import {MiddlewareReader,RouteReader} from "../reader";
 import {Route} from "../route";
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
 import * as _ from "lodash";
 
 export abstract class RoutedControllerBuilder<

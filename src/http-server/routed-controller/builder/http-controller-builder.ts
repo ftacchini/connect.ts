@@ -15,7 +15,7 @@ export class HttpControllerBuilder extends RoutedControllerBuilder<HttpControlle
 
     }
 
-    public  buildController() : HttpController {
+    public buildController() : HttpController {
         this.information || (this.information = new HttpControllerInformation());
         this.information.name || (this.information.name = this.target.constructor.name);
         return super.buildController();

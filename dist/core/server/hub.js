@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Hub {
     constructor(serverConfigs, container, controllerLoader) {
         this.serverConfigs = serverConfigs;

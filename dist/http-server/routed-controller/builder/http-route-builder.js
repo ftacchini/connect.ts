@@ -1,9 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("../../../core");
 const information_1 = require("../information");
 const express_1 = require("express");
 const http_route_1 = require("../http-route");
 const _ = require("lodash");
+require("reflect-metadata");
 class HttpRouteBuilder extends core_1.RouteBuilder {
     constructor(middlewareReader, controllerActivator) {
         super(middlewareReader, controllerActivator);

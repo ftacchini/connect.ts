@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var includeAll = require("include-all");
 const _ = require("lodash");
 const ControllerMetadataKeys = require("../../helper/controller-metadata-keys");
