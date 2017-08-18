@@ -1,5 +1,6 @@
 import { HubBuilder } from "../core";
-import { HttpServer } from "../http-server";
+import { HttpServer, HttpControllerBuilder } from "../http-server";
+import { Container, inject, injectable, unmanaged } from "inversify";
 
 var httpServer = HttpServer.bootstrap();
 

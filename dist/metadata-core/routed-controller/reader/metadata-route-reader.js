@@ -11,20 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const helper_1 = require("../../helper");
 const inversify_1 = require("inversify");
+const _ = require("lodash");
 require("reflect-metadata");
 let MetadataRouteReader = class MetadataRouteReader {
-    constructor() {
-        this.metadataTags = [];
+    constructor(container) {
+        this.container = container;
+        this.metadataTags = [helper_1.ControllerMetadataKeys.ROUTE_BUILDER];
     }
     readRoutes(router, target) {
-        return helper_1.ControllerMetadataReader.instance
-            .readControllerLevelMetadata(this.metadataTags, target)
-            .filter(route => route.supportsRouter(router));
+        var properties = Object.getOwnPropertyNames(target.prototype);
+        var routeBuilders = _.flatten(properties.map(property => {
+            console.log(this.metadataTags);
+            return helper_1.ControllerMetadataReader.instance
+                .readMethodLevelMetadata(this.metadataTags, target.prototype, property);
+        }));
+        return routeBuilders.filter(routeFactory => routeFactory)
+            .map(routeFactory => routeFactory(this.container))
+            .filter(route => route && route.supportsRouter(router));
     }
 };
 MetadataRouteReader = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [Object])
 ], MetadataRouteReader);
 exports.MetadataRouteReader = MetadataRouteReader;
 //# sourceMappingURL=metadata-route-reader.js.map

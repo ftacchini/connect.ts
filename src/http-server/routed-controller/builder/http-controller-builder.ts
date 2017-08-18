@@ -1,16 +1,15 @@
-import { RoutedControllerBuilder, Server, MiddlewareReader, RouteReader, TYPES } from "../../../core";
+import { RoutedControllerBuilder, Server, MiddlewareReader, RouteReader, Types } from "../../../core";
 import { HttpControllerInformation } from "../information";
 import { HttpController } from "../http-controller";
 import { HttpServer } from "../../server/http-server";
 import { Router as ExpressRouter, RequestHandler } from "express";
 import { injectable, inject } from "inversify";
-import "reflect-metadata";
 
 @injectable()
 export class HttpControllerBuilder extends RoutedControllerBuilder<HttpControllerInformation, ExpressRouter, RequestHandler, HttpController> {
 
-    constructor(@inject(TYPES.MiddlewareReader) middlewareReader: MiddlewareReader,
-                @inject(TYPES.RouteReader) routeReader: RouteReader){
+    constructor(@inject(Types.MiddlewareReader) middlewareReader: MiddlewareReader,
+                @inject(Types.RouteReader) routeReader: RouteReader){
         super(middlewareReader, routeReader);
 
     }

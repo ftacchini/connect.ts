@@ -14,20 +14,22 @@ export class ControllerMetadataReader {
 
     }
 
-    public readControllerLevelMetadata<T extends ClassMetadata<any>>(metadataTags: symbol[], target: Object) : T[] {
+    public readControllerLevelMetadata<T>(metadataTags: symbol[], target: Object) : T[] {
         return this.readMetadata<T>(metadataTags, target);   
     }
 
-    public readMethodLevelMetadata<T extends MethodMetadata<any>>(metadataTags: symbol[], target: Object, property: string) : T[] {
-        return this.readMetadata<T>(metadataTags, target);   
+    public readMethodLevelMetadata<T>(metadataTags: symbol[], target: Object, property: string) : T[] {
+        return this.readMetadata<T>(metadataTags, target, property);   
     }
 
-    public readArgumentLevelMetadata<T extends ArgumentMetadata<any>>(metadataTags: symbol[], target: Object) : T[] {
-        return this.readMetadata<T>(metadataTags, target);
+    public readArgumentLevelMetadata<T>(metadataTags: symbol[], target: Object, property: string) : T[] {
+        return this.readMetadata<T>(metadataTags, target, property);
     }
 
-    public readMetadata<T>(metadataTags: symbol[], target: Object): T[]{
-        return _.flatten(metadataTags.map<any[]>((key) => { return Reflect.getMetadata(key, target, "asd")}));
+    public readMetadata<T>(metadataTags: symbol[], target: Object, property?: string): T[]{
+        return _.flatten(metadataTags.map<any[]>((key) => { 
+            return property ? Reflect.getMetadata(key, target, property) : Reflect.getMetadata(key, target) 
+        }));
 
     }
 }

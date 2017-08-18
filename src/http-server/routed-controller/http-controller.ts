@@ -19,7 +19,7 @@ export class HttpController implements RoutedController<HttpControllerInformatio
         var handlers = this.middleware
             .map(middleware => middleware.getRequestHandler());
         
-        this.router.use(handlers);
+        handlers.length && this.router.use(handlers);
         
         server.application.use(this.information.name, this.router);
         this.routes.forEach(route => route.attachToServer(this.router));

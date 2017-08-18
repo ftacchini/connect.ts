@@ -5,8 +5,9 @@ interface TypesDictionary {
     ControllerActivator: symbol
 }
 //This should be TypesDcitionary but the compiler is not working fine...
-export var TYPES: TypesDictionary = {
-    MiddlewareReader: null,
-    RouteReader: null,
+export var Types: TypesDictionary = {
+    MiddlewareReader: Symbol("MiddlewareReader"),
+    RouteReader: Symbol("RouteReader"),
+    Container: Symbol("Container"),
     ControllerActivator: null
 };

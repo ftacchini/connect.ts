@@ -30,7 +30,12 @@ export class ControllerMetadataBuilder {
                 };
 
                 metadataTags && metadataTags.forEach((metadata) => {
-                    Reflect.defineMetadata(metadata, controllerBuilder, target);
+                    if(!Reflect.hasMetadata(metadata, target)) {
+                        Reflect.defineMetadata(metadata, [], target);
+                    }
+                    
+                    var builders = Reflect.getMetadata(metadata, target);
+                    builders.push(controllerBuilder);
                 });
             }
         }
@@ -53,7 +58,13 @@ export class ControllerMetadataBuilder {
                 };
 
                 metadataTags && metadataTags.forEach((metadata) => {
-                    Reflect.defineMetadata(metadata, controllerBuilder, target);
+                    
+                    if(!Reflect.hasMetadata(metadata, target, propertyKey)) {
+                        Reflect.defineMetadata(metadata, [], target, propertyKey);
+                    }
+                    
+                    var builders = Reflect.getMetadata(metadata, target, propertyKey);
+                    builders.push(controllerBuilder);
                 });
             }
         }
@@ -77,7 +88,12 @@ export class ControllerMetadataBuilder {
                 };
 
                 metadataTags && metadataTags.forEach((metadata) => {
-                    Reflect.defineMetadata(metadata, controllerBuilder, target);
+                    if(!Reflect.hasMetadata(metadata, target, propertyKey)) {
+                        Reflect.defineMetadata(metadata, [], target, propertyKey);
+                    }
+                    
+                    var builders = Reflect.getMetadata(metadata, target, propertyKey);
+                    builders.push(controllerBuilder);
                 });
             }
         }

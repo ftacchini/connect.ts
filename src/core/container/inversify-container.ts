@@ -1,5 +1,6 @@
 import {HubContainer} from "./";
 import {Container, interfaces} from "inversify";
+import { Types } from "./types";
 
 export class InversifyContainer extends Container implements HubContainer {
 
@@ -8,18 +9,18 @@ export class InversifyContainer extends Container implements HubContainer {
     }
 
 
-    bindAndGet<T>(service: interfaces.Newable<T>, serviceIdentifier?: interfaces.ServiceIdentifier<T>): T {
+    bindAndGet<T>(service: interfaces.Newable<T>): T {
         
-        serviceIdentifier || (serviceIdentifier = service);
-        
+        Types[service.name] || (Types[service.name] = Symbol(service.name));
+
         try {
-            this.get<T>(serviceIdentifier) || this.bind<T>(serviceIdentifier).to(service);
+            this.get<T>(Types[service.name]) || this.bind<T>(Types[service.name]).to(service);
         }
         catch(ex) {
-            this.bind<T>(serviceIdentifier).to(service);
+            this.bind<T>(Types[service.name]).to(service);
         }
 
-        return this.get<T>(serviceIdentifier);
+        return this.get<T>(Types[service.name]);
     }
     
 }

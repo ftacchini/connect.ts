@@ -1,7 +1,7 @@
 import { MetadataRouteReader, MetadataMiddlewareReader, MetadataControllerLoader } from '../../metadata-core';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
 import { Server, ServerConfigurator } from "./";
-import { ControllerActivator, ControllerLoader, InversifyContainer, HubContainer, TYPES } from "../"
+import { ControllerActivator, ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
 import { Hub } from "./hub";
 
 export class HubBuilder {
@@ -64,22 +64,19 @@ export class HubBuilder {
 
     private setupCountainer(): HubContainer {
         this.container = this.container || new InversifyContainer();
-        TYPES.Container = Symbol("Container");
-        this.container.bind(TYPES.Container).toConstantValue(this.container);
+        this.container.bind(Types.Container).toConstantValue(this.container);
         
         return this.container;
     }
 
     private setupRouteReader(container: HubContainer): void {
-        this.routeReader = this.routeReader || new MetadataRouteReader();
-        TYPES.RouteReader = Symbol("RouteReader");
-        this.container.bind(TYPES.RouteReader).toConstantValue(this.routeReader);
+        this.routeReader = this.routeReader || new MetadataRouteReader(container);
+        this.container.bind(Types.RouteReader).toConstantValue(this.routeReader);
     }
 
     private setupMiddlewareReader(container: HubContainer): void {
         this.middlewareReader = this.middlewareReader || new MetadataMiddlewareReader();
-        TYPES.MiddlewareReader = Symbol("MiddlewareReader");
-        this.container.bind(TYPES.MiddlewareReader).toConstantValue(this.middlewareReader);
+        this.container.bind(Types.MiddlewareReader).toConstantValue(this.middlewareReader);
     }
 
 }

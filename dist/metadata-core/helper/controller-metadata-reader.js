@@ -11,13 +11,15 @@ class ControllerMetadataReader {
         return this.readMetadata(metadataTags, target);
     }
     readMethodLevelMetadata(metadataTags, target, property) {
-        return this.readMetadata(metadataTags, target);
+        return this.readMetadata(metadataTags, target, property);
     }
-    readArgumentLevelMetadata(metadataTags, target) {
-        return this.readMetadata(metadataTags, target);
+    readArgumentLevelMetadata(metadataTags, target, property) {
+        return this.readMetadata(metadataTags, target, property);
     }
-    readMetadata(metadataTags, target) {
-        return _.flatten(metadataTags.map((key) => { return Reflect.getMetadata(key, target, "asd"); }));
+    readMetadata(metadataTags, target, property) {
+        return _.flatten(metadataTags.map((key) => {
+            return property ? Reflect.getMetadata(key, target, property) : Reflect.getMetadata(key, target);
+        }));
     }
 }
 exports.ControllerMetadataReader = ControllerMetadataReader;

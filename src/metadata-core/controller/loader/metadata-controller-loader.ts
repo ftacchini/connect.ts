@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import {ControllerBuilder, HubContainer, ControllerLoader} from "../../../core";
 import * as ControllerMetadataKeys from "../../helper/controller-metadata-keys";
 
-
 export class MetadataControllerLoader implements ControllerLoader {
 
     constructor(
@@ -25,9 +24,9 @@ export class MetadataControllerLoader implements ControllerLoader {
         
         _.each(_.values(controllerFiles), (exports: any) => {
 
-            let filteredExports = _.filter(_.map(exports, (value: any) => {
+            let filteredExports = _.filter(_.flatten(_.map(exports, (value: any) => {
                 return Reflect.getMetadata(ControllerMetadataKeys.CONTROLLER_BUILDER, value);
-            }), metadata => metadata);
+            })), metadata => metadata);
             
             controllerBuilderFactory = _.union(controllerBuilderFactory, filteredExports);
         });

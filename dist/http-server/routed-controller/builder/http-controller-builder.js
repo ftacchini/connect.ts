@@ -17,7 +17,6 @@ const information_1 = require("../information");
 const http_controller_1 = require("../http-controller");
 const http_server_1 = require("../../server/http-server");
 const inversify_1 = require("inversify");
-require("reflect-metadata");
 let HttpControllerBuilder = class HttpControllerBuilder extends core_1.RoutedControllerBuilder {
     constructor(middlewareReader, routeReader) {
         super(middlewareReader, routeReader);
@@ -36,8 +35,8 @@ let HttpControllerBuilder = class HttpControllerBuilder extends core_1.RoutedCon
 };
 HttpControllerBuilder = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.inject(core_1.TYPES.MiddlewareReader)),
-    __param(1, inversify_1.inject(core_1.TYPES.RouteReader)),
+    __param(0, inversify_1.inject(core_1.Types.MiddlewareReader)),
+    __param(1, inversify_1.inject(core_1.Types.RouteReader)),
     __metadata("design:paramtypes", [Object, Object])
 ], HttpControllerBuilder);
 exports.HttpControllerBuilder = HttpControllerBuilder;

@@ -39,19 +39,16 @@ class HubBuilder {
     }
     setupCountainer() {
         this.container = this.container || new _1.InversifyContainer();
-        _1.TYPES.Container = Symbol("Container");
-        this.container.bind(_1.TYPES.Container).toConstantValue(this.container);
+        this.container.bind(_1.Types.Container).toConstantValue(this.container);
         return this.container;
     }
     setupRouteReader(container) {
-        this.routeReader = this.routeReader || new metadata_core_1.MetadataRouteReader();
-        _1.TYPES.RouteReader = Symbol("RouteReader");
-        this.container.bind(_1.TYPES.RouteReader).toConstantValue(this.routeReader);
+        this.routeReader = this.routeReader || new metadata_core_1.MetadataRouteReader(container);
+        this.container.bind(_1.Types.RouteReader).toConstantValue(this.routeReader);
     }
     setupMiddlewareReader(container) {
         this.middlewareReader = this.middlewareReader || new metadata_core_1.MetadataMiddlewareReader();
-        _1.TYPES.MiddlewareReader = Symbol("MiddlewareReader");
-        this.container.bind(_1.TYPES.MiddlewareReader).toConstantValue(this.middlewareReader);
+        this.container.bind(_1.Types.MiddlewareReader).toConstantValue(this.middlewareReader);
     }
 }
 exports.HubBuilder = HubBuilder;

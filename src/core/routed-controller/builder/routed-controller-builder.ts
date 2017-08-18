@@ -1,14 +1,15 @@
-import {ControllerBuilder, ControllerActivator, Controller, Server, TYPES} from "../../../core";
+import {ControllerBuilder, ControllerActivator, Controller, Server, Types} from "../../../core";
 import {RoutedController} from "../routed-controller";
 import {Middleware} from "../middleware";
 import {MiddlewareBuilder} from "./middleware-builder";
 import {RouteBuilder} from "./route-builder";
 import {MiddlewareReader,RouteReader} from "../reader";
 import {Route} from "../route";
-import { injectable, inject } from "inversify";
+import { injectable, unmanaged } from "inversify";
 import "reflect-metadata";
 import * as _ from "lodash";
 
+@injectable()
 export abstract class RoutedControllerBuilder<
     Information, 
     GenericRouter,
@@ -18,8 +19,8 @@ export abstract class RoutedControllerBuilder<
     public information: Information;
     public target: any;
     
-    constructor(protected middlewareReader: MiddlewareReader,
-                protected routeReader: RouteReader){
+    constructor(@unmanaged() protected middlewareReader: MiddlewareReader,
+                @unmanaged() protected routeReader: RouteReader){
     }
 
     public buildController() : GenericRoutedController{
