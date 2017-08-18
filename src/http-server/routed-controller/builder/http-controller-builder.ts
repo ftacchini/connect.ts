@@ -1,4 +1,4 @@
-import { RoutedControllerBuilder, Server, MiddlewareReader, RouteReader } from "../../../core";
+import { RoutedControllerBuilder, Server, MiddlewareReader, RouteReader, TYPES } from "../../../core";
 import { HttpControllerInformation } from "../information";
 import { HttpController } from "../http-controller";
 import { HttpServer } from "../../server/http-server";
