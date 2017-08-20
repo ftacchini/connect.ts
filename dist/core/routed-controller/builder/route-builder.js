@@ -5,15 +5,15 @@ class RouteBuilder {
         this.middlewareReader = middlewareReader;
         this.activator = activator;
     }
-    buildRoute() {
+    buildRoute(router) {
         var route = this.createRouteInstance();
-        route.middleware = this.buildRouteMiddleware(route);
+        route.middleware = this.buildRouteMiddleware(router);
         route.information = this.information;
         return route;
     }
-    buildRouteMiddleware(router) {
-        var builders = this.middlewareReader.readRouteMiddleware(router, this.target, this.propertyKey);
-        var middleware = builders.map((builder) => builder.buildMiddleware());
+    buildRouteMiddleware(route) {
+        var builders = this.middlewareReader.readRouteMiddleware(route, this.target, this.propertyKey);
+        var middleware = builders.map((builder) => builder.buildMiddleware(route));
         var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
         middleware.push(activatorMiddleware);
         return middleware.sort(middleware => middleware.priority);

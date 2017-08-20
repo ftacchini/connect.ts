@@ -43,7 +43,7 @@ export class HubBuilder {
         return this;
     }
 
-    public setServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
+    public setServerSupport<T extends Server>(server: T, serverActivator: ControllerActivator<any>, serverConfigurator?: ServerConfigurator<T>): this {
         this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
         return this;
     }

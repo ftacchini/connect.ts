@@ -17,21 +17,22 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;
-    public buildRoute(): Route<Information, GenericRouter, RequestHandler> {
+    public buildRoute(router: GenericRouter): Route<Information, GenericRouter, RequestHandler> {
         var route = this.createRouteInstance();
-        route.middleware = this.buildRouteMiddleware(route);
+        route.middleware = this.buildRouteMiddleware(router);
         route.information = this.information;
         
         return route;
     }
 
     protected abstract createRouteInstance(): Route<Information, GenericRouter, RequestHandler>;
-    protected buildRouteMiddleware(router: any): Middleware<any, RequestHandler>[] {
+    protected buildRouteMiddleware(route: GenericRouter): Middleware<any, RequestHandler>[] {
 
-        var builders = this.middlewareReader.readRouteMiddleware<RequestHandler>(router, this.target, this.propertyKey);
-        var middleware = builders.map((builder) => builder.buildMiddleware());
+        var builders = this.middlewareReader.readRouteMiddleware<GenericRouter, RequestHandler>(route, this.target, this.propertyKey);
+        var middleware = builders.map((builder) => builder.buildMiddleware(route));
 
-        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey); 
+        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
+
         middleware.push(activatorMiddleware);
 
         return middleware.sort(middleware => middleware.priority);

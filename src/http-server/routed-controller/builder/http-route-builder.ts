@@ -21,14 +21,14 @@ export abstract class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation
     public abstract getDefaultRouteType(): HttpRouteType;
 
 
-    public buildRoute(): HttpRoute {
+    public buildRoute(router: ExpressRouter): HttpRoute {
 
         var information = new HttpRouteInformation();
         this.information = (this.information &&  _.merge(information, this.information)) || information;
         this.information.path || (this.information.path = this.propertyKey);
         this.information.type || (this.information.type = this.getDefaultRouteType());
         
-        return super.buildRoute();
+        return super.buildRoute(router);
     }
 
     protected createRouteInstance(): HttpRoute {

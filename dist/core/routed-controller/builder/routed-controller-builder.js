@@ -28,12 +28,12 @@ let RoutedControllerBuilder = class RoutedControllerBuilder {
     }
     buildControllerMiddleware(controller) {
         var builders = this.middlewareReader.readControllerMiddleware(controller.router, this.target);
-        return builders.map((builder) => builder.buildMiddleware())
+        return builders.map((builder) => builder.buildMiddleware(controller.router))
             .sort(middleware => middleware.priority);
     }
     buildControllerRoutes(controller) {
         var builders = this.routeReader.readRoutes(controller.router, this.target);
-        return builders.map((builder) => builder.buildRoute());
+        return builders.map((builder) => builder.buildRoute(controller.router));
     }
 };
 RoutedControllerBuilder = __decorate([

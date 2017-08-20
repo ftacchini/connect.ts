@@ -4,4 +4,5 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./builder"));
+__export(require("./activator"));
 //# sourceMappingURL=index.js.map

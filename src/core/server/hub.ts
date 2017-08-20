@@ -6,7 +6,6 @@ export class Hub {
     constructor(
         private serverConfigs: { server: Server, serverConfigurator: ServerConfigurator<Server> }[],
         public container: HubContainer,
-        //private controllerActivator: ControllerActivator,
         private controllerLoader: ControllerLoader){
 
     }

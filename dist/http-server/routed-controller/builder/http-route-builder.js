@@ -13,12 +13,12 @@ class HttpRouteBuilder extends core_1.RouteBuilder {
     supportsRouter(router) {
         return router instanceof express_1.Router;
     }
-    buildRoute() {
+    buildRoute(router) {
         var information = new information_1.HttpRouteInformation();
         this.information = (this.information && _.merge(information, this.information)) || information;
         this.information.path || (this.information.path = this.propertyKey);
         this.information.type || (this.information.type = this.getDefaultRouteType());
-        return super.buildRoute();
+        return super.buildRoute(router);
     }
     createRouteInstance() {
         return new http_route_1.HttpRoute();

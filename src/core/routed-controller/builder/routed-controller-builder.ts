@@ -35,14 +35,14 @@ export abstract class RoutedControllerBuilder<
     protected abstract buildRoutedController() : GenericRoutedController;
     
     protected buildControllerMiddleware(controller: GenericRoutedController): Middleware<any, RequestHandler>[] {
-        var builders = this.middlewareReader.readControllerMiddleware<RequestHandler>(controller.router, this.target);
-        return builders.map((builder) => builder.buildMiddleware())
+        var builders = this.middlewareReader.readControllerMiddleware<GenericRouter, RequestHandler>(controller.router, this.target);
+        return builders.map((builder) => builder.buildMiddleware(controller.router))
                        .sort(middleware => middleware.priority);
     }
 
     protected buildControllerRoutes(controller: GenericRoutedController): Route<any, GenericRouter, RequestHandler>[]{
         var builders = this.routeReader.readRoutes<GenericRouter, RequestHandler>(controller.router, this.target);
-        return builders.map((builder) => builder.buildRoute())
+        return builders.map((builder) => builder.buildRoute(controller.router))
     }
     
 }

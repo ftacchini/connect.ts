@@ -26,7 +26,7 @@ class HubBuilder {
         this.middlewareReader = middlewareReader;
         return this;
     }
-    setServerSupport(server, serverConfigurator) {
+    setServerSupport(server, serverActivator, serverConfigurator) {
         this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
         return this;
     }
