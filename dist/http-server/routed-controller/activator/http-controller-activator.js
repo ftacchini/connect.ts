@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_activator_middleware_1 = require("./http-activator-middleware");
-const http_params_reader_1 = require("./../../routed-controller/reader/http-params-reader");
 const inversify_1 = require("inversify");
 const core_1 = require("../../../core");
 let HttpControllerActivator = class HttpControllerActivator extends core_1.ControllerActivator {
@@ -21,12 +20,13 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
         super(functionReader, paramsReader);
     }
     turnIntoMiddleware(action, params) {
+        action.arguments;
         var requestHandler = (request, response, next) => {
             var paramsArray = [];
             for (var index in params) {
                 paramsArray[index] = params[index](request, response);
             }
-            return Object.apply(action, paramsArray);
+            return action(...paramsArray);
         };
         return new http_activator_middleware_1.HttpActivatorMiddleware(requestHandler);
     }
@@ -35,8 +35,8 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
 HttpControllerActivator = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(core_1.Types.FunctionReader)),
-    __param(1, inversify_1.inject(core_1.Types.HttpParamsReader)),
-    __metadata("design:paramtypes", [Object, http_params_reader_1.HttpParamsReader])
+    __param(1, inversify_1.inject(core_1.Types.ParamsReader)),
+    __metadata("design:paramtypes", [Object, Object])
 ], HttpControllerActivator);
 exports.HttpControllerActivator = HttpControllerActivator;
 //# sourceMappingURL=http-controller-activator.js.map

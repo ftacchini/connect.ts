@@ -1,6 +1,7 @@
+import { Types } from './../../../core/container/types';
 import { RouteReader, RouteBuilder, HubContainer } from "../../../core";
 import { ControllerMetadataReader, ControllerMetadataKeys } from "../../helper";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import * as _ from "lodash";
 import "reflect-metadata";
 
@@ -9,7 +10,7 @@ export class MetadataRouteReader implements RouteReader {
 
     private metadataTags: symbol[];
 
-    constructor(private container: HubContainer) {
+    constructor(@inject(Types.Container) private container: HubContainer) {
         this.metadataTags = [ControllerMetadataKeys.ROUTE_BUILDER];
     }
 

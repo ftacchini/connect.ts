@@ -12,23 +12,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("../../../core");
-const http_route_builder_1 = require("./http-route-builder");
+const types_1 = require("./../../../core/container/types");
 const inversify_1 = require("inversify");
-require("reflect-metadata");
-let HttpDeleteBuilder = class HttpDeleteBuilder extends http_route_builder_1.HttpRouteBuilder {
-    constructor(middlewareReader, controllerActivator) {
-        super(middlewareReader, controllerActivator);
+let MetadataFunctionReader = class MetadataFunctionReader {
+    constructor(hubContainer) {
+        this.hubContainer = hubContainer;
     }
-    getDefaultRouteType() {
-        return "delete";
+    readFunctionFactory(controller, action) {
+        return () => {
+            var controllerInstance = this.hubContainer.bindAndGet(controller);
+            return controllerInstance[action];
+        };
     }
 };
-HttpDeleteBuilder = __decorate([
+MetadataFunctionReader = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.inject(core_1.Types.MiddlewareReader)),
-    __param(1, inversify_1.inject(core_1.Types.HttpControllerActivator)),
-    __metadata("design:paramtypes", [Object, core_1.ControllerActivator])
-], HttpDeleteBuilder);
-exports.HttpDeleteBuilder = HttpDeleteBuilder;
-//# sourceMappingURL=http-delete-builder.js.map
+    __param(0, inversify_1.inject(types_1.Types.Container)),
+    __metadata("design:paramtypes", [Object])
+], MetadataFunctionReader);
+exports.MetadataFunctionReader = MetadataFunctionReader;
+//# sourceMappingURL=metadata-function-reader.js.map

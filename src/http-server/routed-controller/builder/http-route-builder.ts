@@ -1,3 +1,4 @@
+import { injectable, unmanaged } from 'inversify';
 import { RouteBuilder, MiddlewareReader, RouteReader, ControllerActivator, Middleware } from "../../../core";
 import { HttpRouteInformation } from "../information";
 import { HttpRouteType } from "../../http-route-type";
@@ -6,11 +7,12 @@ import { HttpRoute } from "../http-route";
 import * as _ from "lodash";
 import "reflect-metadata";
 
+@injectable()
 export abstract class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation, ExpressRouter, RequestHandler> {
 
     constructor(
-        middlewareReader: MiddlewareReader, 
-        controllerActivator: ControllerActivator<RequestHandler>) {
+        @unmanaged() middlewareReader: MiddlewareReader, 
+        @unmanaged() controllerActivator: ControllerActivator<RequestHandler>) {
         super(middlewareReader, controllerActivator);
     }
 

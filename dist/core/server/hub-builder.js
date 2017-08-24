@@ -14,41 +14,28 @@ class HubBuilder {
         this.container = container;
         return this;
     }
-    setControllerLoader(controllerLoader) {
-        this.controllerLoader = controllerLoader;
+    setFramework(tsFramework) {
+        this.tsFramework = tsFramework;
         return this;
     }
-    setRouteReader(routeReader) {
-        this.routeReader = routeReader;
-        return this;
-    }
-    setMiddlewareReader(middlewareReader) {
-        this.middlewareReader = middlewareReader;
-        return this;
-    }
-    setServerSupport(server, serverActivator, serverConfigurator) {
+    setServerSupport(server, serverConfigurator) {
         this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
         return this;
     }
     buildHub() {
-        var container = this.setupCountainer();
-        this.setupRouteReader(container);
-        this.setupMiddlewareReader(container);
-        var controllerLoader = this.controllerLoader || new metadata_core_1.MetadataControllerLoader();
-        return new hub_1.Hub(this.supportedServers, container, controllerLoader);
+        this.initializeContainer()
+            .initializeFramework();
+        var controllerLoader = this.tsFramework.setupFramework();
+        return new hub_1.Hub(this.supportedServers, this.container, controllerLoader);
     }
-    setupCountainer() {
+    initializeFramework() {
+        this.tsFramework = this.tsFramework || new metadata_core_1.MetadataFramework(this.container);
+        return this;
+    }
+    initializeContainer() {
         this.container = this.container || new _1.InversifyContainer();
         this.container.bind(_1.Types.Container).toConstantValue(this.container);
-        return this.container;
-    }
-    setupRouteReader(container) {
-        this.routeReader = this.routeReader || new metadata_core_1.MetadataRouteReader(container);
-        this.container.bind(_1.Types.RouteReader).toConstantValue(this.routeReader);
-    }
-    setupMiddlewareReader(container) {
-        this.middlewareReader = this.middlewareReader || new metadata_core_1.MetadataMiddlewareReader();
-        this.container.bind(_1.Types.MiddlewareReader).toConstantValue(this.middlewareReader);
+        return this;
     }
 }
 exports.HubBuilder = HubBuilder;

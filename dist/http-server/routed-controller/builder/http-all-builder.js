@@ -27,6 +27,7 @@ let HttpAllBuilder = class HttpAllBuilder extends http_route_builder_1.HttpRoute
 HttpAllBuilder = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(core_1.Types.MiddlewareReader)),
+    __param(1, inversify_1.inject(core_1.Types.HttpControllerActivator)),
     __metadata("design:paramtypes", [Object, core_1.ControllerActivator])
 ], HttpAllBuilder);
 exports.HttpAllBuilder = HttpAllBuilder;

@@ -27,6 +27,7 @@ let HttpGetBuilder = class HttpGetBuilder extends http_route_builder_1.HttpRoute
 HttpGetBuilder = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(core_1.Types.MiddlewareReader)),
+    __param(1, inversify_1.inject(core_1.Types.HttpControllerActivator)),
     __metadata("design:paramtypes", [Object, core_1.ControllerActivator])
 ], HttpGetBuilder);
 exports.HttpGetBuilder = HttpGetBuilder;

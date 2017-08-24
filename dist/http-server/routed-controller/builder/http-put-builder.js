@@ -27,6 +27,7 @@ let HttpPutBuilder = class HttpPutBuilder extends http_route_builder_1.HttpRoute
 HttpPutBuilder = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(core_1.Types.MiddlewareReader)),
+    __param(1, inversify_1.inject(core_1.Types.HttpControllerActivator)),
     __metadata("design:paramtypes", [Object, core_1.ControllerActivator])
 ], HttpPutBuilder);
 exports.HttpPutBuilder = HttpPutBuilder;

@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { ParamsReader } from './../../../core';
+import { ParamsReader } from '../../../core';
 
 @injectable()
 export class MetadataParamsReader implements ParamsReader {

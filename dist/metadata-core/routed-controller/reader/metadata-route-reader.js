@@ -8,7 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("./../../../core/container/types");
 const helper_1 = require("../../helper");
 const inversify_1 = require("inversify");
 const _ = require("lodash");
@@ -32,6 +36,7 @@ let MetadataRouteReader = class MetadataRouteReader {
 };
 MetadataRouteReader = __decorate([
     inversify_1.injectable(),
+    __param(0, inversify_1.inject(types_1.Types.Container)),
     __metadata("design:paramtypes", [Object])
 ], MetadataRouteReader);
 exports.MetadataRouteReader = MetadataRouteReader;

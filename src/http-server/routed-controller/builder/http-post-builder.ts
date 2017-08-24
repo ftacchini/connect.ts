@@ -10,7 +10,7 @@ export class HttpPostBuilder extends HttpRouteBuilder {
 
     constructor(
         @inject(Types.MiddlewareReader) middlewareReader: MiddlewareReader, 
-        controllerActivator: ControllerActivator<RequestHandler>) {
+        @inject(Types.HttpControllerActivator) controllerActivator: ControllerActivator<RequestHandler>) {
         super(middlewareReader, controllerActivator);
     }
 

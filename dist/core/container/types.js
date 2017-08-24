@@ -4,6 +4,7 @@ exports.Types = {
     MiddlewareReader: Symbol("MiddlewareReader"),
     RouteReader: Symbol("RouteReader"),
     Container: Symbol("Container"),
-    ControllerActivator: null
+    FunctionReader: Symbol("FunctionReader"),
+    ParamsReader: Symbol("ParamsReader")
 };
 //# sourceMappingURL=types.js.map

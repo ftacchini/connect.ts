@@ -1,18 +1,20 @@
-import {Middleware} from "../middleware";
-import {Route} from "../route";
-import {Server} from "../../server"
-import {ControllerActivator} from "../activator/controller-activator";
-import {MiddlewareReader} from "../reader";
+import { unmanaged, injectable } from 'inversify';
+import { Middleware } from "../middleware";
+import { Route } from "../route";
+import { Server } from "../../server"
+import { ControllerActivator } from "../activator/controller-activator";
+import { MiddlewareReader } from "../reader";
 
+@injectable()
 export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
 
     public information: Information;
-    public target: any;   
-    public propertyKey: string; 
+    public target: any;
+    public propertyKey: string;
 
     public constructor(
-        protected middlewareReader: MiddlewareReader, 
-        protected activator: ControllerActivator<RequestHandler>){
+        @unmanaged() protected middlewareReader: MiddlewareReader,
+        @unmanaged() protected activator: ControllerActivator<RequestHandler>) {
 
     }
 
@@ -21,7 +23,7 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
         var route = this.createRouteInstance();
         route.middleware = this.buildRouteMiddleware(router);
         route.information = this.information;
-        
+
         return route;
     }
 

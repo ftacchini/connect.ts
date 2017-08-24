@@ -20,7 +20,7 @@ let ControllerActivator = class ControllerActivator {
         this.paramsReader = paramsReader;
     }
     buildControllerActivationFunction(target, propertyKey) {
-        var action = this.functionReader.readFunction(target, propertyKey);
+        var action = this.functionReader.readFunctionFactory(target, propertyKey);
         var params = this.paramsReader.readParams(target, propertyKey);
         return this.turnIntoMiddleware(action, params);
     }
