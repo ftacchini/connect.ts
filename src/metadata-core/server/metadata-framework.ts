@@ -10,8 +10,10 @@ export class MetadataFramework implements TsFramework {
     }
 
     public setupFramework(): ControllerLoader{ 
-        this.setupRouteReader();
-        this.setupMiddlewareReader();
+        this.setupRouteReader()
+            .setupMiddlewareReader()
+            .setupFunctionReader()
+            .setupParamsReader();
 
         return this.controllerLoader;
     }

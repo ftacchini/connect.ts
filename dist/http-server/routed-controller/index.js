@@ -7,4 +7,5 @@ __export(require("./information"));
 __export(require("./http-controller"));
 __export(require("./http-route"));
 __export(require("./builder"));
+__export(require("./activator"));
 //# sourceMappingURL=index.js.map

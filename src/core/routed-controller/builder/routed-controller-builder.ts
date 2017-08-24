@@ -1,4 +1,4 @@
-import {ControllerBuilder, ControllerActivator, Controller, Server, Types} from "../../../core";
+import {ControllerBuilder, Controller, Server, Types} from "../../../core";
 import {RoutedController} from "../routed-controller";
 import {Middleware} from "../middleware";
 import {MiddlewareBuilder} from "./middleware-builder";

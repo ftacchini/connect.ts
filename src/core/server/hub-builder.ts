@@ -2,7 +2,7 @@ import { TsFramework } from './ts-framework';
 import { MetadataFramework } from '../../metadata-core';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
 import { Server, ServerConfigurator } from "./";
-import { ControllerActivator, ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
+import { ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
 import { Hub } from "./hub";
 
 export class HubBuilder {

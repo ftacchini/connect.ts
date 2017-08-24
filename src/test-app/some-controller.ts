@@ -7,8 +7,7 @@ export class SomeController {
     constructor(){}
 
     @HttpGet()
-    foo( param: string){
+    foo(param: string){
         console.log("foo being called");
     }
-
 }

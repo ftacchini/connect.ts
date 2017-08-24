@@ -9,7 +9,7 @@ class Hub {
     run() {
         var controllerBuilders = this.controllerLoader.loadControllerBuilders(this.container);
         this.serverConfigs.forEach((serverConfig) => {
-            serverConfig.serverConfigurator && serverConfig.serverConfigurator.configureServer(serverConfig.server);
+            serverConfig.serverConfigurator && serverConfig.serverConfigurator.configureServer(serverConfig.server, this.container);
             controllerBuilders = controllerBuilders.filter((controllerBuilder) => {
                 if (controllerBuilder.supportsServer(serverConfig.server)) {
                     var controller = controllerBuilder.buildController();

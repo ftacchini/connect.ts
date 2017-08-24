@@ -8,8 +8,10 @@ class MetadataFramework {
         this.container = container;
     }
     setupFramework() {
-        this.setupRouteReader();
-        this.setupMiddlewareReader();
+        this.setupRouteReader()
+            .setupMiddlewareReader()
+            .setupFunctionReader()
+            .setupParamsReader();
         return this.controllerLoader;
     }
     setupRouteReader() {
