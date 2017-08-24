@@ -16,7 +16,7 @@ export abstract class ControllerActivator<RequestHandler> {
     protected abstract turnIntoMiddleware(action: Function, params: any) : Middleware<any, RequestHandler>;
 
     public buildControllerActivationFunction(target: any, propertyKey: string): Middleware<any, RequestHandler> {
-        var action = this.functionReader.readFunction(target, propertyKey);
+        var action = this.functionReader.readFunctionFactory(target, propertyKey);
         var params = this.paramsReader.readParams(target, propertyKey);
 
         return this.turnIntoMiddleware(action, params);

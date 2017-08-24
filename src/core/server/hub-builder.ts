@@ -1,4 +1,5 @@
-import { MetadataRouteReader, MetadataMiddlewareReader, MetadataControllerLoader } from '../../metadata-core';
+import { TsFramework } from './ts-framework';
+import { MetadataFramework } from '../../metadata-core';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
 import { Server, ServerConfigurator } from "./";
 import { ControllerActivator, ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
@@ -7,11 +8,7 @@ import { Hub } from "./hub";
 export class HubBuilder {
 
     private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
-
-    private controllerLoader: ControllerLoader;
-    private routeReader: RouteReader;
-    private middlewareReader: MiddlewareReader;
-
+    private tsFramework: TsFramework;
     private container: HubContainer;
 
     private static _instance: HubBuilder;
@@ -28,55 +25,38 @@ export class HubBuilder {
         return this;
     }
 
-    public setControllerLoader(controllerLoader: ControllerLoader): this {
-        this.controllerLoader = controllerLoader;
+    public setFramework(tsFramework: TsFramework): this {
+        this.tsFramework = tsFramework;
         return this;
     }
 
-    public setRouteReader(routeReader: RouteReader): this {
-        this.routeReader = routeReader;
-        return this;
-    }
-
-    public setMiddlewareReader(middlewareReader: MiddlewareReader): this {
-        this.middlewareReader = middlewareReader;
-        return this;
-    }
-
-    public setServerSupport<T extends Server>(server: T, serverActivator: ControllerActivator<any>, serverConfigurator?: ServerConfigurator<T>): this {
+    public setServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
         this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
         return this;
     }
 
     public buildHub(): Hub {
 
-        var container = this.setupCountainer();
-        this.setupRouteReader(container);
-        this.setupMiddlewareReader(container);
+        this.initializeContainer()
+            .initializeFramework();
 
-        var controllerLoader = this.controllerLoader || new MetadataControllerLoader();
-        
+        var controllerLoader = this.tsFramework.setupFramework();
+
         return new Hub(
             this.supportedServers,
-            container,
+            this.container,
             controllerLoader);
     }
 
-    private setupCountainer(): HubContainer {
+    private initializeFramework(): this {
+        this.tsFramework = this.tsFramework || new MetadataFramework(this.container);
+        return this;
+    }
+
+    private initializeContainer(): this {
         this.container = this.container || new InversifyContainer();
         this.container.bind(Types.Container).toConstantValue(this.container);
-        
-        return this.container;
-    }
-
-    private setupRouteReader(container: HubContainer): void {
-        this.routeReader = this.routeReader || new MetadataRouteReader(container);
-        this.container.bind(Types.RouteReader).toConstantValue(this.routeReader);
-    }
-
-    private setupMiddlewareReader(container: HubContainer): void {
-        this.middlewareReader = this.middlewareReader || new MetadataMiddlewareReader();
-        this.container.bind(Types.MiddlewareReader).toConstantValue(this.middlewareReader);
+        return this;
     }
 
 }
