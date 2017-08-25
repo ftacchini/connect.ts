@@ -17,7 +17,7 @@ export abstract class HttpRouteBuilder extends RouteBuilder<HttpRouteInformation
     }
 
     public supportsRouter(router: ExpressRouter): boolean {
-        return router instanceof ExpressRouter;
+        return Object.getPrototypeOf(router) == ExpressRouter;
     }
 
     public abstract getDefaultRouteType(): HttpRouteType;

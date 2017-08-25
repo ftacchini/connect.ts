@@ -20,7 +20,6 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
         super(functionReader, paramsReader);
     }
     turnIntoMiddleware(action, params) {
-        action.arguments;
         var requestHandler = (request, response, next) => {
             var paramsArray = [];
             for (var index in params) {

@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const inversify_1 = require("inversify");
 const http_server_1 = require("../http-server");
 require("reflect-metadata");
 let SomeController = class SomeController {
@@ -25,6 +26,7 @@ __decorate([
 ], SomeController.prototype, "foo", null);
 SomeController = __decorate([
     http_server_1.HttpHandler({ name: "someName" }),
+    inversify_1.injectable(),
     __metadata("design:paramtypes", [])
 ], SomeController);
 exports.SomeController = SomeController;

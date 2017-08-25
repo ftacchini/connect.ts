@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class HttpRoute {
     attachToServer(server) {
         var handlers = this.middleware.map(middleware => middleware.getRequestHandler());
-        var route = server[this.information.type](this.information.path, handlers);
+        var route = server[this.information.type](`/${this.information.path}`, handlers);
         return route;
     }
 }

@@ -24,7 +24,7 @@ let HttpRouteBuilder = class HttpRouteBuilder extends core_1.RouteBuilder {
         super(middlewareReader, controllerActivator);
     }
     supportsRouter(router) {
-        return router instanceof express_1.Router;
+        return Object.getPrototypeOf(router) == express_1.Router;
     }
     buildRoute(router) {
         var information = new information_1.HttpRouteInformation();

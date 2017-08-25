@@ -9,7 +9,7 @@ export class HttpRoute implements Route<HttpRouteInformation, ExpressRouter, Req
     public middleware: Middleware<any, RequestHandler>[];
     attachToServer(server: ExpressRouter): ExpressRouter {
         var handlers = this.middleware.map(middleware => middleware.getRequestHandler());
-        var route = server[this.information.type](this.information.path, handlers);
+        var route = server[this.information.type](`/${this.information.path}`, handlers);
         
         return route;
     }

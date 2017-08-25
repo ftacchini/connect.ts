@@ -15,8 +15,6 @@ export class HttpControllerActivator extends ControllerActivator<RequestHandler>
 
     protected turnIntoMiddleware(action: Function, params: {[index: number]: Function}) : Middleware<any, RequestHandler> {
 
-        action.arguments
-
         var requestHandler: RequestHandler = (request: Request, response: Response, next: NextFunction): any => {
 
             var paramsArray: any[] = [];

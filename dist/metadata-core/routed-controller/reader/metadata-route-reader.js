@@ -25,7 +25,6 @@ let MetadataRouteReader = class MetadataRouteReader {
     readRoutes(router, target) {
         var properties = Object.getOwnPropertyNames(target.prototype);
         var routeBuilders = _.flatten(properties.map(property => {
-            console.log(this.metadataTags);
             return helper_1.ControllerMetadataReader.instance
                 .readMethodLevelMetadata(this.metadataTags, target.prototype, property);
         }));

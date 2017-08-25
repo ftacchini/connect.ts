@@ -18,6 +18,7 @@ class Hub {
                 }
                 return true;
             });
+            serverConfig.server.run();
         });
     }
 }

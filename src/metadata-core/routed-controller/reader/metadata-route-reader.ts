@@ -18,7 +18,6 @@ export class MetadataRouteReader implements RouteReader {
         var properties = Object.getOwnPropertyNames(target.prototype);
 
         var routeBuilders = _.flatten(properties.map(property => {
-            console.log(this.metadataTags);
             return ControllerMetadataReader.instance
                 .readMethodLevelMetadata<(container: HubContainer) => RouteBuilder<any, GenericRouter, RequestHandler>>(this.metadataTags, target.prototype, property);
         }));

@@ -9,8 +9,8 @@ class HttpController {
         var handlers = this.middleware
             .map(middleware => middleware.getRequestHandler());
         handlers.length && this.router.use(handlers);
-        server.application.use(this.information.name, this.router);
         this.routes.forEach(route => route.attachToServer(this.router));
+        server.application.use(`/${this.information.name}`, this.router);
         return this.router;
     }
 }
