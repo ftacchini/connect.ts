@@ -1,7 +1,8 @@
+import { HttpNamedParamValueReader } from './../param-reader';
 import { HttpActivatorMiddleware } from './http-activator-middleware';
 import { inject, injectable } from 'inversify';
 import { RequestHandler, Request, Response, NextFunction } from 'express';
-import { ControllerActivator, Middleware, FunctionReader, ParamsReader, Types } from "../../../core";
+import { ControllerActivator, Middleware, FunctionReader, ParamsReader, Types, JsHelper } from "../../../core";
 import * as _ from "lodash";
 
 @injectable()
@@ -13,17 +14,19 @@ export class HttpControllerActivator extends ControllerActivator<RequestHandler>
         super(functionReader, paramsReader);
     }
 
-    protected turnIntoMiddleware(action: Function, params: {[index: number]: Function}) : Middleware<any, RequestHandler> {
+    protected turnIntoMiddleware(functionFactory: () => Function, params: {[index: number]: Function}) : Middleware<any, RequestHandler> {
 
         var requestHandler: RequestHandler = (request: Request, response: Response, next: NextFunction): any => {
-
+            
+            var activatorFunction = functionFactory();
+            var paramName = JsHelper.instance.readFunctionParamNames(activatorFunction);
             var paramsArray: any[] = [];
 
-            for(var index in params){
-                paramsArray[index] = params[index](request, response);
+            for(let index = 0; index < paramName.length; index++){
+                paramsArray[index] = params[index] || new HttpNamedParamValueReader(paramName[index]);
             }
 
-            return action(...paramsArray);
+            return activatorFunction(...paramsArray.map(param => param(request, response)));
         };
 
         return new HttpActivatorMiddleware(requestHandler);

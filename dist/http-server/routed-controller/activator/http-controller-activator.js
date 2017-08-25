@@ -19,13 +19,13 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
     constructor(functionReader, paramsReader) {
         super(functionReader, paramsReader);
     }
-    turnIntoMiddleware(action, params) {
+    turnIntoMiddleware(functionFactory, params) {
         var requestHandler = (request, response, next) => {
             var paramsArray = [];
             for (var index in params) {
                 paramsArray[index] = params[index](request, response);
             }
-            return action(...paramsArray);
+            return functionFactory()(...paramsArray);
         };
         return new http_activator_middleware_1.HttpActivatorMiddleware(requestHandler);
     }

@@ -8,7 +8,7 @@ export class SomeController {
 
     constructor(){}
 
-    @HttpGet()
+    @HttpGet({path: "foorecopada" })
     foo(param: string){
         console.log("foo being called");
     }
