@@ -10,6 +10,6 @@ export class SomeController {
 
     @HttpGet({path: "foorecopada" })
     foo(param: string){
-        console.log("foo being called");
+        console.log("foo being called " + param);
     }
 }

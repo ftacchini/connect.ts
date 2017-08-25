@@ -15,11 +15,11 @@ require("reflect-metadata");
 let SomeController = class SomeController {
     constructor() { }
     foo(param) {
-        console.log("foo being called");
+        console.log("foo being called " + param);
     }
 };
 __decorate([
-    http_server_1.HttpGet(),
+    http_server_1.HttpGet({ path: "foorecopada" }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)

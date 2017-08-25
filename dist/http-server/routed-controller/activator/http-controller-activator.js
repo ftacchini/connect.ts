@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const param_reader_1 = require("./../param-reader");
 const http_activator_middleware_1 = require("./http-activator-middleware");
 const inversify_1 = require("inversify");
 const core_1 = require("../../../core");
@@ -21,11 +22,13 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
     }
     turnIntoMiddleware(functionFactory, params) {
         var requestHandler = (request, response, next) => {
+            var activatorFunction = functionFactory();
+            var paramName = core_1.JsHelper.instance.readFunctionParamNames(activatorFunction);
             var paramsArray = [];
-            for (var index in params) {
-                paramsArray[index] = params[index](request, response);
+            for (let index = 0; index < paramName.length; index++) {
+                paramsArray[index] = params[index] || new param_reader_1.HttpNamedParamValueReader(paramName[index]);
             }
-            return functionFactory()(...paramsArray);
+            return activatorFunction(...paramsArray.map(param => param.readParamValue(request, response)));
         };
         return new http_activator_middleware_1.HttpActivatorMiddleware(requestHandler);
     }

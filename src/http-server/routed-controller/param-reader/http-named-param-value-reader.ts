@@ -6,5 +6,8 @@ export class HttpNamedParamValueReader {
     }
 
     public readParamValue(request: Request, response: Response): any{
+        console.log(this.paramName);
+        console.log(request.query[this.paramName]);
+        return request.query[this.paramName];
     }
 }

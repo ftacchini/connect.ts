@@ -25,8 +25,7 @@ export class HttpControllerActivator extends ControllerActivator<RequestHandler>
             for(let index = 0; index < paramName.length; index++){
                 paramsArray[index] = params[index] || new HttpNamedParamValueReader(paramName[index]);
             }
-
-            return activatorFunction(...paramsArray.map(param => param(request, response)));
+            return activatorFunction(...paramsArray.map(param => param.readParamValue(request, response)));
         };
 
         return new HttpActivatorMiddleware(requestHandler);
