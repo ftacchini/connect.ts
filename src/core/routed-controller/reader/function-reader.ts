@@ -1,4 +1,4 @@
 
 export interface FunctionReader { 
-    readFunctionFactory(target: any, propertyKey: string): () => Function;
+    readFunction(target: any, propertyKey: string): Function;
 }

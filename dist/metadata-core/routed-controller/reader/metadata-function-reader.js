@@ -18,11 +18,9 @@ let MetadataFunctionReader = class MetadataFunctionReader {
     constructor(hubContainer) {
         this.hubContainer = hubContainer;
     }
-    readFunctionFactory(controller, action) {
-        return () => {
-            var controllerInstance = this.hubContainer.bindAndGet(controller.constructor);
-            return controllerInstance[action];
-        };
+    readFunction(controller, action) {
+        var controllerInstance = this.hubContainer.bindAndGet(controller.constructor);
+        return controllerInstance[action];
     }
 };
 MetadataFunctionReader = __decorate([

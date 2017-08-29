@@ -5,4 +5,5 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./http-controller-information"));
 __export(require("./http-route-information"));
+__export(require("./http-named-parameter-information"));
 //# sourceMappingURL=index.js.map

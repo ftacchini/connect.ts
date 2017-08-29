@@ -1,24 +1,38 @@
+import { Parameter } from './../parameter';
+import { ParameterBuilder } from './../builder';
+import { JsHelper } from './../../helper/js-helper';
 import { injectable } from 'inversify';
 import { unmanaged } from 'inversify';
-import { ParamsReader } from './../reader/params-reader';
+import { ParameterReader } from './../reader/parameter-reader';
 import { FunctionReader } from './../reader/function-reader';
 import { Middleware } from "../middleware";
 
 @injectable()
-export abstract class ControllerActivator<RequestHandler> {
+export abstract class ControllerActivator<GenericRouter, RequestHandler> {
 
     constructor(
         @unmanaged() protected functionReader: FunctionReader,
-        @unmanaged() protected paramsReader: ParamsReader) {
+        @unmanaged() protected paramsReader: ParameterReader) {
 
     }
 
-    protected abstract turnIntoMiddleware(action: Function, params: any) : Middleware<any, RequestHandler>;
+    protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
+    protected abstract turnIntoMiddleware(action: Function) : Middleware<any, RequestHandler>;
 
-    public buildControllerActivationFunction(target: any, propertyKey: string): Middleware<any, RequestHandler> {
-        var action = this.functionReader.readFunctionFactory(target, propertyKey);
-        var params = this.paramsReader.readParams(target, propertyKey);
+    public buildControllerActivationFunction(target: any, propertyKey: string, router: GenericRouter): Middleware<any, RequestHandler> {
+        return this.turnIntoMiddleware((...args: any[]) => {
+            var activatorFunction = this.functionReader.readFunction(target, propertyKey);
+            var paramBuilders = this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router);
+            
+            var paramName = JsHelper.instance.readFunctionParamNames(activatorFunction);
+            var paramsArray: ParameterBuilder<any, GenericRouter>[] = [];
 
-        return this.turnIntoMiddleware(action, params);
+            for(let index = 0; index < paramName.length; index++){
+                paramsArray[index] = paramBuilders.find(x => x.arg == index) 
+                                    || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
+            }
+
+            return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args))); 
+        });
     }
 }

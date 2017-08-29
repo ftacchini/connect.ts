@@ -1,7 +1,7 @@
 import { HubContainer } from './../../core/container/hub-container';
-import { MetadataParamsReader, MetadataFunctionReader, MetadataMiddlewareReader, MetadataRouteReader } from './../routed-controller';
+import { MetadataParameterReader, MetadataFunctionReader, MetadataMiddlewareReader, MetadataRouteReader } from './../routed-controller';
 import { MetadataControllerLoader } from './../controller';
-import { ParamsReader, FunctionReader, MiddlewareReader, RouteReader, ControllerLoader, TsFramework, Types } from './../../core';
+import { ParameterReader, FunctionReader, MiddlewareReader, RouteReader, ControllerLoader, TsFramework, Types } from './../../core';
 import { interfaces } from "inversify";
 
 export class MetadataFramework implements TsFramework {
@@ -62,8 +62,8 @@ export class MetadataFramework implements TsFramework {
         return this._functionReader || (this._functionReader = new MetadataFunctionReader(this.container));
     }
     
-    private _paramsReader: ParamsReader;
-    get paramsReader(): ParamsReader {
-        return this._paramsReader || (this._paramsReader = new MetadataParamsReader());
+    private _paramsReader: ParameterReader;
+    get paramsReader(): ParameterReader {
+        return this._paramsReader || (this._paramsReader = new MetadataParameterReader(this.container));
     }
 }

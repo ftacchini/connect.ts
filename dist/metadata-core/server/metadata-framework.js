@@ -46,7 +46,7 @@ class MetadataFramework {
         return this._functionReader || (this._functionReader = new routed_controller_1.MetadataFunctionReader(this.container));
     }
     get paramsReader() {
-        return this._paramsReader || (this._paramsReader = new routed_controller_1.MetadataParamsReader());
+        return this._paramsReader || (this._paramsReader = new routed_controller_1.MetadataParameterReader(this.container));
     }
 }
 exports.MetadataFramework = MetadataFramework;

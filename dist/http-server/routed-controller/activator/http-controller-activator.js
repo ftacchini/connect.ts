@@ -12,7 +12,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const param_reader_1 = require("./../param-reader");
+const http_named_parameter_information_1 = require("./../information/http-named-parameter-information");
+const http_everywhere_parameter_builder_1 = require("./../builder/parameter/http-everywhere-parameter-builder");
 const http_activator_middleware_1 = require("./http-activator-middleware");
 const inversify_1 = require("inversify");
 const core_1 = require("../../../core");
@@ -20,15 +21,18 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
     constructor(functionReader, paramsReader) {
         super(functionReader, paramsReader);
     }
-    turnIntoMiddleware(functionFactory, params) {
+    createDefaultParameterBuilder(target, propertyKey, name, index) {
+        var builder = new http_everywhere_parameter_builder_1.HttpEverywhereParameterBuilder();
+        builder.index = index;
+        builder.information = new http_named_parameter_information_1.HttpNamedParameterInformation();
+        builder.information.name = name;
+        builder.target = target;
+        builder.propertyKey = propertyKey;
+        return builder;
+    }
+    turnIntoMiddleware(action) {
         var requestHandler = (request, response, next) => {
-            var activatorFunction = functionFactory();
-            var paramName = core_1.JsHelper.instance.readFunctionParamNames(activatorFunction);
-            var paramsArray = [];
-            for (let index = 0; index < paramName.length; index++) {
-                paramsArray[index] = params[index] || new param_reader_1.HttpNamedParamValueReader(paramName[index]);
-            }
-            return activatorFunction(...paramsArray.map(param => param.readParamValue(request, response)));
+            return action(request, response);
         };
         return new http_activator_middleware_1.HttpActivatorMiddleware(requestHandler);
     }

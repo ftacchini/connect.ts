@@ -14,7 +14,7 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
 
     public constructor(
         @unmanaged() protected middlewareReader: MiddlewareReader,
-        @unmanaged() protected activator: ControllerActivator<RequestHandler>) {
+        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>) {
 
     }
 
@@ -28,12 +28,12 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
     }
 
     protected abstract createRouteInstance(): Route<Information, GenericRouter, RequestHandler>;
-    protected buildRouteMiddleware(route: GenericRouter): Middleware<any, RequestHandler>[] {
+    protected buildRouteMiddleware(router: GenericRouter): Middleware<any, RequestHandler>[] {
 
-        var builders = this.middlewareReader.readRouteMiddleware<GenericRouter, RequestHandler>(route, this.target, this.propertyKey);
-        var middleware = builders.map((builder) => builder.buildMiddleware(route));
+        var builders = this.middlewareReader.readRouteMiddleware<GenericRouter, RequestHandler>(router, this.target, this.propertyKey);
+        var middleware = builders.map((builder) => builder.buildMiddleware(router));
 
-        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey);
+        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey, router);
 
         middleware.push(activatorMiddleware);
 

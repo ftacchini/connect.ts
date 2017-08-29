@@ -1,31 +1,35 @@
-import { HttpNamedParamValueReader } from './../param-reader';
+import { HttpNamedParameterInformation } from './../information/http-named-parameter-information';
+import { HttpEverywhereParameterBuilder } from './../builder/parameter/http-everywhere-parameter-builder';
 import { HttpActivatorMiddleware } from './http-activator-middleware';
 import { inject, injectable } from 'inversify';
-import { RequestHandler, Request, Response, NextFunction } from 'express';
-import { ControllerActivator, Middleware, FunctionReader, ParamsReader, Types, JsHelper } from "../../../core";
+import { RequestHandler, Request, Response, Router, NextFunction } from 'express';
+import { ControllerActivator, ParameterBuilder, Middleware, FunctionReader, ParameterReader, Types } from "../../../core";
 import * as _ from "lodash";
 
 @injectable()
-export class HttpControllerActivator extends ControllerActivator<RequestHandler> { 
+export class HttpControllerActivator extends ControllerActivator<Router, RequestHandler> { 
 
     constructor(
         @inject(Types.FunctionReader) functionReader: FunctionReader,
-        @inject(Types.ParamsReader) paramsReader: ParamsReader) {
+        @inject(Types.ParamsReader) paramsReader: ParameterReader) {
         super(functionReader, paramsReader);
     }
 
-    protected turnIntoMiddleware(functionFactory: () => Function, params: {[index: number]: Function}) : Middleware<any, RequestHandler> {
+    
+    protected createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, Router>{
+        var builder = new HttpEverywhereParameterBuilder();
+        builder.arg = index;
+        builder.information = new HttpNamedParameterInformation();
+        builder.information.name = name;
+        builder.target = target;
+        builder.propertyKey = propertyKey;
 
+        return builder;
+    }
+
+    protected turnIntoMiddleware(action: Function) : Middleware<any, RequestHandler> { 
         var requestHandler: RequestHandler = (request: Request, response: Response, next: NextFunction): any => {
-            
-            var activatorFunction = functionFactory();
-            var paramName = JsHelper.instance.readFunctionParamNames(activatorFunction);
-            var paramsArray: any[] = [];
-
-            for(let index = 0; index < paramName.length; index++){
-                paramsArray[index] = params[index] || new HttpNamedParamValueReader(paramName[index]);
-            }
-            return activatorFunction(...paramsArray.map(param => param.readParamValue(request, response)));
+           return action(request, response);
         };
 
         return new HttpActivatorMiddleware(requestHandler);
