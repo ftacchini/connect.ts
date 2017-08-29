@@ -23,7 +23,7 @@ let HttpControllerActivator = class HttpControllerActivator extends core_1.Contr
     }
     createDefaultParameterBuilder(target, propertyKey, name, index) {
         var builder = new http_everywhere_parameter_builder_1.HttpEverywhereParameterBuilder();
-        builder.index = index;
+        builder.arg = index;
         builder.information = new http_named_parameter_information_1.HttpNamedParameterInformation();
         builder.information.name = name;
         builder.target = target;

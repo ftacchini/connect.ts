@@ -18,7 +18,7 @@ const inversify_1 = require("inversify");
 let MetadataParameterReader = class MetadataParameterReader {
     constructor(container) {
         this.container = container;
-        this.metadataTags = [helper_1.ControllerMetadataKeys.ROUTE_BUILDER];
+        this.metadataTags = [helper_1.ControllerMetadataKeys.PARAMETER_BUILDER];
     }
     readParameters(target, propertyKey, router) {
         var builders = helper_1.ControllerMetadataReader.instance

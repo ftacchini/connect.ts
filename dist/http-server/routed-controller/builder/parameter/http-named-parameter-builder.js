@@ -21,7 +21,7 @@ let HttpNamedParameterBuilder = class HttpNamedParameterBuilder extends core_1.P
     }
     getParameterName() {
         var names = js_helper_1.JsHelper.instance.readFunctionParamNames(this.target[this.propertyKey]);
-        return names[this.index];
+        return names[this.arg];
     }
     supportsRouter(router) {
         return Object.getPrototypeOf(router) == express_1.Router;

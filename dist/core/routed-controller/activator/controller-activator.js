@@ -27,7 +27,7 @@ let ControllerActivator = class ControllerActivator {
             var paramName = js_helper_1.JsHelper.instance.readFunctionParamNames(activatorFunction);
             var paramsArray = [];
             for (let index = 0; index < paramName.length; index++) {
-                paramsArray[index] = paramBuilders.find(x => x.index == index)
+                paramsArray[index] = paramBuilders.find(x => x.arg == index)
                     || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
             }
             return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args)));

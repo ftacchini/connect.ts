@@ -16,7 +16,7 @@ let ParameterBuilder = class ParameterBuilder {
     buildParam() {
         var paramInstance = this.createParameterInstance();
         paramInstance.information = this.information;
-        paramInstance.index = this.index;
+        paramInstance.index = this.arg;
         return paramInstance;
     }
 };
