@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { HttpHandler, HttpGet, FromHttpRequest } from "../http-server";
 import "reflect-metadata";
 
-@HttpHandler({ name: "someName"})
+@HttpHandler({ name: "someName" })
 @injectable()
 export class SomeController {
 

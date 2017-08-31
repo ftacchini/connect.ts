@@ -1,4 +1,5 @@
-import { injectable } from 'inversify';
+import { MetadataParameterReader } from './../../../metadata-core/';
+import { injectable, unmanaged } from 'inversify';
 import { Parameter } from './../parameter';
 
 @injectable()
@@ -9,7 +10,7 @@ export abstract class ParameterBuilder<Information, GenericRouter> {
     public propertyKey: string;
     public arg: number;
 
-    constructor() {
+    constructor(@unmanaged() private parameterReader: MetadataParameterReader) {
 
     }
 
@@ -19,6 +20,7 @@ export abstract class ParameterBuilder<Information, GenericRouter> {
         var paramInstance = this.createParameterInstance();
         paramInstance.information = this.information;
         paramInstance.index = this.arg;
+        paramInstance.type = this.parameterReader.readParameterType(this.target, this.propertyKey, this.arg);
         
         return paramInstance;
     }

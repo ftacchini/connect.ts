@@ -23,4 +23,8 @@ export class MetadataParameterReader implements ParameterReader {
                 .map(builderFactory => builderFactory(this.container))
                 .filter(param => param  && param.supportsRouter(router));
     }
+
+    public readParameterType(target: any, propertyKey: any, arg: number): any {
+        return Reflect.getMetadata("design:paramtypes", target, propertyKey)[arg];
+    }
 }
