@@ -20,7 +20,7 @@ export abstract class ParameterBuilder<Information, GenericRouter> {
         var paramInstance = this.createParameterInstance();
         paramInstance.information = this.information;
         paramInstance.index = this.arg;
-        paramInstance.type = this.parameterReader.readParameterType(this.target, this.propertyKey, this.arg);
+        paramInstance.type = this.parameterReader && this.parameterReader.readParameterType(this.target, this.propertyKey, this.arg);
         
         return paramInstance;
     }

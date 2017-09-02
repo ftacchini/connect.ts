@@ -12,27 +12,26 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const http_request_parameter_1 = require("./../../parameter/http-request-parameter");
 const inversify_1 = require("inversify");
-const http_server_1 = require("../http-server");
-require("reflect-metadata");
-let SomeController = class SomeController {
-    constructor() { }
-    foo(param, param2) {
-        console.log("foo being called " + param + param2);
+const inversify_2 = require("inversify");
+const express_1 = require("express");
+const core_1 = require("../../../../core");
+let HttpRequestParameterBuilder = class HttpRequestParameterBuilder extends core_1.ParameterBuilder {
+    constructor(parameterReader) {
+        super(parameterReader);
+    }
+    createParameterInstance() {
+        return new http_request_parameter_1.HttpRequestParameter();
+    }
+    supportsRouter(router) {
+        return Object.getPrototypeOf(router) == express_1.Router;
     }
 };
-__decorate([
-    http_server_1.HttpGet({ path: "foorecopada" }),
-    __param(0, http_server_1.HttpResponse()),
-    __param(1, http_server_1.FromHttpRequest()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, SomeController]),
-    __metadata("design:returntype", void 0)
-], SomeController.prototype, "foo", null);
-SomeController = __decorate([
-    http_server_1.HttpHandler({ name: "someName" }),
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], SomeController);
-exports.SomeController = SomeController;
-//# sourceMappingURL=some-controller.js.map
+HttpRequestParameterBuilder = __decorate([
+    inversify_2.injectable(),
+    __param(0, inversify_1.unmanaged()),
+    __metadata("design:paramtypes", [Object])
+], HttpRequestParameterBuilder);
+exports.HttpRequestParameterBuilder = HttpRequestParameterBuilder;
+//# sourceMappingURL=http-request-parameter-builder.js.map

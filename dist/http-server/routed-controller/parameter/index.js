@@ -4,4 +4,6 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./http-everywhere-parameter"));
+__export(require("./http-request-parameter"));
+__export(require("./http-response-parameter"));
 //# sourceMappingURL=index.js.map
