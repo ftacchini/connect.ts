@@ -8,21 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 let ParameterBuilder = class ParameterBuilder {
-    constructor() {
+    constructor(parameterReader) {
+        this.parameterReader = parameterReader;
     }
     buildParam() {
         var paramInstance = this.createParameterInstance();
         paramInstance.information = this.information;
         paramInstance.index = this.arg;
+        paramInstance.type = this.parameterReader.readParameterType(this.target, this.propertyKey, this.arg);
         return paramInstance;
     }
 };
 ParameterBuilder = __decorate([
     inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
+    __param(0, inversify_1.unmanaged()),
+    __metadata("design:paramtypes", [Object])
 ], ParameterBuilder);
 exports.ParameterBuilder = ParameterBuilder;
 //# sourceMappingURL=parameter-builder.js.map

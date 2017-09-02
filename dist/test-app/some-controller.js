@@ -25,7 +25,7 @@ __decorate([
     http_server_1.HttpGet({ path: "foorecopada" }),
     __param(1, http_server_1.FromHttpRequest()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, SomeController]),
     __metadata("design:returntype", void 0)
 ], SomeController.prototype, "foo", null);
 SomeController = __decorate([

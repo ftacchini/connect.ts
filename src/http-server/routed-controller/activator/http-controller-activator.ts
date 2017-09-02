@@ -17,7 +17,7 @@ export class HttpControllerActivator extends ControllerActivator<Router, Request
 
     
     protected createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, Router>{
-        var builder = new HttpEverywhereParameterBuilder();
+        var builder = new HttpEverywhereParameterBuilder(this.paramsReader);
         builder.arg = index;
         builder.information = new HttpNamedParameterInformation();
         builder.information.name = name;

@@ -1,3 +1,5 @@
+import { ParameterReader } from './../../../../core/routed-controller/reader/parameter-reader';
+import { unmanaged } from 'inversify';
 import { JsHelper } from './../../../../core/helper/js-helper';
 import { HttpNamedParameterInformation } from './../../information/http-named-parameter-information';
 import { injectable } from 'inversify';
@@ -7,6 +9,11 @@ import * as _ from "lodash";
 
 @injectable()
 export abstract class HttpNamedParameterBuilder extends ParameterBuilder<HttpNamedParameterInformation, Router> {
+
+    
+    constructor(@unmanaged() parameterReader: ParameterReader) {
+        super(parameterReader);
+    }
 
     protected abstract createParameterInstance(): Parameter<HttpNamedParameterInformation>;
 

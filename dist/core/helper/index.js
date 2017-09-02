@@ -4,4 +4,5 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./js-helper"));
+__export(require("./types-helper"));
 //# sourceMappingURL=index.js.map

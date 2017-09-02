@@ -27,6 +27,9 @@ let MetadataParameterReader = class MetadataParameterReader {
             .map(builderFactory => builderFactory(this.container))
             .filter(param => param && param.supportsRouter(router));
     }
+    readParameterType(target, propertyKey, arg) {
+        return Reflect.getMetadata("design:paramtypes", target, propertyKey)[arg];
+    }
 };
 MetadataParameterReader = __decorate([
     inversify_1.injectable(),
