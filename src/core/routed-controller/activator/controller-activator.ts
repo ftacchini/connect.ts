@@ -19,20 +19,32 @@ export abstract class ControllerActivator<GenericRouter, RequestHandler> {
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
     protected abstract turnIntoMiddleware(action: Function) : Middleware<any, RequestHandler>;
 
-    public buildControllerActivationFunction(target: any, propertyKey: string, router: GenericRouter): Middleware<any, RequestHandler> {
-        return this.turnIntoMiddleware((...args: any[]) => {
-            var activatorFunction = this.functionReader.readFunction(target, propertyKey);
-            var paramBuilders = this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router);
+
+
+    public buildControllerActivationFunction(
+        target: any, 
+        propertyKey: string, 
+        router: GenericRouter, 
+        paramBuilders: ParameterBuilder<any, GenericRouter>[] = []): Middleware<any, RequestHandler> {
             
-            var paramName = JsHelper.instance.readFunctionParamNames(activatorFunction);
-            var paramsArray: ParameterBuilder<any, GenericRouter>[] = [];
+            paramBuilders = paramBuilders.concat(this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router));
+            let paramsArray: ParameterBuilder<any, GenericRouter>[] = null;
 
-            for(let index = 0; index < paramName.length; index++){
-                paramsArray[index] = paramBuilders.find(x => x.arg == index) 
-                                    || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
-            }
+            return this.turnIntoMiddleware((...args: any[]) => {
+    
+                var activatorFunction = this.functionReader.readFunction(target, propertyKey);
+                
+                if(!paramsArray){
+                    var paramName = JsHelper.instance.readFunctionParamNames(target[propertyKey]);
+                    paramsArray = [];
 
-            return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args))); 
+                    for(let index = 0; index < paramName.length; index++){
+                        paramsArray[index] = paramBuilders.find(x => x.arg == index) 
+                                            || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
+                    }
+                }
+
+                return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args))); 
         });
     }
 }

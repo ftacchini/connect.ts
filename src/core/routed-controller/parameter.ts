@@ -1,4 +1,4 @@
-export interface Parameter<Information, > {
+export interface Parameter<Information> {
     information: Information;
     index: number;
     type: any;
