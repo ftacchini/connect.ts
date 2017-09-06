@@ -20,15 +20,18 @@ let ControllerActivator = class ControllerActivator {
         this.functionReader = functionReader;
         this.paramsReader = paramsReader;
     }
-    buildControllerActivationFunction(target, propertyKey, router) {
+    buildControllerActivationFunction(target, propertyKey, router, paramBuilders = []) {
+        paramBuilders = paramBuilders.concat(this.paramsReader.readParameters(target, propertyKey, router));
+        let paramsArray = null;
         return this.turnIntoMiddleware((...args) => {
             var activatorFunction = this.functionReader.readFunction(target, propertyKey);
-            var paramBuilders = this.paramsReader.readParameters(target, propertyKey, router);
-            var paramName = js_helper_1.JsHelper.instance.readFunctionParamNames(activatorFunction);
-            var paramsArray = [];
-            for (let index = 0; index < paramName.length; index++) {
-                paramsArray[index] = paramBuilders.find(x => x.arg == index)
-                    || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
+            if (!paramsArray) {
+                var paramName = js_helper_1.JsHelper.instance.readFunctionParamNames(target[propertyKey]);
+                paramsArray = [];
+                for (let index = 0; index < paramName.length; index++) {
+                    paramsArray[index] = paramBuilders.find(x => x.arg == index)
+                        || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
+                }
             }
             return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args)));
         });

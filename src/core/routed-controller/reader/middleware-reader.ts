@@ -1,4 +1,4 @@
-import {MiddlewareBuilder} from "../builder/middleware-builder";
+import {MiddlewareBuilder} from "../builder";
 
 export interface MiddlewareReader {
     readControllerMiddleware<GenericRouter, RequestHandler>(routerSupport: any, target: Object): MiddlewareBuilder<any, GenericRouter, RequestHandler>[];

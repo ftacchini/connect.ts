@@ -1,8 +1,6 @@
 import { injectable, unmanaged } from 'inversify';
 import { Middleware } from "../../middleware";
 
-
-@injectable()
 export interface MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
     information: Information;
@@ -10,5 +8,6 @@ export interface MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
     propertyKey: string;
     arg: number;
 
+    supportsRouter(router: GenericRouter): boolean;
     buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler>;
 }

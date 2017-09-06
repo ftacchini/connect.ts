@@ -1,7 +1,7 @@
 import {ControllerBuilder, Controller, Server, Types} from "../../../core";
 import {RoutedController} from "../routed-controller";
 import {Middleware} from "../middleware";
-import {MiddlewareBuilder} from "./middleware-builder";
+import {MiddlewareBuilder} from "./middleware/middleware-builder";
 import {RouteBuilder} from "./route-builder";
 import {MiddlewareReader,RouteReader} from "../reader";
 import {Route} from "../route";

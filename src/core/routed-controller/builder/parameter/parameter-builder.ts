@@ -1,6 +1,6 @@
-import { ParameterReader } from './../reader/parameter-reader';
+import { ParameterReader } from './../../reader/parameter-reader';
 import { injectable, unmanaged } from 'inversify';
-import { Parameter } from './../parameter';
+import { Parameter } from '../../parameter';
 
 @injectable()
 export abstract class ParameterBuilder<Information, GenericRouter> {

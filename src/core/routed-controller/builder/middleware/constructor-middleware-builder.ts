@@ -1,3 +1,4 @@
+import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
 import { Handler } from './handler';
 import { MiddlewareBuilder } from './middleware-builder';
 import { injectable, unmanaged } from 'inversify';
@@ -29,7 +30,10 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         middleware.information = this.information;
         middleware.priority = this.priority;
         
-        this.activator.buildControllerActivationFunction(this.middlewareConstructor, HANDLE_REQUEST, router);
+        this.activator.buildControllerActivationFunction(
+            this.middlewareConstructor, 
+            HANDLE_REQUEST, router ,
+            [new ConstantParameterBuilder(middleware.information, 0)]);
 
         return middleware;
     }
