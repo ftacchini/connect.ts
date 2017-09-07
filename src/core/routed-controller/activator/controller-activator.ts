@@ -19,8 +19,6 @@ export abstract class ControllerActivator<GenericRouter, RequestHandler> {
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
     protected abstract turnIntoMiddleware(action: Function) : Middleware<any, RequestHandler>;
 
-
-
     public buildControllerActivationFunction(
         target: any, 
         propertyKey: string, 

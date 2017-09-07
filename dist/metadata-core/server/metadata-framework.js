@@ -40,7 +40,7 @@ class MetadataFramework {
         return this._routeReader || (this._routeReader = new routed_controller_1.MetadataRouteReader(this.container));
     }
     get middlewareReader() {
-        return this._middlewareReader || (this._middlewareReader = new routed_controller_1.MetadataMiddlewareReader());
+        return this._middlewareReader || (this._middlewareReader = new routed_controller_1.MetadataMiddlewareReader(this.container));
     }
     get functionReader() {
         return this._functionReader || (this._functionReader = new routed_controller_1.MetadataFunctionReader(this.container));

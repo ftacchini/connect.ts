@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const some_middleware_1 = require("./some-middleware");
 const inversify_1 = require("inversify");
 const http_server_1 = require("../http-server");
 require("reflect-metadata");
@@ -23,6 +24,7 @@ let SomeController = class SomeController {
 };
 __decorate([
     http_server_1.HttpGet({ path: "foorecopada" }),
+    some_middleware_1.MiddlewareHandler({}),
     __param(0, http_server_1.HttpResponse()),
     __param(1, http_server_1.FromHttpRequest()),
     __metadata("design:type", Function),

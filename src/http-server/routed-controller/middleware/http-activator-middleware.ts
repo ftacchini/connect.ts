@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { HttpMiddleware } from './../http-middleware';
+import { HttpMiddleware } from './http-middleware';
 
 export class HttpActivatorMiddleware implements HttpMiddleware<null>{
     public readonly priority: number = 0;

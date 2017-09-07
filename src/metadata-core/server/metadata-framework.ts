@@ -54,7 +54,7 @@ export class MetadataFramework implements TsFramework {
     
     private _middlewareReader: MiddlewareReader;
     get middlewareReader(): MiddlewareReader {
-        return this._middlewareReader || (this._middlewareReader = new MetadataMiddlewareReader());
+        return this._middlewareReader || (this._middlewareReader = new MetadataMiddlewareReader(this.container));
     }
     
     private _functionReader: FunctionReader;

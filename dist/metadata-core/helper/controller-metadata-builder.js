@@ -25,7 +25,7 @@ class ControllerMetadataBuilder {
             };
         };
     }
-    buildMethodLevelMetadata(constructor, metadataTags) {
+    buildMethodLevelMetadata(constructor, metadataTags, extraSetters = null) {
         return function attributeDefinition(information) {
             return function (target, propertyKey) {
                 var controllerBuilder = (container) => {
@@ -33,6 +33,7 @@ class ControllerMetadataBuilder {
                     instance.target = target;
                     instance.information = information;
                     instance.propertyKey = propertyKey;
+                    extraSetters && extraSetters(instance);
                     return instance;
                 };
                 metadataTags && metadataTags.forEach((metadata) => {

@@ -41,18 +41,21 @@ export class ControllerMetadataBuilder {
         }
     }
 
-    public buildMethodLevelMetadata<T>(
-        constructor: new (...args: any[]) => MethodMetadata<T>,
-        metadataTags: symbol[]) {
+    public buildMethodLevelMetadata<T, Y extends MethodMetadata<T>>(
+        constructor: new (...args: any[]) => Y,
+        metadataTags: symbol[], 
+        extraSetters: (instance: Y) => void = null) {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any, propertyKey: string) {
                 var controllerBuilder = (container: HubContainer): any => { 
-                    var instance =  container.bindAndGet<MethodMetadata<T>>(constructor); 
+                    var instance =  container.bindAndGet<Y>(constructor); 
                     instance.target = target;
                     instance.information = information;
                     instance.propertyKey = propertyKey;
+
+                    extraSetters && extraSetters(instance);
 
                     return instance;
                 };

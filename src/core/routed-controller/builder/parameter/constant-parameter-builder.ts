@@ -4,12 +4,13 @@ import { ParameterBuilder } from "./parameter-builder";
 
 export class ConstantParameterBuilder extends ParameterBuilder<null, any> {
     
-    constructor(private parameterValue: any, private index: number) {
+    constructor(private parameterValue: any, arg: number) {
         super(null);
+        this.arg = arg;
     }
 
     protected createParameterInstance(): Parameter<null> {
-        return new ConstantParameter(this.parameterValue, this.index);
+        return new ConstantParameter(this.parameterValue, this.arg);
     }
     
     public supportsRouter(router: any): boolean {

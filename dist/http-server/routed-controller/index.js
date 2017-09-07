@@ -8,4 +8,5 @@ __export(require("./http-controller"));
 __export(require("./http-route"));
 __export(require("./builder"));
 __export(require("./activator"));
+__export(require("./middleware"));
 //# sourceMappingURL=index.js.map

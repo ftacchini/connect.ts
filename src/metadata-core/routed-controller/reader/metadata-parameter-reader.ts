@@ -25,6 +25,7 @@ export class MetadataParameterReader implements ParameterReader {
     }
 
     public readParameterType(target: any, propertyKey: any, arg: number): any {
-        return Reflect.getMetadata("design:paramtypes", target, propertyKey)[arg];
+        var paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey)
+        return paramTypes.length && paramTypes[arg];
     }
 }

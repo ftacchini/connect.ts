@@ -15,7 +15,6 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     public information: Information;
     public target: any;
     public propertyKey: string;
-    public arg: number;
     public middlewareConstructor: new (...args: any[]) => Handler<Information>
 
     protected abstract priority: number;
@@ -24,18 +23,11 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>) {
     }
 
-    protected abstract createMiddlewareInstance(): Middleware<Information, RequestHandler>;
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
-        var middleware = this.createMiddlewareInstance();
-        middleware.information = this.information;
-        middleware.priority = this.priority;
-        
-        this.activator.buildControllerActivationFunction(
-            this.middlewareConstructor, 
+        return this.activator.buildControllerActivationFunction(
+            this.middlewareConstructor.prototype, 
             HANDLE_REQUEST, router ,
-            [new ConstantParameterBuilder(middleware.information, 0)]);
-
-        return middleware;
+            [new ConstantParameterBuilder(this.information, 0)]);
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;

@@ -28,7 +28,8 @@ let MetadataParameterReader = class MetadataParameterReader {
             .filter(param => param && param.supportsRouter(router));
     }
     readParameterType(target, propertyKey, arg) {
-        return Reflect.getMetadata("design:paramtypes", target, propertyKey)[arg];
+        var paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
+        return paramTypes.length && paramTypes[arg];
     }
 };
 MetadataParameterReader = __decorate([
