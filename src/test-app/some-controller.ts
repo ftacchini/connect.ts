@@ -10,12 +10,10 @@ export class SomeController {
     constructor(){}
 
     @HttpGet({path: "foorecopada" })
-    @MiddlewareHandler({
-        
-    })
+    @MiddlewareHandler()
     public foo(
         @HttpResponse() param: string, 
-        @FromHttpRequest() param2: SomeController){
+        @FromHttpRequest({ name: "paramSomething" }) param2: SomeController){
 
         console.log("foo being called " + param + param2);
         

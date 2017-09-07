@@ -14,15 +14,15 @@ export class ControllerMetadataBuilder {
 
     }
 
-    public buildControllerLevelMetadata<T>(
-        constructor: new (...args: any[]) => ClassMetadata<T>,
-        metadataTags: symbol[]) {
+    public buildControllerLevelMetadata<T, Y extends ClassMetadata<T>>(
+        constructor: new (...args: any[]) =>Y,
+        metadataTags: symbol[]) : (information?: T) => any {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any) {
                 var controllerBuilder = (container: HubContainer): any => { 
-                    var instance =  container.bindAndGet<ClassMetadata<T>>(constructor); 
+                    var instance =  container.bindAndGet<Y>(constructor); 
                     instance.target = target;
                     instance.information = information;
 
@@ -44,7 +44,7 @@ export class ControllerMetadataBuilder {
     public buildMethodLevelMetadata<T, Y extends MethodMetadata<T>>(
         constructor: new (...args: any[]) => Y,
         metadataTags: symbol[], 
-        extraSetters: (instance: Y) => void = null) {
+        extraSetters: (instance: Y) => void = null) : (information?: T) => any {
 
         return function attributeDefinition(information?: T) {
 
@@ -73,15 +73,15 @@ export class ControllerMetadataBuilder {
         }
     }
 
-    public buildArgumentLevelMetadata<T>(
-        constructor: new (...args: any[]) => ArgumentMetadata<T>,
-        metadataTags: symbol[]) {
+    public buildArgumentLevelMetadata<T, Y extends ArgumentMetadata<T>>(
+        constructor: new (...args: any[]) => Y,
+        metadataTags: symbol[]) : (information?: T) => any {
 
         return function attributeDefinition(information?: T) {
 
             return function (target: any, propertyKey: string, arg: number) {
                 var controllerBuilder = (container: HubContainer): any => { 
-                    var instance =  container.bindAndGet<ArgumentMetadata<T>>(constructor); 
+                    var instance =  container.bindAndGet<Y>(constructor); 
                     instance.target = target;
                     instance.information = information;
                     instance.propertyKey = propertyKey;

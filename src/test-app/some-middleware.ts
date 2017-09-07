@@ -20,4 +20,4 @@ export class SomeMiddleware implements Handler<MiddlewareInfo> {
 
 export const MiddlewareHandler = ControllerMiddlewareMetadataBuilder
                                     .instance
-                                    .buildServerSpecificMiddleware(HttpConstructorMiddlewareBuilder, SomeMiddleware);
+                                    .buildServerSpecificMiddleware<MiddlewareInfo>(HttpConstructorMiddlewareBuilder, SomeMiddleware);

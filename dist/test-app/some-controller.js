@@ -24,9 +24,9 @@ let SomeController = class SomeController {
 };
 __decorate([
     http_server_1.HttpGet({ path: "foorecopada" }),
-    some_middleware_1.MiddlewareHandler({}),
+    some_middleware_1.MiddlewareHandler(),
     __param(0, http_server_1.HttpResponse()),
-    __param(1, http_server_1.FromHttpRequest()),
+    __param(1, http_server_1.FromHttpRequest({ name: "paramSomething" })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, SomeController]),
     __metadata("design:returntype", void 0)

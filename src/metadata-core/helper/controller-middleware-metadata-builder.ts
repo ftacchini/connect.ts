@@ -16,7 +16,7 @@ export class ControllerMiddlewareMetadataBuilder {
     public buildServerSpecificMiddleware<T>(
         middlewareBuilderConstructor: new (...args: any[]) => ConstructorMiddlewareBuilder<T, any, any>,
         middlewareConstructor: new (...args: any[]) => Handler<T>,
-        metadataTags: symbol[] = [ControllerMetadataKeys.MIDDLEWARE_BUILDER]) {
+        metadataTags: symbol[] = [ControllerMetadataKeys.MIDDLEWARE_BUILDER]) : (information?: T) => any {
 
             return ControllerMetadataBuilder.instance.buildMethodLevelMetadata(
                 middlewareBuilderConstructor, 
