@@ -10,7 +10,8 @@
         "experimentalDecorators": true,
         "types": ["reflect-metadata"],
         "emitDecoratorMetadata": true,
-        "declaration": true
+        "declaration": true,
+        "declarationDir": "dts"
     },
     "include": [
         "src/**/*"
