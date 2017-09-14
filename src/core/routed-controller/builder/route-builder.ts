@@ -33,7 +33,7 @@ export abstract class RouteBuilder<Information, GenericRouter, RequestHandler> {
         var builders = this.middlewareReader.readRouteMiddleware<GenericRouter, RequestHandler>(router, this.target, this.propertyKey);
         var middleware = builders.map((builder) => builder.buildMiddleware(router));
 
-        var activatorMiddleware = this.activator.buildControllerActivationFunction(this.target, this.propertyKey, router);
+        var activatorMiddleware = this.activator.buildControllerActivatonMiddleware(this.target, this.propertyKey, router);
 
         middleware.push(activatorMiddleware);
 

@@ -21,7 +21,7 @@ let ConstructorMiddlewareBuilder = class ConstructorMiddlewareBuilder {
         this.activator = activator;
     }
     buildMiddleware(router) {
-        return this.activator.buildControllerActivationFunction(this.middlewareConstructor.prototype, HANDLE_REQUEST, router, [new constant_parameter_builder_1.ConstantParameterBuilder(this.information, 0)]);
+        return this.activator.buildControllerActivatonMiddleware(this.middlewareConstructor.prototype, HANDLE_REQUEST, router, [new constant_parameter_builder_1.ConstantParameterBuilder(this.information, 0)]);
     }
 };
 ConstructorMiddlewareBuilder = __decorate([

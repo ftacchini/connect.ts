@@ -20,7 +20,7 @@ let ControllerActivator = class ControllerActivator {
         this.functionReader = functionReader;
         this.paramsReader = paramsReader;
     }
-    buildControllerActivationFunction(target, propertyKey, router, paramBuilders = []) {
+    buildControllerActivatonMiddleware(target, propertyKey, router, paramBuilders = []) {
         paramBuilders = paramBuilders.concat(this.paramsReader.readParameters(target, propertyKey, router));
         let paramsArray = null;
         return this.turnIntoMiddleware((...args) => {

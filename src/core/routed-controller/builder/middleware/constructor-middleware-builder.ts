@@ -24,7 +24,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     }
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
-        return this.activator.buildControllerActivationFunction(
+        return this.activator.buildControllerActivatonMiddleware(
             this.middlewareConstructor.prototype, 
             HANDLE_REQUEST, router ,
             [new ConstantParameterBuilder(this.information, 0)]);
