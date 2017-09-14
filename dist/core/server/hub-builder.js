@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const metadata_core_1 = require("../../metadata-core");
+const metadata_framework_1 = require("../../metadata-framework");
 const _1 = require("../");
 const hub_1 = require("./hub");
 class HubBuilder {
@@ -29,7 +29,7 @@ class HubBuilder {
         return new hub_1.Hub(this.supportedServers, this.container, controllerLoader);
     }
     initializeFramework() {
-        this.tsFramework = this.tsFramework || new metadata_core_1.MetadataFramework(this.container);
+        this.tsFramework = this.tsFramework || new metadata_framework_1.MetadataFramework(this.container);
         return this;
     }
     initializeContainer() {

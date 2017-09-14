@@ -4,5 +4,5 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./core"));
-__export(require("./metadata-core"));
+__export(require("./metadata-framework"));
 //# sourceMappingURL=index.js.map

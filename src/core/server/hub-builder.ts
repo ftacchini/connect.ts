@@ -1,5 +1,5 @@
 import { TsFramework } from './ts-framework';
-import { MetadataFramework } from '../../metadata-core';
+import { MetadataFramework } from '../../metadata-framework';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
 import { Server, ServerConfigurator } from "./";
 import { ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
