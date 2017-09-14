@@ -1,4 +1,4 @@
-interface TypesDictionary {
+export interface TypesDictionary {
     [propName: string]: symbol,
     MiddlewareReader: symbol,
     RouteReader: symbol,
