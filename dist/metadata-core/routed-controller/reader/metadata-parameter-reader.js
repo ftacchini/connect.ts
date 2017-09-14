@@ -29,7 +29,7 @@ let MetadataParameterReader = class MetadataParameterReader {
     }
     readParameterType(target, propertyKey, arg) {
         var paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
-        return paramTypes.length && paramTypes[arg];
+        return paramTypes && paramTypes.length && paramTypes[arg];
     }
 };
 MetadataParameterReader = __decorate([
