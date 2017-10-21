@@ -4,19 +4,19 @@
   "description": "Ts-Hub core and metadata framework",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
     "build": "rimraf dist && rimraf dts && tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ftacchini/connect.ts.git"
+    "url": "git+https://github.com/ftacchini/ts-hub.git"
   },
   "author": "ftacchini",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ftacchini/connect.ts/issues"
+    "url": "https://github.com/ftacchini/ts-hub/issues"
   },
-  "homepage": "https://github.com/ftacchini/connect.ts#readme",
+  "homepage": "https://github.com/ftacchini/ts-hub#readme",
   "typings": "./dts/index.d.ts",
   "dependencies": {
     "@types/body-parser": "0.0.33",
@@ -30,6 +30,9 @@
     "reflect-metadata": "^0.1.9"
   },
   "devDependencies": {
-    "rimraf": "^2.6.1"
+    "@types/jasmine": "^2.6.0",
+    "jasmine": "^2.8.0",
+    "rimraf": "^2.6.1",
+    "typescript": "^2.5.3"
   }
 }
