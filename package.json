@@ -4,7 +4,8 @@
   "description": "Ts-Hub core and metadata framework",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "unit-test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
+    "integration-test": "jasmine JASMINE_CONFIG_PATH=jasmine.json",
     "build": "rimraf dist && rimraf dts && tsc"
   },
   "repository": {

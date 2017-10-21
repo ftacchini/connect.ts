@@ -6,6 +6,6 @@ npm-debug.log
 src
 test
 tsconfig.json
-jasmine.json
+jasmine.*.json
 dist/test
 dts/test
