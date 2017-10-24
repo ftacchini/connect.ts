@@ -14,9 +14,6 @@ export class InversifyContainer extends Container implements HubContainer {
         Types[service.name] || (Types[service.name] = Symbol(service.name));
 
         try {
-            console.log(this);
-            console.log(this.get);
-            console.log(this.bind<T>(Types[service.name]));
             this.get<T>(Types[service.name]) || this.bind<T>(Types[service.name]).to(service);
         }
         catch(ex) {
