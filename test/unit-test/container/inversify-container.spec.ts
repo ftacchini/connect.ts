@@ -1,5 +1,7 @@
+import { InversifyContainer } from './../../../src/container/inversify-container';
+import { Types } from './../../../src/container/types';
 import { injectable } from 'inversify';
-import { InversifyContainer, Types } from './../../../../src';
+import "reflect-metadata";
 import "jasmine";
 
 @injectable()

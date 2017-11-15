@@ -1,3 +1,5 @@
+import { NotSpecifiedParamException } from './../../exception/not-specified-param-exception';
+import { TsHubLogger } from './../../logging/ts-hub-logger';
 import { ControllerActivator } from './controller-activator';
 import { Parameter } from './../parameter';
 import { ParameterBuilder } from './../builder';
@@ -13,8 +15,11 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
 
     constructor(
         @unmanaged() protected functionReader: FunctionReader,
-        @unmanaged() protected paramsReader: ParameterReader) {
-
+        @unmanaged() protected paramsReader: ParameterReader,
+        @unmanaged() protected tsHubLogger: TsHubLogger) {
+            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", ClassMethodControllerActivator.name) }
+            if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", ClassMethodControllerActivator.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", ClassMethodControllerActivator.name) }
     }
 
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
@@ -26,24 +31,31 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
         router: GenericRouter, 
         paramBuilders: ParameterBuilder<any, GenericRouter>[] = []): Middleware<any, RequestHandler> {
             
+            if(!target) { throw new NotSpecifiedParamException("target", this.buildControllerActivationMiddleware.name) }
+            if(!propertyKey) { throw new NotSpecifiedParamException("propertyKey", this.buildControllerActivationMiddleware.name) }
+            if(!router) { throw new NotSpecifiedParamException("router", this.buildControllerActivationMiddleware.name) }
+
+            this.tsHubLogger.debug(`Controller activator being built for ${target.constructor.name}.${propertyKey}`);
+
             paramBuilders = paramBuilders.concat(this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router));
-            let paramsArray: ParameterBuilder<any, GenericRouter>[] = null;
+            let paramsArray: Parameter<any>[] = null;
 
             return this.turnIntoMiddleware((...args: any[]) => {
     
+                this.tsHubLogger.debug(`${target.constructor.name}.${propertyKey} being activated`);
                 var activatorFunction = this.functionReader.readFunction(target, propertyKey);
                 
                 if(!paramsArray){
                     var paramName = JsHelper.instance.readFunctionParamNames(target[propertyKey]);
                     paramsArray = [];
-
                     for(let index = 0; index < paramName.length; index++){
-                        paramsArray[index] = paramBuilders.find(x => x.arg == index) 
+                        var paramBuilder = paramBuilders.find(x => x.arg == index) 
                                             || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
+                        paramsArray[index] = paramBuilder.buildParam();                                            
                     }
                 }
 
-                return activatorFunction(...paramsArray.map(param => param.buildParam().getValue(...args))); 
+                return activatorFunction(...paramsArray.map(param => param.getValue(...args))); 
         });
     }
 }

@@ -1,3 +1,5 @@
+import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
+import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
 import { Handler } from './handler';
 import { MiddlewareBuilder } from './middleware-builder';
@@ -20,10 +22,16 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     protected abstract priority: number;
 
     constructor(
-        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>) {
+        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
+        @unmanaged() protected tsHubLogger: TsHubLogger) {
+            if(!activator) { throw new NotSpecifiedParamException("target", ConstructorMiddlewareBuilder.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("propertyKey", ConstructorMiddlewareBuilder.name) }
     }
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
+        if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
+        this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being build.`);
+
         return this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
             HANDLE_REQUEST, router ,
