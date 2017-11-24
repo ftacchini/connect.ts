@@ -1,10 +1,10 @@
+import { Middleware } from './../../middleware';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
 import { Handler } from './handler';
 import { MiddlewareBuilder } from './middleware-builder';
 import { injectable, unmanaged } from 'inversify';
-import { Middleware } from "../../middleware";
 import { Server } from "../../../server";
 import { ControllerActivator } from "../../activator/controller-activator";
 
@@ -24,18 +24,32 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
         @unmanaged() protected tsHubLogger: TsHubLogger) {
-            if(!activator) { throw new NotSpecifiedParamException("target", ConstructorMiddlewareBuilder.name) }
-            if(!tsHubLogger) { throw new NotSpecifiedParamException("propertyKey", ConstructorMiddlewareBuilder.name) }
+            if(!activator) { throw new NotSpecifiedParamException("activator", ConstructorMiddlewareBuilder.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", ConstructorMiddlewareBuilder.name) }
     }
+
+    public setMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
+        if(!middlewareConstructor) { 
+            throw new NotSpecifiedParamException(
+                "middlewareConstructor", 
+                ConstructorMiddlewareBuilder.name);
+        }
+        
+        this.middlewareConstructor = middlewareConstructor;
+        return this;
+    }
+
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
         if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
         this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being build.`);
 
-        return this.activator.buildControllerActivationMiddleware(
+        var middleware = this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
             HANDLE_REQUEST, router ,
             [new ConstantParameterBuilder(this.information, 0)]);
+
+        return middleware;
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;

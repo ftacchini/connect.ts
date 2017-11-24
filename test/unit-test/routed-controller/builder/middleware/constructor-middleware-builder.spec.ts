@@ -31,7 +31,7 @@ describe("ConstructorMiddlewareBuilder", () => {
             //arrange
             var router = {};
             var middlewareConstructor = class ImMiddleware implements Handler<any> { handleRequest(): void { }; };
-            constructorMiddlewareBuilder.middlewareConstructor = middlewareConstructor;
+            constructorMiddlewareBuilder.setMiddlewareConstructor(middlewareConstructor);
 
             //act
             constructorMiddlewareBuilder.buildMiddleware(router);
