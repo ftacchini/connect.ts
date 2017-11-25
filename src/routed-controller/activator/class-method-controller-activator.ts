@@ -49,7 +49,7 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
                     var paramName = JsHelper.instance.readFunctionParamNames(target[propertyKey]);
                     paramsArray = [];
                     for(let index = 0; index < paramName.length; index++){
-                        var paramBuilder = paramBuilders.find(x => x.arg == index) 
+                        var paramBuilder = paramBuilders.find(x => x.getArgumentIndex() == index) 
                                             || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
                         paramsArray[index] = paramBuilder.buildParam();                                            
                     }

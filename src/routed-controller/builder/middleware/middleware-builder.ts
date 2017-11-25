@@ -3,9 +3,9 @@ import { Middleware } from "../../middleware";
 
 export interface MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
-    information: Information;
-    target: any;
-    propertyKey: string;
+    withInformation(information: Information) : this;
+    withTarget(target: any) : this;
+    withPropertyKey(propertyKey: string) : this;
 
     supportsRouter(router: GenericRouter): boolean;
     buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler>;

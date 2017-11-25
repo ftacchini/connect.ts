@@ -13,13 +13,24 @@ export abstract class RoutedControllerBuilder<
     Information, 
     GenericRouter,
     RequestHandler,
-    GenericRoutedController extends RoutedController<Information, GenericRouter, RequestHandler>> {
+    GenericRoutedController extends RoutedController<Information, GenericRouter, RequestHandler>> 
+    implements ControllerBuilder {
     
-    public information: Information;
-    public target: any;
+    protected information: Information;
+    protected target: any;
     
     constructor(@unmanaged() protected middlewareReader: MiddlewareReader,
                 @unmanaged() protected routeReader: RouteReader){
+    }
+
+    public withInformation(information: Information) : this {
+        this.information = information;
+        return this;
+    }
+
+    public withTarget(target: any) : this {
+        this.target = target;
+        return this;
     }
 
     public buildController() : GenericRoutedController{

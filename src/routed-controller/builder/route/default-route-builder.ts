@@ -10,9 +10,9 @@ import "reflect-metadata";
 @injectable()
 export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHandler> implements RouteBuilder<Information, GenericRouter, RequestHandler> {
 
-    public information: Information;
-    public target: any;
-    public propertyKey: string;
+    protected information: Information;
+    protected target: any;
+    protected propertyKey: string;
 
     public constructor(
         @unmanaged() protected middlewareReader: MiddlewareReader,
@@ -40,5 +40,20 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
         middleware.push(activatorMiddleware);
 
         return middleware.sort(middleware => middleware.priority);
+    }
+
+    public withInformation(information: Information) : this {
+        this.information = information;
+        return this;
+    }
+
+    public withTarget(target: any) : this {
+        this.target = target;
+        return this;
+    }
+
+    public withPropertyKey(propertyKey: string) : this {
+        this.propertyKey = propertyKey;
+        return this;
     }
 }

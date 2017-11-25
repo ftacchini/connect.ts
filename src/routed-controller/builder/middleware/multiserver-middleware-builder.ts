@@ -11,20 +11,20 @@ import { injectable, unmanaged } from 'inversify';
 import { MiddlewareBuilder } from './middleware-builder';
 import { ControllerActivator } from "../../activator/controller-activator";
 import { Types } from '../../../container/types';
+import { ConstructorMiddlewareBuilder } from '../../../index';
 
  const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
 
 
 @injectable()
-export abstract class MultiserverMiddlewareBuilder<Information> {
+export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuilder<Information, any, any> {
     
-    public information: Information;
-    public target: any;
-    public propertyKey: string;
-    public middlewareConstructor: new (...args: any[]) => Handler<Information>
-    private middlewareSupport: MiddlewareSupport<Information>[] = [];
- 
-    protected abstract priority: number;
+    protected information: Information;
+    protected target: any;
+    protected propertyKey: string;
+    protected middlewareConstructor: new (...args: any[]) => Handler<Information>
+    protected middlewareSupport: MiddlewareSupport<Information>[] = [];
+    protected priority: number;
 
     constructor(
         @inject(Types.Container) protected container: HubContainer,
@@ -32,12 +32,35 @@ export abstract class MultiserverMiddlewareBuilder<Information> {
             if(!tsHubLogger) { throw new NotSpecifiedParamException("propertyKey", MultiserverMiddlewareBuilder.name) }
     }
 
-    public addMiddlewareSupport(middlewareSupport: MiddlewareSupport<Information>) : void {
+    public addMiddlewareSupport(middlewareSupport: MiddlewareSupport<Information>) : this {
         if(!middlewareSupport || !middlewareSupport.activator || !middlewareSupport.support) { 
             throw new NotSpecifiedParamException("middlewareSupport", this.addMiddlewareSupport.name) 
         }   
         this.middlewareSupport.push(middlewareSupport);
+
+        return this;
     }
+        
+    public withInformation(information: Information) : this {
+        this.information = information;
+        return this;
+    }
+
+    public withTarget(target: any) : this {
+        this.target = target;
+        return this;
+    }
+
+    public withPropertyKey(propertyKey: string) : this {
+        this.propertyKey = propertyKey;
+        return this;
+    }
+    
+    public withPriority(priority: number) : this {
+        this.priority = priority;
+        return this;
+    }
+
 
     public buildMiddleware(router: any): Middleware<Information, any> {
 
@@ -49,10 +72,13 @@ export abstract class MultiserverMiddlewareBuilder<Information> {
 
             let activator = this.container.bindAndGet(middlewareSupport.activator);
 
-            return activator.buildControllerActivationMiddleware(
+            let middleware = activator.buildControllerActivationMiddleware(
                 this.middlewareConstructor.prototype, 
                 HANDLE_REQUEST, router ,
                 [new ConstantParameterBuilder(this.information, 0)]);
+
+            middleware.priority = this.priority;
+            return middleware;
         }
     }
 

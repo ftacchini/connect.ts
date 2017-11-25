@@ -6,13 +6,37 @@ import { Parameter } from '../../parameter';
 @injectable()
 export abstract class DefaultParameterBuilder<Information, GenericRouter> implements ParameterBuilder<Information, GenericRouter> {
 
-    public information: Information;
-    public target: any;
-    public propertyKey: string;
-    public arg: number;
+    protected information: Information;
+    protected target: any;
+    protected propertyKey: string;
+    protected arg: number;
 
     constructor(@unmanaged() private parameterReader: ParameterReader) {
 
+    }
+
+    public withInformation(information: Information) : this {
+        this.information = information;
+        return this;
+    }
+
+    public getArgumentIndex(): number {
+        return this.arg;
+    }
+
+    public withTarget(target: any) : this {
+        this.target = target;
+        return this;
+    }
+
+    public withPropertyKey(propertyKey: string) : this {
+        this.propertyKey = propertyKey;
+        return this;
+    }
+
+    public withArgumentIndex(arg: number) : this {
+        this.arg = arg;
+        return this;
     }
 
     protected abstract createParameterInstance(): Parameter<Information>;

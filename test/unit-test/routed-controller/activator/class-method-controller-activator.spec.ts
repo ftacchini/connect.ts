@@ -10,8 +10,11 @@ import { ClassMethodControllerActivator } from "../../../../src/routed-controlle
 describe("ClassMethodControllerActivator", () => {
 
     var paramBuilders: jasmine.SpyObj<ParameterBuilder<any, any>>[];;
-    function createParameterBuilderStub() : ParameterBuilder<any, any> {
-        var paramBuilder = jasmine.createSpyObj<ParameterBuilder<any,any>>("paramBuilder" + paramBuilders.length, ["buildParam", "supportsRouter"]);
+    function createParameterBuilderStub(argIndex: number) : ParameterBuilder<any, any> {
+        var paramBuilder = jasmine.createSpyObj<ParameterBuilder<any,any>>(
+            "paramBuilder" + paramBuilders.length, 
+            ["buildParam", "supportsRouter", "getArgumentIndex"]);
+        (<any>paramBuilder.getArgumentIndex).and.returnValue(argIndex);
         return paramBuilders[paramBuilders.length] = paramBuilder;
     }
     
@@ -20,7 +23,7 @@ describe("ClassMethodControllerActivator", () => {
     function createParameterStub(paramValue: any) : Parameter<any> {
         var parameter = jasmine.createSpyObj<Parameter<any>>("parameter" + params.length, ["getValue"]);
         (<any>parameter.getValue).and.returnValue(paramValue);
-    
+        
         return params[params.length] = parameter;
     }
     
@@ -36,8 +39,7 @@ describe("ClassMethodControllerActivator", () => {
     
     
         createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, any>{
-            var parameterBuilder = createParameterBuilderStub();
-            parameterBuilder.arg = 0;
+            var parameterBuilder = createParameterBuilderStub(0);
             (<any>parameterBuilder.buildParam).and.returnValue(createParameterStub("defaultParamValue"));
     
             return parameterBuilder;
@@ -63,9 +65,8 @@ describe("ClassMethodControllerActivator", () => {
         functionReader = jasmine.createSpyObj<FunctionReader>("functionReader", ["readFunction"]);
         paramsReader = jasmine.createSpyObj<ParameterReader>("paramsReader", ["readParameters"]);
         logger = jasmine.createSpyObj<TsHubLogger>("logger", ["debug"]);
-        var parameterBuilder = createParameterBuilderStub();
+        var parameterBuilder = createParameterBuilderStub(2);
         (<any>parameterBuilder.buildParam).and.returnValue(createParameterStub("readerParamValue"));
-        parameterBuilder.arg = 2;
         (<any>paramsReader.readParameters).and.returnValue(parameterBuilder);
 
         controllerActivator = new DummyClassMethodControllerActivatorImplementation(
@@ -109,9 +110,8 @@ describe("ClassMethodControllerActivator", () => {
                 target = { foo: function(arg1: any, arg2: any, arg3: any){} };
                 property = "foo";
                 router = {};
-                var extraParamBuilder = createParameterBuilderStub();
+                var extraParamBuilder = createParameterBuilderStub(1);
                 (<any>extraParamBuilder.buildParam).and.returnValue(createParameterStub("extraParamValue"));
-                extraParamBuilder.arg = 1;
 
                 activatorFunction = jasmine.createSpy("activatorFunction");
                 (<any>functionReader.readFunction).and.returnValue(activatorFunction);

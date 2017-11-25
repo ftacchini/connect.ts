@@ -3,6 +3,7 @@ import { Handler } from './../../../../../src/routed-controller/builder/middlewa
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
 import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
+import { Middleware } from '../../../../../src/index';
 
 describe("ConstructorMiddlewareBuilder", () => {
 
@@ -30,11 +31,17 @@ describe("ConstructorMiddlewareBuilder", () => {
         it("should build a new activator passing information as the first parameter", () => {
             //arrange
             var router = {};
+            var middleware = <Middleware<any,any>>{};
             var middlewareConstructor = class ImMiddleware implements Handler<any> { handleRequest(): void { }; };
-            constructorMiddlewareBuilder.setMiddlewareConstructor(middlewareConstructor);
+            var priority = 21;
+            
+            constructorMiddlewareBuilder.withMiddlewareConstructor(middlewareConstructor)
+                                        .withPriority(priority);
+            (<any>controllerActivator.buildControllerActivationMiddleware)
+                .and.returnValue(middleware)
 
             //act
-            constructorMiddlewareBuilder.buildMiddleware(router);
+            var result = constructorMiddlewareBuilder.buildMiddleware(router);
 
             //assert
             expect(controllerActivator.buildControllerActivationMiddleware).toHaveBeenCalledWith(
@@ -43,6 +50,7 @@ describe("ConstructorMiddlewareBuilder", () => {
                 router,
                 [jasmine.any(ConstantParameterBuilder)]
             );
+            expect(middleware.priority).toEqual(priority);
         })
 
     })

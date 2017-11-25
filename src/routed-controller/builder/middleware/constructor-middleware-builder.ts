@@ -14,12 +14,11 @@ const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
 export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 
        implements MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
-    public information: Information;
-    public target: any;
-    public propertyKey: string;
+    protected information: Information;
+    protected target: any;
+    protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Handler<Information>
-
-    protected abstract priority: number;
+    protected priority: number;
 
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
@@ -28,7 +27,28 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
             if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", ConstructorMiddlewareBuilder.name) }
     }
 
-    public setMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
+    
+    public withInformation(information: Information) : this {
+        this.information = information;
+        return this;
+    }
+
+    public withTarget(target: any) : this {
+        this.target = target;
+        return this;
+    }
+
+    public withPropertyKey(propertyKey: string) : this {
+        this.propertyKey = propertyKey;
+        return this;
+    }
+    
+    public withPriority(priority: number) : this {
+        this.priority = priority;
+        return this;
+    }
+
+    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
         if(!middlewareConstructor) { 
             throw new NotSpecifiedParamException(
                 "middlewareConstructor", 
@@ -48,6 +68,8 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
             this.middlewareConstructor.prototype, 
             HANDLE_REQUEST, router ,
             [new ConstantParameterBuilder(this.information, 0)]);
+
+        middleware.priority = this.priority;
 
         return middleware;
     }
