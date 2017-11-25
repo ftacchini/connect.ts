@@ -3,7 +3,8 @@ export interface TypesDictionary {
     MiddlewareReader: symbol,
     RouteReader: symbol,
     FunctionReader: symbol,
-    ParamsReader: symbol
+    ParamsReader: symbol,
+    TsHubLogger: symbol
 }
 
 export var Types: TypesDictionary = {
@@ -11,5 +12,6 @@ export var Types: TypesDictionary = {
     RouteReader: Symbol("RouteReader"),
     Container: Symbol("Container"),
     FunctionReader: Symbol("FunctionReader"),
-    ParamsReader: Symbol("ParamsReader")
+    ParamsReader: Symbol("ParamsReader"),
+    TsHubLogger: Symbol("TsHubLogger")
 };

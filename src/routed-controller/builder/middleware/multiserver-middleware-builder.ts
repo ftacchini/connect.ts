@@ -1,3 +1,6 @@
+import { inject } from 'inversify';
+import { HubContainer } from './../../../container/hub-container';
+import { MiddlewareSupport } from './middleware-support';
 import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
 import { Middleware } from './../../middleware';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
@@ -7,17 +10,13 @@ import { ServerSupport } from './../../../server/server-support';
 import { injectable, unmanaged } from 'inversify';
 import { MiddlewareBuilder } from './middleware-builder';
 import { ControllerActivator } from "../../activator/controller-activator";
-
-export type MiddlewareSupport<Information> = { 
-    support: ServerSupport,
-    activator: ControllerActivator<any, any>
- };
+import { Types } from '../../../container/types';
 
  const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
 
 
 @injectable()
-export abstract class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuilder<Information, any, any> {
+export abstract class MultiserverMiddlewareBuilder<Information> {
     
     public information: Information;
     public target: any;
@@ -28,12 +27,15 @@ export abstract class MultiserverMiddlewareBuilder<Information> implements Middl
     protected abstract priority: number;
 
     constructor(
-        @unmanaged() protected tsHubLogger: TsHubLogger) {
+        @inject(Types.Container) protected container: HubContainer,
+        @inject(Types.TsHubLogger) protected tsHubLogger: TsHubLogger) {
             if(!tsHubLogger) { throw new NotSpecifiedParamException("propertyKey", MultiserverMiddlewareBuilder.name) }
     }
 
     public addMiddlewareSupport(middlewareSupport: MiddlewareSupport<Information>) : void {
-        if(!middlewareSupport) { throw new NotSpecifiedParamException("middlewareSupport", this.addMiddlewareSupport.name) }   
+        if(!middlewareSupport || !middlewareSupport.activator || !middlewareSupport.support) { 
+            throw new NotSpecifiedParamException("middlewareSupport", this.addMiddlewareSupport.name) 
+        }   
         this.middlewareSupport.push(middlewareSupport);
     }
 
@@ -45,7 +47,9 @@ export abstract class MultiserverMiddlewareBuilder<Information> implements Middl
         if(middlewareSupport){
             this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being build.`);
 
-            return middlewareSupport.activator.buildControllerActivationMiddleware(
+            let activator = this.container.bindAndGet(middlewareSupport.activator);
+
+            return activator.buildControllerActivationMiddleware(
                 this.middlewareConstructor.prototype, 
                 HANDLE_REQUEST, router ,
                 [new ConstantParameterBuilder(this.information, 0)]);

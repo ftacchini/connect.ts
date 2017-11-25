@@ -17,7 +17,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     public information: Information;
     public target: any;
     public propertyKey: string;
-    public middlewareConstructor: new (...args: any[]) => Handler<Information>
+    protected middlewareConstructor: new (...args: any[]) => Handler<Information>
 
     protected abstract priority: number;
 
