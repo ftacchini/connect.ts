@@ -40,6 +40,12 @@ export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuil
 
         return this;
     }
+
+    public withMiddlewareSupport(middlewareSupport: MiddlewareSupport<Information>[] = []) : this {
+        this.middlewareSupport = [];
+        middlewareSupport.forEach(x => this.addMiddlewareSupport(x));
+        return this;
+    }
         
     public withInformation(information: Information) : this {
         this.information = information;
@@ -60,7 +66,6 @@ export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuil
         this.priority = priority;
         return this;
     }
-
 
     public buildMiddleware(router: any): Middleware<Information, any> {
 
