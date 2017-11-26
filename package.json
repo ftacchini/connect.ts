@@ -2,7 +2,7 @@
   "name": "ts-hub",
   "version": "1.4.0",
   "description": "Ts-Hub core",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "unit-test": "jasmine JASMINE_CONFIG_PATH=jasmine.unit-test.json",
     "integration-test": "jasmine JASMINE_CONFIG_PATH=jasmine.integration-test.json",
@@ -21,7 +21,7 @@
     "url": "https://github.com/ftacchini/ts-hub/issues"
   },
   "homepage": "https://github.com/ftacchini/ts-hub#readme",
-  "typings": "./dts/index.d.ts",
+  "typings": "./dts/src/index.d.ts",
   "dependencies": {
     "@types/lodash": "^4.14.50",
     "inversify": "^3.0.0",
