@@ -7,9 +7,9 @@
     "unit-test": "jasmine JASMINE_CONFIG_PATH=jasmine.unit-test.json",
     "integration-test": "jasmine JASMINE_CONFIG_PATH=jasmine.integration-test.json",
     "build": "rimraf dist && rimraf dts && tsc",
-    "version-minor": "npm version minor && npm push && npm push --tags",
-    "version-patch": "npm version patch && npm push && npm push --tags",
-    "version-major": "npm version major && npm push && npm push --tags"
+    "version-minor": "npm version minor && git push && git push --tags",
+    "version-patch": "npm version patch && git push && git push --tags",
+    "version-major": "npm version major && git push && git push --tags"
   },
   "repository": {
     "type": "git",
