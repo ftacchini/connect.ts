@@ -23,15 +23,9 @@
   "homepage": "https://github.com/ftacchini/ts-hub#readme",
   "typings": "./dts/index.d.ts",
   "dependencies": {
-    "@types/body-parser": "0.0.33",
-    "@types/express": "^4.0.35",
     "@types/lodash": "^4.14.50",
-    "body-parser": "^1.16.0",
-    "express": "^4.14.0",
-    "include-all": "^2.0.0",
     "inversify": "^3.0.0",
-    "lodash": "^4.17.4",
-    "reflect-metadata": "^0.1.9"
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@types/jasmine": "^2.6.0",
