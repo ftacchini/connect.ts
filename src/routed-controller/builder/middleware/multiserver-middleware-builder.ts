@@ -32,6 +32,17 @@ export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuil
             if(!tsHubLogger) { throw new NotSpecifiedParamException("propertyKey", MultiserverMiddlewareBuilder.name) }
     }
 
+    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
+        if(!middlewareConstructor) { 
+            throw new NotSpecifiedParamException(
+                "middlewareConstructor", 
+                ConstructorMiddlewareBuilder.name);
+        }
+        
+        this.middlewareConstructor = middlewareConstructor;
+        return this;
+    }
+
     public addMiddlewareSupport(middlewareSupport: MiddlewareSupport<Information>) : this {
         if(!middlewareSupport || !middlewareSupport.activator || !middlewareSupport.support) { 
             throw new NotSpecifiedParamException("middlewareSupport", this.addMiddlewareSupport.name) 
