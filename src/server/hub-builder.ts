@@ -19,17 +19,17 @@ export class HubBuilder {
 
     }
 
-    public setContainer(container: HubContainer): this {
+    public withContainer(container: HubContainer): this {
         this.container = container;
         return this;
     }
 
-    public setFramework(tsFramework: TsFramework): this {
+    public withFramework(tsFramework: TsFramework): this {
         this.tsFramework = tsFramework;
         return this;
     }
 
-    public setServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
+    public withServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
         this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
         return this;
     }
