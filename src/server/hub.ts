@@ -33,4 +33,11 @@ export class Hub {
         
     }
 
+
+    public stop(): void {
+        this.serverConfigs.forEach((serverConfig) => {
+            serverConfig.server && serverConfig.server.stop();
+        })
+    }
+
 }
