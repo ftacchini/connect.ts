@@ -1,6 +1,6 @@
 {
   "name": "ts-hub",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Ts-Hub core",
   "main": "dist/src/index.js",
   "scripts": {
