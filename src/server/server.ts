@@ -2,6 +2,6 @@ import { Container } from "inversify";
 
 export interface Server {
     application: any;
-    run(): void;
-    stop(): void;
+    run(): Promise<boolean>;
+    stop(): Promise<boolean>;
 }
