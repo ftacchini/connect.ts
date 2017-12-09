@@ -1,3 +1,5 @@
+import { ConsoleLogger } from './../logging/console-logger';
+import { TsHubLogger } from './../logging/ts-hub-logger';
 import { TsFramework } from './ts-framework';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
 import { Server, ServerConfigurator } from "./";
@@ -9,6 +11,7 @@ export class HubBuilder {
     private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
     private tsFramework: TsFramework;
     private container: HubContainer;
+    private logger: TsHubLogger;
 
     private static _instance: HubBuilder;
     public static get instance() {
@@ -21,6 +24,11 @@ export class HubBuilder {
 
     public withContainer(container: HubContainer): this {
         this.container = container;
+        return this;
+    }
+    
+    public withLogger(logger: TsHubLogger): this {
+        this.logger = logger;
         return this;
     }
 
@@ -37,6 +45,7 @@ export class HubBuilder {
     public buildHub(): Hub {
 
         this.initializeContainer()
+            .initializeLogger()
             .initializeFramework();
 
         var controllerLoader = this.tsFramework.setupFramework();
@@ -49,14 +58,22 @@ export class HubBuilder {
 
     private initializeFramework(): this {
         if(!this.tsFramework) {
-            throw "No framework was configured";
+            var noFramework = "No framework was configured"; 
+            this.logger.crit(noFramework);
+            throw noFramework;
         }
 
         return this;
     }
 
+    private initializeLogger(): this {
+        this.logger = this.logger || new ConsoleLogger()
+        this.container.bind(Types.TsHubLogger).toConstantValue(this.logger);
+        return this;
+    }
+
     private initializeContainer(): this {
-        this.container = this.container || new InversifyContainer();
+        this.container = this.container || new InversifyContainer()
         this.container.bind(Types.Container).toConstantValue(this.container);
         return this;
     }
