@@ -8,10 +8,10 @@ import { Hub } from "./hub";
 
 export class HubBuilder {
 
-    private supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
-    private tsFramework: TsFramework;
-    private container: HubContainer;
-    private logger: TsHubLogger;
+    protected supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
+    protected tsFramework: TsFramework;
+    protected container: HubContainer;
+    protected logger: TsHubLogger;
 
     private static _instance: HubBuilder;
     public static get instance() {
@@ -48,7 +48,7 @@ export class HubBuilder {
             .initializeLogger()
             .initializeFramework();
 
-        var controllerLoader = this.tsFramework.setupFramework();
+        var controllerLoader = this.tsFramework.setupFramework(this.container);
 
         return new Hub(
             this.supportedServers,
