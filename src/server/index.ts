@@ -7,3 +7,4 @@ export * from "./hub";
 export * from "./server-configurator";
 export * from "./ts-framework";
 export * from "./server-support";
+export * from "./routed-ts-framework";
