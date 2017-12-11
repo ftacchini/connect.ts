@@ -1,6 +1,8 @@
+import { injectable } from 'inversify';
 import { TsHubLogger } from './ts-hub-logger';
-import "node";
+import "reflect-metadata";
 
+@injectable()
 export class ConsoleLogger implements TsHubLogger {
     
     private static EMERGENCY_PREFIX: string = "EMERGENCY";
