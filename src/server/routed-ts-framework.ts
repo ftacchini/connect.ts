@@ -1,8 +1,8 @@
 import { TsFramework } from './ts-framework';
 import { RouteReader, ControllerLoader, MiddlewareReader, FunctionReader, ParameterReader, Types, HubContainer } from '../index';
 
-export abstract class RoutedTsFramework implements TsFramework {
-    
+export class RoutedTsFramework implements TsFramework {
+
     public constructor(
         public readonly controllerLoader: ControllerLoader,
         public readonly routeReader: RouteReader,
@@ -11,15 +11,15 @@ export abstract class RoutedTsFramework implements TsFramework {
         public readonly paramsReader: ParameterReader) {
     }
 
-    public setupFramework(container: HubContainer): ControllerLoader{ 
+    public setupFramework(container: HubContainer): ControllerLoader {
         this.setupRouteReader(container)
             .setupMiddlewareReader(container)
             .setupFunctionReader(container)
             .setupParamsReader(container);
 
-        return this.GetControllerLoader();
+        return this.controllerLoader;
     }
-    
+
     private setupRouteReader(container: HubContainer): this {
         this.setupInstance(Types.RouteReader, this.routeReader, container);
         return this;
@@ -29,7 +29,7 @@ export abstract class RoutedTsFramework implements TsFramework {
         this.setupInstance(Types.MiddlewareReader, this.middlewareReader, container);
         return this;
     }
-    
+
     private setupFunctionReader(container: HubContainer): this {
         this.setupInstance(Types.FunctionReader, this.functionReader, container);
         return this;
@@ -43,7 +43,4 @@ export abstract class RoutedTsFramework implements TsFramework {
     private setupInstance(symbol: symbol, instance: Object, container: HubContainer) {
         container.bind(symbol).toConstantValue(instance);
     }
-
-    protected abstract GetControllerLoader(): ControllerLoader;
-
 }
