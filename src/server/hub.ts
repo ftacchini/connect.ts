@@ -10,7 +10,7 @@ export class Hub {
 
     }
 
-    public async run(): Promise<boolean[]> {
+    public async run(): Promise<any[]> {
         var controllerBuilders = this.controllerLoader.loadControllerBuilders(this.container);
 
         var promises = this.serverConfigs.map((serverConfig) => {
@@ -35,7 +35,7 @@ export class Hub {
     }
 
 
-    public stop(): Promise<boolean[]> {
+    public stop(): Promise<any[]> {
         var promises = this.serverConfigs.map((serverConfig) => {
             if(serverConfig.server) {
                 return Promise.resolve(true);
