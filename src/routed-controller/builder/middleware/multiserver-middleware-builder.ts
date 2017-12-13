@@ -1,3 +1,4 @@
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
 import { inject } from 'inversify';
 import { HubContainer } from './../../../container/hub-container';
 import { MiddlewareSupport } from './middleware-support';
@@ -13,8 +14,6 @@ import { ControllerActivator } from "../../activator/controller-activator";
 import { Types } from '../../../container/types';
 import { ConstructorMiddlewareBuilder } from '../../../index';
 
- const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
-
 
 @injectable()
 export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuilder<Information, any, any> {
@@ -24,8 +23,8 @@ export class MultiserverMiddlewareBuilder<Information> implements MiddlewareBuil
     protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Handler<Information>
     protected middlewareSupport: MiddlewareSupport<Information>[] = [];
-    protected priority: number;
-
+    protected priority: number = DEFAULT_MIDDLEWARE_PRIORITY;
+    
     constructor(
         @inject(Types.Container) protected container: HubContainer,
         @inject(Types.TsHubLogger) protected tsHubLogger: TsHubLogger) {

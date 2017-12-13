@@ -1,3 +1,4 @@
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
 import { Middleware } from './../../middleware';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
@@ -8,8 +9,6 @@ import { injectable, unmanaged } from 'inversify';
 import { Server } from "../../../server";
 import { ControllerActivator } from "../../activator/controller-activator";
 
-const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
-
 @injectable()
 export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 
        implements MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
@@ -18,7 +17,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     protected target: any;
     protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Handler<Information>
-    protected priority: number;
+    protected priority: number = DEFAULT_MIDDLEWARE_PRIORITY;
 
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
