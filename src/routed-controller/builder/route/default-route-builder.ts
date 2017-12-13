@@ -39,7 +39,7 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
 
         middleware.push(activatorMiddleware);
 
-        return middleware.sort(middleware => middleware.priority);
+        return middleware.sort((m0, m1) => m1.priority - m0.priority);
     }
 
     public withInformation(information: Information) : this {
