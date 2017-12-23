@@ -50,10 +50,20 @@ export class HubBuilder {
 
         var controllerLoader = this.tsFramework.setupFramework(this.container);
 
-        return new Hub(
+        var hub = new Hub(
             this.supportedServers,
             this.container,
             controllerLoader);
+
+        this.reset();
+        return hub;
+    }
+
+    public reset(): void {
+        this.container = null;
+        this.logger = null;
+        this.supportedServers = [];
+        this.tsFramework = null;
     }
 
     private initializeFramework(): this {
