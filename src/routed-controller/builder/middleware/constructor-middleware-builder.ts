@@ -3,7 +3,6 @@ import { Middleware } from './../../middleware';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
-import { Handler } from './handler';
 import { MiddlewareBuilder } from './middleware-builder';
 import { injectable, unmanaged } from 'inversify';
 import { Server } from "../../../server";
@@ -16,8 +15,8 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     protected information: Information;
     protected target: any;
     protected propertyKey: string;
-    protected middlewareConstructor: new (...args: any[]) => Handler<Information>
-    protected priority: number = DEFAULT_MIDDLEWARE_PRIORITY;
+    protected middlewareConstructor: new (...args: any[]) => Object
+    protected priority: number;
 
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
@@ -47,7 +46,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         return this;
     }
 
-    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
+    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Object): this {
         if(!middlewareConstructor) { 
             throw new NotSpecifiedParamException(
                 "middlewareConstructor", 
@@ -65,10 +64,10 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
 
         var middleware = this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
-            HANDLE_REQUEST, router ,
-            [new ConstantParameterBuilder(this.information, 0)]);
+            this.propertyKey || HANDLE_REQUEST, router ,
+            { information: this.information } );
 
-        middleware.priority = this.priority;
+        middleware.priority = this.priority || DEFAULT_MIDDLEWARE_PRIORITY;
 
         return middleware;
     }

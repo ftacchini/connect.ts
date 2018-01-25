@@ -7,5 +7,5 @@ export interface ControllerActivator<GenericRouter, RequestHandler> {
         target: any, 
         propertyKey: string, 
         router: GenericRouter, 
-        paramBuilders?: ParameterBuilder<any, GenericRouter>[]): Middleware<any, RequestHandler>;
+        staticData?: any): Middleware<any, RequestHandler>;
 }
