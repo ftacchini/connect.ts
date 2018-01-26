@@ -67,7 +67,7 @@ describe("ClassMethodControllerActivator", () => {
         logger = jasmine.createSpyObj<TsHubLogger>("logger", ["debug"]);
         var parameterBuilder = createParameterBuilderStub(2);
         (<any>parameterBuilder.buildParam).and.returnValue(createParameterStub("readerParamValue"));
-        (<any>paramsReader.readParameters).and.returnValue(parameterBuilder);
+        (<any>paramsReader.readParameters).and.returnValue([parameterBuilder]);
 
         controllerActivator = new DummyClassMethodControllerActivatorImplementation(
             functionReader,
@@ -102,7 +102,7 @@ describe("ClassMethodControllerActivator", () => {
             let target: any;
             let property: string;
             let router: any;
-            let paramBuilder: ParameterBuilder<any, any>;
+            let staticData: any;
             let activatorFunction: jasmine.Spy;
 
             beforeEach(() => {
@@ -110,8 +110,7 @@ describe("ClassMethodControllerActivator", () => {
                 target = { foo: function(arg1: any, arg2: any, arg3: any){} };
                 property = "foo";
                 router = {};
-                var extraParamBuilder = createParameterBuilderStub(1);
-                (<any>extraParamBuilder.buildParam).and.returnValue(createParameterStub("extraParamValue"));
+                staticData = { something: "something" };
 
                 activatorFunction = jasmine.createSpy("activatorFunction");
                 (<any>functionReader.readFunction).and.returnValue(activatorFunction);
@@ -121,7 +120,7 @@ describe("ClassMethodControllerActivator", () => {
                     target, 
                     property,
                     router,
-                    [extraParamBuilder]
+                    staticData
                 );  
             })
             
@@ -133,8 +132,8 @@ describe("ClassMethodControllerActivator", () => {
                 middleware.getRequestHandler()(request);
 
                 //assert
-                params.forEach(x => expect(x.getValue).toHaveBeenCalledWith(request));
-                expect(activatorFunction).toHaveBeenCalledWith("defaultParamValue", "extraParamValue", "readerParamValue");
+                params.forEach(x => expect(x.getValue).toHaveBeenCalledWith(staticData, request));
+                expect(activatorFunction).toHaveBeenCalledWith("defaultParamValue", "defaultParamValue", "readerParamValue");
                 
             })
 

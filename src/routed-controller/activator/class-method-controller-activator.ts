@@ -10,6 +10,8 @@ import { ParameterReader } from './../reader/parameter-reader';
 import { FunctionReader } from './../reader/function-reader';
 import { Middleware } from "../middleware";
 
+let DEFAULT_ACTIVATOR_PRIORITY: number = 0;
+
 @injectable()
 export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
 
@@ -29,7 +31,7 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
         target: any, 
         propertyKey: string, 
         router: GenericRouter, 
-        paramBuilders: ParameterBuilder<any, GenericRouter>[] = []): Middleware<any, RequestHandler> {
+        staticData: any = {}): Middleware<any, RequestHandler> {
             
             if(!target) { throw new NotSpecifiedParamException("target", this.buildControllerActivationMiddleware.name) }
             if(!propertyKey) { throw new NotSpecifiedParamException("propertyKey", this.buildControllerActivationMiddleware.name) }
@@ -37,10 +39,10 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
 
             this.tsHubLogger.debug(`Controller activator being built for ${target.constructor.name}.${propertyKey}`);
 
-            paramBuilders = paramBuilders.concat(this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router));
+            var paramBuilders = this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router) || [];
             let paramsArray: Parameter<any>[] = null;
-
-            return this.turnIntoMiddleware((...args: any[]) => {
+            
+            let middleware = this.turnIntoMiddleware((...args: any[]) => {
     
                 this.tsHubLogger.debug(`${target.constructor.name}.${propertyKey} being activated`);
                 var activatorFunction = this.functionReader.readFunction(target, propertyKey);
@@ -55,7 +57,10 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
                     }
                 }
 
-                return activatorFunction(...paramsArray.map(param => param.getValue(...args))); 
-        });
+                return activatorFunction(...paramsArray.map(param => param.getValue(staticData, ...args))); 
+            });
+            middleware.priority = DEFAULT_ACTIVATOR_PRIORITY;
+
+            return middleware;
     }
 }

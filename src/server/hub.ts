@@ -10,10 +10,10 @@ export class Hub {
 
     }
 
-    public run(): void {
+    public async run(): Promise<any[]> {
         var controllerBuilders = this.controllerLoader.loadControllerBuilders(this.container);
 
-        this.serverConfigs.forEach((serverConfig) => {
+        var promises = this.serverConfigs.map((serverConfig) => {
 
             serverConfig.serverConfigurator && serverConfig.serverConfigurator.configureServer(serverConfig.server, this.container);
             
@@ -28,9 +28,23 @@ export class Hub {
                 return true;
             });
 
-           serverConfig.server.run();
+           return serverConfig.server.run();
         });
         
+        return Promise.all(promises);
+    }
+
+
+    public stop(): Promise<any[]> {
+        var promises = this.serverConfigs.map((serverConfig) => {
+            if(serverConfig.server) {
+                return Promise.resolve(true);
+            }
+            
+            return serverConfig.server.stop();
+        })
+
+        return Promise.all(promises);
     }
 
 }

@@ -1,23 +1,20 @@
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
 import { Middleware } from './../../middleware';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
-import { Handler } from './handler';
 import { MiddlewareBuilder } from './middleware-builder';
 import { injectable, unmanaged } from 'inversify';
 import { Server } from "../../../server";
 import { ControllerActivator } from "../../activator/controller-activator";
-
-const HANDLE_REQUEST: keyof Handler<any> = "handleRequest";
 
 @injectable()
 export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 
        implements MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
     protected information: Information;
-    protected target: any;
     protected propertyKey: string;
-    protected middlewareConstructor: new (...args: any[]) => Handler<Information>
+    protected middlewareConstructor: new (...args: any[]) => Object
     protected priority: number;
 
     constructor(
@@ -33,8 +30,14 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         return this;
     }
 
-    public withTarget(target: any) : this {
-        this.target = target;
+    public withTarget(middlewareConstructor: new (...args: any[]) => Object): this {
+        if(!middlewareConstructor) { 
+            throw new NotSpecifiedParamException(
+                "middlewareConstructor", 
+                ConstructorMiddlewareBuilder.name);
+        }
+        
+        this.middlewareConstructor = middlewareConstructor;
         return this;
     }
 
@@ -48,17 +51,6 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         return this;
     }
 
-    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Handler<Information>): this {
-        if(!middlewareConstructor) { 
-            throw new NotSpecifiedParamException(
-                "middlewareConstructor", 
-                ConstructorMiddlewareBuilder.name);
-        }
-        
-        this.middlewareConstructor = middlewareConstructor;
-        return this;
-    }
-
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
         if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
@@ -66,10 +58,10 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
 
         var middleware = this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
-            HANDLE_REQUEST, router ,
-            [new ConstantParameterBuilder(this.information, 0)]);
+            this.propertyKey || HANDLE_REQUEST, router ,
+            { information: this.information } );
 
-        middleware.priority = this.priority;
+        middleware.priority = this.priority || DEFAULT_MIDDLEWARE_PRIORITY;
 
         return middleware;
     }

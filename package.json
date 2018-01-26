@@ -1,8 +1,8 @@
 {
   "name": "ts-hub",
-  "version": "1.2.2",
-  "description": "Ts-Hub core and metadata framework",
-  "main": "dist/index.js",
+  "version": "1.10.0",
+  "description": "Ts-Hub core",
+  "main": "dist/src/index.js",
   "scripts": {
     "unit-test": "jasmine JASMINE_CONFIG_PATH=jasmine.unit-test.json",
     "integration-test": "jasmine JASMINE_CONFIG_PATH=jasmine.integration-test.json",
@@ -21,17 +21,13 @@
     "url": "https://github.com/ftacchini/ts-hub/issues"
   },
   "homepage": "https://github.com/ftacchini/ts-hub#readme",
-  "typings": "./dts/index.d.ts",
+  "typings": "./dts/src/index.d.ts",
   "dependencies": {
-    "@types/body-parser": "0.0.33",
-    "@types/express": "^4.0.35",
     "@types/lodash": "^4.14.50",
-    "body-parser": "^1.16.0",
-    "express": "^4.14.0",
-    "include-all": "^2.0.0",
+    "@types/node": "^8.0.57",
     "inversify": "^3.0.0",
     "lodash": "^4.17.4",
-    "reflect-metadata": "^0.1.9"
+    "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
     "@types/jasmine": "^2.6.0",

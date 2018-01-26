@@ -47,7 +47,7 @@ export abstract class RoutedControllerBuilder<
     protected buildControllerMiddleware(controller: GenericRoutedController): Middleware<any, RequestHandler>[] {
         var builders = this.middlewareReader.readControllerMiddleware<GenericRouter, RequestHandler>(controller.router, this.target);
         return builders.map((builder) => builder.buildMiddleware(controller.router))
-                       .sort(middleware => middleware.priority);
+                       .sort((m0, m1) => m1.priority - m0.priority);
     }
 
     protected buildControllerRoutes(controller: GenericRoutedController): Route<any, GenericRouter, RequestHandler>[]{

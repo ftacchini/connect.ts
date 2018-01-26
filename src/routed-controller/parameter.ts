@@ -2,5 +2,5 @@ export interface Parameter<Information> {
     information: Information;
     index: number;
     type: any;
-    getValue(...args: any[]) : any;
+    getValue(staticData: any, ...args: any[]) : any;
 }

@@ -1,9 +1,8 @@
 import { ConstantParameterBuilder } from './../../../../../src/routed-controller/builder/parameter/constant-parameter-builder';
-import { Handler } from './../../../../../src/routed-controller/builder/middleware/handler';
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
 import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
-import { Middleware } from '../../../../../src/index';
+import { Middleware, DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from '../../../../../src/index';
 
 describe("ConstructorMiddlewareBuilder", () => {
 
@@ -32,11 +31,15 @@ describe("ConstructorMiddlewareBuilder", () => {
             //arrange
             var router = {};
             var middleware = <Middleware<any,any>>{};
-            var middlewareConstructor = class ImMiddleware implements Handler<any> { handleRequest(): void { }; };
+            var middlewareConstructor = class ImMiddleware { handleRequest(): void { }; };
             var priority = 21;
+            var info = {};
+            var middlewareAction = "something";
             
-            constructorMiddlewareBuilder.withMiddlewareConstructor(middlewareConstructor)
-                                        .withPriority(priority);
+            constructorMiddlewareBuilder.withTarget(middlewareConstructor)
+                .withInformation(info)      
+                .withPropertyKey(middlewareAction)                  
+                .withPriority(priority);
             (<any>controllerActivator.buildControllerActivationMiddleware)
                 .and.returnValue(middleware)
 
@@ -46,11 +49,36 @@ describe("ConstructorMiddlewareBuilder", () => {
             //assert
             expect(controllerActivator.buildControllerActivationMiddleware).toHaveBeenCalledWith(
                 middlewareConstructor.prototype,
-                "handleRequest",
+                middlewareAction,
                 router,
-                [jasmine.any(ConstantParameterBuilder)]
+                { information: info }
             );
             expect(middleware.priority).toEqual(priority);
+        })
+
+        it("should build a new activator with default handler and priority", () => {
+            //arrange
+            var router = {};
+            var middleware = <Middleware<any,any>>{};
+            var middlewareConstructor = class ImMiddleware { handleRequest(): void { }; };
+            var info = {};
+
+            constructorMiddlewareBuilder.withTarget(middlewareConstructor)
+                .withInformation(info);
+            (<any>controllerActivator.buildControllerActivationMiddleware)
+                .and.returnValue(middleware)
+
+            //act
+            var result = constructorMiddlewareBuilder.buildMiddleware(router);
+
+            //assert
+            expect(controllerActivator.buildControllerActivationMiddleware).toHaveBeenCalledWith(
+                middlewareConstructor.prototype,
+                HANDLE_REQUEST,
+                router,
+                { information: info }
+            );
+            expect(middleware.priority).toEqual(DEFAULT_MIDDLEWARE_PRIORITY);
         })
 
     })

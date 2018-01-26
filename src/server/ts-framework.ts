@@ -1,5 +1,6 @@
 import { ControllerLoader} from './../controller';
+import { HubContainer } from '../index';
 
 export interface TsFramework {
-    setupFramework(): ControllerLoader;
+    setupFramework(container: HubContainer): ControllerLoader;
 }
