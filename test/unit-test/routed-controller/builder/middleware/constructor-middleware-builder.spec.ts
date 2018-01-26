@@ -36,7 +36,7 @@ describe("ConstructorMiddlewareBuilder", () => {
             var info = {};
             var middlewareAction = "something";
             
-            constructorMiddlewareBuilder.withMiddlewareConstructor(middlewareConstructor)
+            constructorMiddlewareBuilder.withTarget(middlewareConstructor)
                 .withInformation(info)      
                 .withPropertyKey(middlewareAction)                  
                 .withPriority(priority);
@@ -63,7 +63,7 @@ describe("ConstructorMiddlewareBuilder", () => {
             var middlewareConstructor = class ImMiddleware { handleRequest(): void { }; };
             var info = {};
 
-            constructorMiddlewareBuilder.withMiddlewareConstructor(middlewareConstructor)
+            constructorMiddlewareBuilder.withTarget(middlewareConstructor)
                 .withInformation(info);
             (<any>controllerActivator.buildControllerActivationMiddleware)
                 .and.returnValue(middleware)

@@ -13,7 +13,6 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
        implements MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
     protected information: Information;
-    protected target: any;
     protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Object
     protected priority: number;
@@ -31,8 +30,14 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         return this;
     }
 
-    public withTarget(target: any) : this {
-        this.target = target;
+    public withTarget(middlewareConstructor: new (...args: any[]) => Object): this {
+        if(!middlewareConstructor) { 
+            throw new NotSpecifiedParamException(
+                "middlewareConstructor", 
+                ConstructorMiddlewareBuilder.name);
+        }
+        
+        this.middlewareConstructor = middlewareConstructor;
         return this;
     }
 
@@ -43,17 +48,6 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     
     public withPriority(priority: number) : this {
         this.priority = priority;
-        return this;
-    }
-
-    public withMiddlewareConstructor(middlewareConstructor: new (...args: any[]) => Object): this {
-        if(!middlewareConstructor) { 
-            throw new NotSpecifiedParamException(
-                "middlewareConstructor", 
-                ConstructorMiddlewareBuilder.name);
-        }
-        
-        this.middlewareConstructor = middlewareConstructor;
         return this;
     }
 
