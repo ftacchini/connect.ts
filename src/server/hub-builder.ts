@@ -59,7 +59,7 @@ export class HubBuilder {
             this.supportedServers,
             this.supportedModules,
             this.container,
-            this.tsFramework,);
+            this.tsFramework);
 
         this.reset();
         return hub;

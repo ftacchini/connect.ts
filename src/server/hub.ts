@@ -1,3 +1,5 @@
+import { TsHubLogger } from './../logging/ts-hub-logger';
+import { Types } from './../container/types';
 import { TsModule } from './ts-module';
 import {Server} from "./";
 import {HubContainer, ControllerLoader, TsFramework, ControllerBuilder} from "../";
@@ -30,12 +32,14 @@ export class Hub {
 
     private runServers(controllerBuilders: ControllerBuilder[]): Promise<any>[] {
         
+        let logger = this.container.get<TsHubLogger>(Types.TsHubLogger);
+
         return this.servers.map((server) => {
 
             controllerBuilders = controllerBuilders.filter((controllerBuilder) => {
                 if(controllerBuilder.supportsServer(server))
                 {
-                    var controller = controllerBuilder.buildController();
+                    let controller = controllerBuilder.buildController();
                     controller.attachToServer(server);
                     return false;
                 }
@@ -43,17 +47,35 @@ export class Hub {
                 return true;
             });
 
-           return server.run();
+            let runServerPromise = server.run();
+
+            runServerPromise.then(() => {
+                logger.info(server.getStatus());
+            },() => {
+                logger.info(server.getStatus());
+            });
+
+            return runServerPromise;
         });
     }
 
     public stop(): Promise<any[]> {
+        let logger = this.container.get<TsHubLogger>(Types.TsHubLogger);
+
         var promises = this.servers.map((server) => {
             if(server) {
                 return Promise.resolve(true);
             }
             
-            return server.stop();
+            let runServerPromise = server.stop();
+
+            runServerPromise.then(() => {
+                logger.info(server.getStatus());
+            },() => {
+                logger.info(server.getStatus());
+            });
+            
+            return runServerPromise;
         })
 
         return Promise.all(promises);
