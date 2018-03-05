@@ -17,7 +17,7 @@ export class ConsoleLogger implements TsHubLogger {
     
     private logToConsole(prefix: string, ...args: any[]): void {
         var message = args.length ? args[0] : ''; 
-        console.log(prefix + (message && (ConsoleLogger.SEPARATOR + message) || message), args.slice(1, args.length));
+        console.log(prefix + (message && (ConsoleLogger.SEPARATOR + message) || message));
     }
 
     public emergency(...args: any[]): void {

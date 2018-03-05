@@ -124,12 +124,12 @@ describe("ClassMethodControllerActivator", () => {
                 );  
             })
             
-            it("should activate target with obtained params", () => {
+            it("should activate target with obtained params", async () => {
                 //arrange
                 var request = {};
 
                 //act
-                middleware.getRequestHandler()(request);
+                await middleware.getRequestHandler()(request);
 
                 //assert
                 params.forEach(x => expect(x.getValue).toHaveBeenCalledWith(staticData, request));
@@ -137,14 +137,14 @@ describe("ClassMethodControllerActivator", () => {
                 
             })
 
-            it("should return activated function value", () => {
+            it("should return activated function value", async () => {
                  //arrange
                 var request = {};
                 var expected = "result";
                 activatorFunction.and.returnValue(expected)
 
                 //act
-                var actual = middleware.getRequestHandler()(request);
+                var actual = await middleware.getRequestHandler()(request);
 
                 //assert
                 expect(expected).toEqual(actual);
