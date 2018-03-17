@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
 import { TsHubLogger } from './ts-hub-logger';
-import "reflect-metadata";
 
 @injectable()
 export class ConsoleLogger implements TsHubLogger {

@@ -5,7 +5,6 @@ import {MiddlewareBuilder} from "./middleware/middleware-builder";
 import {MiddlewareReader,RouteReader} from "../reader";
 import {Route} from "../route";
 import { injectable, unmanaged } from "inversify";
-import "reflect-metadata";
 import * as _ from "lodash";
 
 @injectable()

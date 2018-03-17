@@ -5,7 +5,6 @@ import { Server } from "../../../server"
 import { ControllerActivator } from "../../activator/controller-activator";
 import { MiddlewareReader } from "../../reader";
 import { RouteBuilder } from "./route-builder";
-import "reflect-metadata";
 
 @injectable()
 export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHandler> implements RouteBuilder<Information, GenericRouter, RequestHandler> {
