@@ -1,7 +1,9 @@
-import {HubContainer} from "./";
-import {Container, interfaces} from "inversify";
-import { Types } from "./types";
+import { Container, injectable, interfaces } from 'inversify';
 
+import { HubContainer } from './';
+import { Types } from './types';
+
+@injectable()
 export class InversifyContainer extends Container implements HubContainer {
 
     public constructor(){
