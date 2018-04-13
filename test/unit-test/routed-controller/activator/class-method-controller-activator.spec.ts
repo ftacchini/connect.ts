@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { TsHubLogger } from './../../../../src/logging/ts-hub-logger';
 import { Parameter } from './../../../../src/routed-controller/parameter';
 import { ParameterBuilder } from './../../../../src/routed-controller/builder/parameter/parameter-builder';

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { InversifyContainer } from './../../../src/container/inversify-container';
 import { Types } from './../../../src/container/types';
 import { injectable } from 'inversify';

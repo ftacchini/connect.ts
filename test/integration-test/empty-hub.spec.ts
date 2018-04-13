@@ -1,7 +1,7 @@
+import "reflect-metadata";
 import { TsFramework } from './../../src/server/ts-framework';
 import { HubBuilder } from './../../src/server/hub-builder';
 import "jasmine";
-
 
 
 describe("empty hub", () => {

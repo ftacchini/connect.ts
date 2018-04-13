@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
 import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';

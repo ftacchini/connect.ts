@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { injectable, unmanaged } from 'inversify';
 import { TsHubLogger } from './ts-hub-logger';
 
 @injectable()
@@ -13,10 +13,14 @@ export class ConsoleLogger implements TsHubLogger {
     private static INFO_PREFIX: string = "INFO";
     private static DEBUG_PREFIX: string = "DEBUG";
     private static SEPARATOR: string = ": ";
+
+    constructor(@unmanaged() private consoleInstance: Console = console) {
+    }
+
     
-    private logToConsole(prefix: string, ...args: any[]): void {
-        var message = args.length ? args[0] : ''; 
-        console.log(prefix + (message && (ConsoleLogger.SEPARATOR + message) || message));
+    private logToConsole(prefix: string, args: any[]): void {
+        var message = JSON.stringify(args.length ? args[0] : ''); 
+        this.consoleInstance.log(prefix + (message && (ConsoleLogger.SEPARATOR + message) || message));
     }
 
     public emergency(...args: any[]): void {

@@ -8,7 +8,7 @@
         "sourceMap": true,
         "outDir": "dist",
         "experimentalDecorators": true,
-        "types": ["reflect-metadata", "node"],
+        "types": ["node"],
         "emitDecoratorMetadata": true,
         "declaration": true,
         "declarationDir": "dts"
