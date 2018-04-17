@@ -5,10 +5,10 @@ import { ParameterBuilder } from './../../../../src/routed-controller/builder/pa
 import { Middleware } from './../../../../src/routed-controller/middleware';
 import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
 import { FunctionReader } from './../../../../src/routed-controller/reader/function-reader';
-import { ClassMethodControllerActivator } from "../../../../src/routed-controller/activator/class-method-controller-activator"
+import { TargetPropertyControllerActivator } from "../../../../src/routed-controller/activator/target-property-controller-activator"
 
 
-describe("ClassMethodControllerActivator", () => {
+describe("TargetPropertyControllerActivator", () => {
 
     var paramBuilders: jasmine.SpyObj<ParameterBuilder<any, any>>[];;
     function createParameterBuilderStub(argIndex: number) : ParameterBuilder<any, any> {
@@ -29,7 +29,7 @@ describe("ClassMethodControllerActivator", () => {
     }
     
     
-    class DummyClassMethodControllerActivatorImplementation extends ClassMethodControllerActivator<any, any> {
+    class DummyClassMethodControllerActivatorImplementation extends TargetPropertyControllerActivator<any, any> {
     
         constructor(
             functionReader: FunctionReader,
@@ -58,7 +58,7 @@ describe("ClassMethodControllerActivator", () => {
     let functionReader: FunctionReader;
     let paramsReader: ParameterReader;
     let logger: TsHubLogger;
-    let controllerActivator: ClassMethodControllerActivator<any, any>;
+    let controllerActivator: TargetPropertyControllerActivator<any, any>;
 
     beforeEach(() => {
         params = [];
