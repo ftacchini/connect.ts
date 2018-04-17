@@ -1,4 +1,4 @@
-import {ControllerBuilder, Controller, Server, Types} from "../../";
+import {ControllerBuilder, Controller, Server, Types, TsHubLogger} from "../../";
 import {RoutedController} from "../routed-controller";
 import {Middleware} from "../middleware";
 import {MiddlewareBuilder} from "./middleware/middleware-builder";
@@ -6,6 +6,7 @@ import {MiddlewareReader,RouteReader} from "../reader";
 import {Route} from "../route";
 import { injectable, unmanaged } from "inversify";
 import * as _ from "lodash";
+import { NotSpecifiedParamException } from "../../exception/not-specified-param-exception";
 
 @injectable()
 export abstract class RoutedControllerBuilder<
@@ -19,7 +20,11 @@ export abstract class RoutedControllerBuilder<
     protected target: any;
     
     constructor(@unmanaged() protected middlewareReader: MiddlewareReader,
-                @unmanaged() protected routeReader: RouteReader){
+                @unmanaged() protected routeReader: RouteReader,
+                @unmanaged() protected tsHubLogger: TsHubLogger){
+        if(!middlewareReader) { throw new NotSpecifiedParamException("middlewareReader", RoutedControllerBuilder.name) }
+        if(!routeReader) { throw new NotSpecifiedParamException("routeReader", RoutedControllerBuilder.name) }
+        if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", RoutedControllerBuilder.name) }
     }
 
     public withInformation(information: Information) : this {
@@ -33,6 +38,8 @@ export abstract class RoutedControllerBuilder<
     }
 
     public buildController() : GenericRoutedController{
+        this.tsHubLogger.debug(`Controller "${this.target.constructor.name}" being build.`);
+
         var controller = this.buildRoutedController();
         controller.information = this.information;
         controller.middleware = this.buildControllerMiddleware(controller);

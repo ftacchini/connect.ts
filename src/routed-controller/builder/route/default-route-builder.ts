@@ -5,6 +5,8 @@ import { Server } from "../../../server"
 import { ControllerActivator } from "../../activator/controller-activator";
 import { MiddlewareReader } from "../../reader";
 import { RouteBuilder } from "./route-builder";
+import { TsHubLogger } from '../../..';
+import { NotSpecifiedParamException } from '../../../exception/not-specified-param-exception';
 
 @injectable()
 export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHandler> implements RouteBuilder<Information, GenericRouter, RequestHandler> {
@@ -15,12 +17,18 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
 
     public constructor(
         @unmanaged() protected middlewareReader: MiddlewareReader,
-        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>) {
+        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
+        @unmanaged() protected tsHubLogger: TsHubLogger) {
+            if(!middlewareReader) { throw new NotSpecifiedParamException("middlewareReader", DefaultRouteBuilder.name) }
+            if(!activator) { throw new NotSpecifiedParamException("activator", DefaultRouteBuilder.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", DefaultRouteBuilder.name) }
 
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;
     public buildRoute(router: GenericRouter): Route<Information, GenericRouter, RequestHandler> {
+        this.tsHubLogger.debug(`Route "${this.propertyKey}" being build.`);
+
         var route = this.createRouteInstance();
         route.middleware = this.buildRouteMiddleware(router);
         route.information = this.information;
