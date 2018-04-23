@@ -1,8 +1,10 @@
-import "reflect-metadata";
+import 'jasmine';
+import 'reflect-metadata';
+
+import { injectable } from 'inversify';
+
 import { InversifyContainer } from './../../../src/container/inversify-container';
 import { Types } from './../../../src/container/types';
-import { injectable } from 'inversify';
-import "jasmine";
 
 @injectable()
 class NewService {

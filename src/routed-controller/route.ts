@@ -1,5 +1,4 @@
-import {Server} from "../server";
-import {Middleware} from "./";
+import { Middleware } from './';
 
 export interface Route<Information, GenericRouter, RequestHandler> {
     

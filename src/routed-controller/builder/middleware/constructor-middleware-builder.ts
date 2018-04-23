@@ -1,12 +1,11 @@
-import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
-import { Middleware } from './../../middleware';
+import { injectable, unmanaged } from 'inversify';
+
+import { ControllerActivator } from '../../activator/controller-activator';
 import { NotSpecifiedParamException } from './../../../exception/not-specified-param-exception';
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
-import { ConstantParameterBuilder } from './../parameter/constant-parameter-builder';
+import { Middleware } from './../../middleware';
 import { MiddlewareBuilder } from './middleware-builder';
-import { injectable, unmanaged } from 'inversify';
-import { Server } from "../../../server";
-import { ControllerActivator } from "../../activator/controller-activator";
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
 
 @injectable()
 export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 

@@ -1,12 +1,11 @@
-import {ControllerBuilder, Controller, Server, Types, TsHubLogger} from "../../";
-import {RoutedController} from "../routed-controller";
-import {Middleware} from "../middleware";
-import {MiddlewareBuilder} from "./middleware/middleware-builder";
-import {MiddlewareReader,RouteReader} from "../reader";
-import {Route} from "../route";
-import { injectable, unmanaged } from "inversify";
-import * as _ from "lodash";
-import { NotSpecifiedParamException } from "../../exception/not-specified-param-exception";
+import { injectable, unmanaged } from 'inversify';
+
+import { ControllerBuilder, Server, TsHubLogger } from '../../';
+import { NotSpecifiedParamException } from '../../exception/not-specified-param-exception';
+import { Middleware } from '../middleware';
+import { MiddlewareReader, RouteReader } from '../reader';
+import { Route } from '../route';
+import { RoutedController } from '../routed-controller';
 
 @injectable()
 export abstract class RoutedControllerBuilder<

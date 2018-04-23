@@ -1,12 +1,12 @@
-import { unmanaged, injectable } from 'inversify';
-import { Middleware } from "../../middleware";
-import { Route } from "../../route";
-import { Server } from "../../../server"
-import { ControllerActivator } from "../../activator/controller-activator";
-import { MiddlewareReader } from "../../reader";
-import { RouteBuilder } from "./route-builder";
+import { injectable, unmanaged } from 'inversify';
+
 import { TsHubLogger } from '../../..';
 import { NotSpecifiedParamException } from '../../../exception/not-specified-param-exception';
+import { ControllerActivator } from '../../activator/controller-activator';
+import { Middleware } from '../../middleware';
+import { MiddlewareReader } from '../../reader';
+import { Route } from '../../route';
+import { RouteBuilder } from './route-builder';
 
 @injectable()
 export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHandler> implements RouteBuilder<Information, GenericRouter, RequestHandler> {

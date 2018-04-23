@@ -1,4 +1,5 @@
 import { injectable, unmanaged } from 'inversify';
+
 import { TsHubLogger } from './ts-hub-logger';
 
 @injectable()

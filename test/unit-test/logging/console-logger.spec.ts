@@ -1,4 +1,5 @@
-import "reflect-metadata";
+import 'reflect-metadata';
+
 import { ConsoleLogger } from './../../../src/logging/console-logger';
 
 describe("ConsoleLogger", () => {

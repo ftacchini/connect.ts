@@ -1,8 +1,9 @@
-import "reflect-metadata";
+import 'reflect-metadata';
+
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST, Middleware } from '../../../../../src';
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
 import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
-import { Middleware, DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from '../../../../../src/index';
 
 describe("ConstructorMiddlewareBuilder", () => {
 

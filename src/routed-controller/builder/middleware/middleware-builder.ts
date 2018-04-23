@@ -1,5 +1,4 @@
-import { injectable, unmanaged } from 'inversify';
-import { Middleware } from "../../middleware";
+import { Middleware } from '../../middleware';
 
 export interface MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 

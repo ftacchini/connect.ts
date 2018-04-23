@@ -1,6 +1,6 @@
-import {Controller} from "../controller";
-import {Server} from "../server";
-import {Middleware, Route} from "./";
+import { Controller } from '../controller';
+import { Server } from '../server';
+import { Middleware, Route } from './';
 
 export interface RoutedController<Information, GenericRouter, RequestHandler> extends Controller {
 

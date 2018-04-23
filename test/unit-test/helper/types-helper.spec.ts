@@ -1,4 +1,5 @@
-import "reflect-metadata";
+import 'reflect-metadata';
+
 import { TypesHelper } from './../../../src/helper/types-helper';
 
 

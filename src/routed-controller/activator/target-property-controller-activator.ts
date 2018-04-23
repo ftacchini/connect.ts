@@ -1,14 +1,14 @@
+import { injectable, unmanaged } from 'inversify';
+
+import { Middleware } from '../middleware';
 import { NotSpecifiedParamException } from './../../exception/not-specified-param-exception';
-import { TsHubLogger } from './../../logging/ts-hub-logger';
-import { ControllerActivator } from './controller-activator';
-import { Parameter } from './../parameter';
-import { ParameterBuilder } from './../builder';
 import { JsHelper } from './../../helper/js-helper';
-import { injectable } from 'inversify';
-import { unmanaged } from 'inversify';
-import { ParameterReader } from './../reader/parameter-reader';
+import { TsHubLogger } from './../../logging/ts-hub-logger';
+import { ParameterBuilder } from './../builder';
+import { Parameter } from './../parameter';
 import { FunctionReader } from './../reader/function-reader';
-import { Middleware } from "../middleware";
+import { ParameterReader } from './../reader/parameter-reader';
+import { ControllerActivator } from './controller-activator';
 
 let DEFAULT_ACTIVATOR_PRIORITY: number = 0;
 

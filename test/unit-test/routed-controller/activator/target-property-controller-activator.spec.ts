@@ -1,11 +1,14 @@
-import "reflect-metadata";
+import 'reflect-metadata';
+
+import {
+    TargetPropertyControllerActivator,
+} from '../../../../src/routed-controller/activator/target-property-controller-activator';
 import { TsHubLogger } from './../../../../src/logging/ts-hub-logger';
-import { Parameter } from './../../../../src/routed-controller/parameter';
 import { ParameterBuilder } from './../../../../src/routed-controller/builder/parameter/parameter-builder';
 import { Middleware } from './../../../../src/routed-controller/middleware';
-import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
+import { Parameter } from './../../../../src/routed-controller/parameter';
 import { FunctionReader } from './../../../../src/routed-controller/reader/function-reader';
-import { TargetPropertyControllerActivator } from "../../../../src/routed-controller/activator/target-property-controller-activator"
+import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
 
 
 describe("TargetPropertyControllerActivator", () => {

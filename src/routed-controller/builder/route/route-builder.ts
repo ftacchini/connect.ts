@@ -1,8 +1,4 @@
-import { Middleware } from "../../middleware";
-import { Route } from "../../route";
-import { Server } from "../../../server"
-import { ControllerActivator } from "../../activator/controller-activator";
-import { MiddlewareReader } from "../../reader";
+import { Route } from '../../route';
 
 export interface RouteBuilder<Information, GenericRouter, RequestHandler> {
    
