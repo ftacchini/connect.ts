@@ -2,13 +2,15 @@ import { ConsoleLogger } from './../logging/console-logger';
 import { TsHubLogger } from './../logging/ts-hub-logger';
 import { TsFramework } from './ts-framework';
 import { MiddlewareReader, RouteReader } from '../routed-controller';
-import { Server, ServerConfigurator } from "./";
+import { Server } from "./";
 import { ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
 import { Hub } from "./hub";
+import { TsModule } from './ts-module';
 
 export class HubBuilder {
 
-    protected supportedServers: { server: Server, serverConfigurator: ServerConfigurator<Server> }[] = [];
+    protected supportedServers: Server[] = [];
+    protected supportedModules: TsModule[] = [];
     protected tsFramework: TsFramework;
     protected container: HubContainer;
     protected logger: TsHubLogger;
@@ -37,8 +39,13 @@ export class HubBuilder {
         return this;
     }
 
-    public withServerSupport<T extends Server>(server: T, serverConfigurator?: ServerConfigurator<T>): this {
-        this.supportedServers.push({ server: server, serverConfigurator: serverConfigurator });
+    public withServerSupport(server: Server): this {
+        this.supportedServers.push(server);
+        return this;
+    }
+
+    public withModule(module: TsModule): this {
+        this.supportedModules.push(module);
         return this;
     }
 
@@ -48,12 +55,11 @@ export class HubBuilder {
             .initializeLogger()
             .initializeFramework();
 
-        var controllerLoader = this.tsFramework.setupFramework(this.container);
-
         var hub = new Hub(
             this.supportedServers,
+            this.supportedModules,
             this.container,
-            controllerLoader);
+            this.tsFramework);
 
         this.reset();
         return hub;

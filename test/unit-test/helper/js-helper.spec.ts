@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { JsHelper } from './../../../src/helper/js-helper';
 
 

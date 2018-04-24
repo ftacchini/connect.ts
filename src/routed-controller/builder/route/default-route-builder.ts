@@ -1,11 +1,12 @@
-import { unmanaged, injectable } from 'inversify';
-import { Middleware } from "../../middleware";
-import { Route } from "../../route";
-import { Server } from "../../../server"
-import { ControllerActivator } from "../../activator/controller-activator";
-import { MiddlewareReader } from "../../reader";
-import { RouteBuilder } from "./route-builder";
-import "reflect-metadata";
+import { injectable, unmanaged } from 'inversify';
+
+import { TsHubLogger } from '../../..';
+import { NotSpecifiedParamException } from '../../../exception/not-specified-param-exception';
+import { ControllerActivator } from '../../activator/controller-activator';
+import { Middleware } from '../../middleware';
+import { MiddlewareReader } from '../../reader';
+import { Route } from '../../route';
+import { RouteBuilder } from './route-builder';
 
 @injectable()
 export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHandler> implements RouteBuilder<Information, GenericRouter, RequestHandler> {
@@ -16,12 +17,18 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
 
     public constructor(
         @unmanaged() protected middlewareReader: MiddlewareReader,
-        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>) {
+        @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
+        @unmanaged() protected tsHubLogger: TsHubLogger) {
+            if(!middlewareReader) { throw new NotSpecifiedParamException("middlewareReader", DefaultRouteBuilder.name) }
+            if(!activator) { throw new NotSpecifiedParamException("activator", DefaultRouteBuilder.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", DefaultRouteBuilder.name) }
 
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;
     public buildRoute(router: GenericRouter): Route<Information, GenericRouter, RequestHandler> {
+        this.tsHubLogger.debug(`Route "${this.propertyKey}" being build.`);
+
         var route = this.createRouteInstance();
         route.middleware = this.buildRouteMiddleware(router);
         route.information = this.information;

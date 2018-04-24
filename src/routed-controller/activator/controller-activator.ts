@@ -1,5 +1,4 @@
-import { ParameterBuilder } from './../builder';
-import { Middleware } from "../middleware";
+import { Middleware } from '../middleware';
 
 export interface ControllerActivator<GenericRouter, RequestHandler> {
 

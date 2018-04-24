@@ -1,13 +1,17 @@
+import 'reflect-metadata';
+
+import {
+    TargetPropertyControllerActivator,
+} from '../../../../src/routed-controller/activator/target-property-controller-activator';
 import { TsHubLogger } from './../../../../src/logging/ts-hub-logger';
-import { Parameter } from './../../../../src/routed-controller/parameter';
 import { ParameterBuilder } from './../../../../src/routed-controller/builder/parameter/parameter-builder';
 import { Middleware } from './../../../../src/routed-controller/middleware';
-import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
+import { Parameter } from './../../../../src/routed-controller/parameter';
 import { FunctionReader } from './../../../../src/routed-controller/reader/function-reader';
-import { ClassMethodControllerActivator } from "../../../../src/routed-controller/activator/class-method-controller-activator"
+import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
 
 
-describe("ClassMethodControllerActivator", () => {
+describe("TargetPropertyControllerActivator", () => {
 
     var paramBuilders: jasmine.SpyObj<ParameterBuilder<any, any>>[];;
     function createParameterBuilderStub(argIndex: number) : ParameterBuilder<any, any> {
@@ -28,7 +32,7 @@ describe("ClassMethodControllerActivator", () => {
     }
     
     
-    class DummyClassMethodControllerActivatorImplementation extends ClassMethodControllerActivator<any, any> {
+    class DummyClassMethodControllerActivatorImplementation extends TargetPropertyControllerActivator<any, any> {
     
         constructor(
             functionReader: FunctionReader,
@@ -57,7 +61,7 @@ describe("ClassMethodControllerActivator", () => {
     let functionReader: FunctionReader;
     let paramsReader: ParameterReader;
     let logger: TsHubLogger;
-    let controllerActivator: ClassMethodControllerActivator<any, any>;
+    let controllerActivator: TargetPropertyControllerActivator<any, any>;
 
     beforeEach(() => {
         params = [];
@@ -124,12 +128,12 @@ describe("ClassMethodControllerActivator", () => {
                 );  
             })
             
-            it("should activate target with obtained params", () => {
+            it("should activate target with obtained params", async () => {
                 //arrange
                 var request = {};
 
                 //act
-                middleware.getRequestHandler()(request);
+                await middleware.getRequestHandler()(request);
 
                 //assert
                 params.forEach(x => expect(x.getValue).toHaveBeenCalledWith(staticData, request));
@@ -137,14 +141,14 @@ describe("ClassMethodControllerActivator", () => {
                 
             })
 
-            it("should return activated function value", () => {
+            it("should return activated function value", async () => {
                  //arrange
                 var request = {};
                 var expected = "result";
                 activatorFunction.and.returnValue(expected)
 
                 //act
-                var actual = middleware.getRequestHandler()(request);
+                var actual = await middleware.getRequestHandler()(request);
 
                 //assert
                 expect(expected).toEqual(actual);

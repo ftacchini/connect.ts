@@ -1,31 +1,31 @@
+import { injectable, unmanaged } from 'inversify';
+
+import { Middleware } from '../middleware';
 import { NotSpecifiedParamException } from './../../exception/not-specified-param-exception';
-import { TsHubLogger } from './../../logging/ts-hub-logger';
-import { ControllerActivator } from './controller-activator';
-import { Parameter } from './../parameter';
-import { ParameterBuilder } from './../builder';
 import { JsHelper } from './../../helper/js-helper';
-import { injectable } from 'inversify';
-import { unmanaged } from 'inversify';
-import { ParameterReader } from './../reader/parameter-reader';
+import { TsHubLogger } from './../../logging/ts-hub-logger';
+import { ParameterBuilder } from './../builder';
+import { Parameter } from './../parameter';
 import { FunctionReader } from './../reader/function-reader';
-import { Middleware } from "../middleware";
+import { ParameterReader } from './../reader/parameter-reader';
+import { ControllerActivator } from './controller-activator';
 
 let DEFAULT_ACTIVATOR_PRIORITY: number = 0;
 
 @injectable()
-export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
+export abstract class TargetPropertyControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
 
     constructor(
         @unmanaged() protected functionReader: FunctionReader,
         @unmanaged() protected paramsReader: ParameterReader,
         @unmanaged() protected tsHubLogger: TsHubLogger) {
-            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", ClassMethodControllerActivator.name) }
-            if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", ClassMethodControllerActivator.name) }
-            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", ClassMethodControllerActivator.name) }
+            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", TargetPropertyControllerActivator.name) }
+            if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", TargetPropertyControllerActivator.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", TargetPropertyControllerActivator.name) }
     }
 
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
-    protected abstract turnIntoMiddleware(action: Function) : Middleware<any, RequestHandler>;
+    protected abstract turnIntoMiddleware(action: () => Promise<any>) : Middleware<any, RequestHandler>;
 
     public buildControllerActivationMiddleware(
         target: any, 
@@ -40,24 +40,26 @@ export abstract class ClassMethodControllerActivator<GenericRouter, RequestHandl
             this.tsHubLogger.debug(`Controller activator being built for ${target.constructor.name}.${propertyKey}`);
 
             var paramBuilders = this.paramsReader.readParameters<GenericRouter>(target, propertyKey, router) || [];
-            let paramsArray: Parameter<any>[] = null;
+            let paramsBuilderArray: Parameter<any>[] = null;
             
-            let middleware = this.turnIntoMiddleware((...args: any[]) => {
+            let middleware = this.turnIntoMiddleware(async (...args: any[]) => {
     
                 this.tsHubLogger.debug(`${target.constructor.name}.${propertyKey} being activated`);
                 var activatorFunction = this.functionReader.readFunction(target, propertyKey);
                 
-                if(!paramsArray){
+                if(!paramsBuilderArray){
                     var paramName = JsHelper.instance.readFunctionParamNames(target[propertyKey]);
-                    paramsArray = [];
+                    paramsBuilderArray = [];
                     for(let index = 0; index < paramName.length; index++){
                         var paramBuilder = paramBuilders.find(x => x.getArgumentIndex() == index) 
                                             || this.createDefaultParameterBuilder(target, propertyKey, paramName[index], index);
-                        paramsArray[index] = paramBuilder.buildParam();                                            
+                        paramsBuilderArray[index] = paramBuilder.buildParam();                                            
                     }
                 }
+                
+                var params = await Promise.all(paramsBuilderArray.map(param => param.getValue(staticData, ...args)));
 
-                return activatorFunction(...paramsArray.map(param => param.getValue(staticData, ...args))); 
+                return activatorFunction(...params); 
             });
             middleware.priority = DEFAULT_ACTIVATOR_PRIORITY;
 
