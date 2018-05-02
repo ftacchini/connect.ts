@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST, Middleware } from '../../../../../src';
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST, Middleware, ExecutionOrder } from '../../../../../src';
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
 import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
@@ -36,10 +36,12 @@ describe("ConstructorMiddlewareBuilder", () => {
             var priority = 21;
             var info = {};
             var middlewareAction = "something";
+            var executionOrder = ExecutionOrder.PreActivation;
             
             constructorMiddlewareBuilder.withTarget(middlewareConstructor)
                 .withInformation(info)      
-                .withPropertyKey(middlewareAction)                  
+                .withPropertyKey(middlewareAction)
+                .withExecutionOrder(executionOrder)                  
                 .withPriority(priority);
             (<any>controllerActivator.buildControllerActivationMiddleware)
                 .and.returnValue(middleware)
@@ -55,6 +57,7 @@ describe("ConstructorMiddlewareBuilder", () => {
                 { information: info }
             );
             expect(middleware.priority).toEqual(priority);
+            expect(middleware.executionOrder).toEqual(executionOrder);
         })
 
         it("should build a new activator with default handler and priority", () => {

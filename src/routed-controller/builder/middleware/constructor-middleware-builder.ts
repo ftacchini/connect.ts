@@ -5,7 +5,8 @@ import { NotSpecifiedParamException } from './../../../exception/not-specified-p
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { Middleware } from './../../middleware';
 import { MiddlewareBuilder } from './middleware-builder';
-import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
+import { DEFAULT_EXECUTION_ORDER, DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
+import { ExecutionOrder } from '../..';
 
 @injectable()
 export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 
@@ -15,6 +16,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
     protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Object
     protected priority: number;
+    protected executionOrder: ExecutionOrder;
 
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
@@ -50,6 +52,10 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         return this;
     }
 
+    public withExecutionOrder(executionOrder: ExecutionOrder) : this {
+        this.executionOrder = executionOrder;
+        return this;
+    }
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
         if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
@@ -60,6 +66,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
             this.propertyKey || HANDLE_REQUEST, router ,
             { information: this.information } );
 
+        middleware.executionOrder = this.executionOrder || DEFAULT_EXECUTION_ORDER;
         middleware.priority = this.priority || DEFAULT_MIDDLEWARE_PRIORITY;
 
         return middleware;
