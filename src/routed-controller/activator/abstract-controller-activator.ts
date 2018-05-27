@@ -13,15 +13,15 @@ import { ControllerActivator } from './controller-activator';
 let DEFAULT_ACTIVATOR_PRIORITY: number = 0;
 
 @injectable()
-export abstract class TargetPropertyControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
+export abstract class AbstractControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
 
     constructor(
         @unmanaged() protected functionReader: FunctionReader,
         @unmanaged() protected paramsReader: ParameterReader,
         @unmanaged() protected tsHubLogger: TsHubLogger) {
-            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", TargetPropertyControllerActivator.name) }
-            if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", TargetPropertyControllerActivator.name) }
-            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", TargetPropertyControllerActivator.name) }
+            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", AbstractControllerActivator.name) }
+            if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", AbstractControllerActivator.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", AbstractControllerActivator.name) }
     }
 
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;

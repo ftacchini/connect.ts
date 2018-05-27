@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 
 import {
-    TargetPropertyControllerActivator,
-} from '../../../../src/routed-controller/activator/target-property-controller-activator';
+    AbstractControllerActivator,
+} from '../../../../src/routed-controller/activator/abstract-controller-activator';
 import { TsHubLogger } from './../../../../src/logging/ts-hub-logger';
 import { ParameterBuilder } from './../../../../src/routed-controller/builder/parameter/parameter-builder';
 import { Middleware } from './../../../../src/routed-controller/middleware';
@@ -11,7 +11,7 @@ import { FunctionReader } from './../../../../src/routed-controller/reader/funct
 import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
 
 
-describe("TargetPropertyControllerActivator", () => {
+describe("AbstractControllerActivator", () => {
 
     var paramBuilders: jasmine.SpyObj<ParameterBuilder<any, any>>[];;
     function createParameterBuilderStub(argIndex: number) : ParameterBuilder<any, any> {
@@ -32,7 +32,7 @@ describe("TargetPropertyControllerActivator", () => {
     }
     
     
-    class DummyClassMethodControllerActivatorImplementation extends TargetPropertyControllerActivator<any, any> {
+    class DummyClassMethodControllerActivatorImplementation extends AbstractControllerActivator<any, any> {
     
         constructor(
             functionReader: FunctionReader,
@@ -61,7 +61,7 @@ describe("TargetPropertyControllerActivator", () => {
     let functionReader: FunctionReader;
     let paramsReader: ParameterReader;
     let logger: TsHubLogger;
-    let controllerActivator: TargetPropertyControllerActivator<any, any>;
+    let controllerActivator: AbstractControllerActivator<any, any>;
 
     beforeEach(() => {
         params = [];

@@ -1,2 +1,2 @@
 export * from "./controller-activator";
-export * from "./target-property-controller-activator";
+export * from "./abstract-controller-activator";
