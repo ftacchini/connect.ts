@@ -1,7 +1,7 @@
 import { Middleware } from '../../middleware';
-import { ExecutionOrder } from '../..';
+import { ExecutionOrder, MiddlewareInformation } from '../..';
 
-export interface MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
+export interface MiddlewareBuilder<Information extends MiddlewareInformation, GenericRouter, RequestHandler> {
 
     withInformation(information: Information) : this;
     withTarget(target: any) : this;
