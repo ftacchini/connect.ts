@@ -37,7 +37,7 @@ export abstract class RoutedControllerBuilder<
     }
 
     public buildController() : GenericRoutedController{
-        this.tsHubLogger.debug(`Controller "${this.target.constructor.name}" being build.`);
+        this.tsHubLogger.debug(`Controller "${this.target.constructor.name}" being built.`);
 
         var controller = this.buildRoutedController();
         controller.information = this.information;

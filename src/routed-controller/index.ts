@@ -5,3 +5,4 @@ export * from "./routed-controller";
 export * from "./reader";
 export * from "./activator";
 export * from "./parameter";
+export * from "./execution-order";

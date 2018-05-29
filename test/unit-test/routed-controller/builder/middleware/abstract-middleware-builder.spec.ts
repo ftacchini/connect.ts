@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 
-import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST, Middleware } from '../../../../../src';
+import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST, Middleware, ExecutionOrder } from '../../../../../src';
 import { TsHubLogger } from './../../../../../src/logging/ts-hub-logger';
 import { ControllerActivator } from './../../../../../src/routed-controller/activator/controller-activator';
-import { ConstructorMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
+import { AbstractMiddlewareBuilder } from './../../../../../src/routed-controller/builder/middleware';
 
-describe("ConstructorMiddlewareBuilder", () => {
+describe("AbstractMiddlewareBuilder", () => {
 
-    class DummyConstructorMiddlewareBuilder extends ConstructorMiddlewareBuilder<any, any, any> {
+    class DummyConstructorMiddlewareBuilder extends AbstractMiddlewareBuilder<any, any, any> {
         protected priority: number = 0;
         public supportsRouter(router: any): boolean {
             return true;
         }
     }
 
-    let constructorMiddlewareBuilder: ConstructorMiddlewareBuilder<any, any, any>;
+    let constructorMiddlewareBuilder: AbstractMiddlewareBuilder<any, any, any>;
     let logger: TsHubLogger;
     let controllerActivator: ControllerActivator<any, any>;
 
@@ -33,14 +33,16 @@ describe("ConstructorMiddlewareBuilder", () => {
             var router = {};
             var middleware = <Middleware<any,any>>{};
             var middlewareConstructor = class ImMiddleware { handleRequest(): void { }; };
-            var priority = 21;
-            var info = {};
+            var info = {
+                executionOrder: ExecutionOrder.PreActivation,
+                priority: 21
+            };
             var middlewareAction = "something";
             
             constructorMiddlewareBuilder.withTarget(middlewareConstructor)
                 .withInformation(info)      
-                .withPropertyKey(middlewareAction)                  
-                .withPriority(priority);
+                .withPropertyKey(middlewareAction);
+
             (<any>controllerActivator.buildControllerActivationMiddleware)
                 .and.returnValue(middleware)
 
@@ -54,7 +56,8 @@ describe("ConstructorMiddlewareBuilder", () => {
                 router,
                 { information: info }
             );
-            expect(middleware.priority).toEqual(priority);
+            expect(middleware.priority).toEqual(info.priority);
+            expect(middleware.executionOrder).toEqual(info.executionOrder);
         })
 
         it("should build a new activator with default handler and priority", () => {

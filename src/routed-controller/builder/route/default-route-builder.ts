@@ -26,8 +26,10 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
     }
 
     public abstract supportsRouter(router: GenericRouter): boolean;
+    protected abstract createRouteInstance(): Route<Information, GenericRouter, RequestHandler>;
+    
     public buildRoute(router: GenericRouter): Route<Information, GenericRouter, RequestHandler> {
-        this.tsHubLogger.debug(`Route "${this.propertyKey}" being build.`);
+        this.tsHubLogger.debug(`Route "${this.propertyKey}" being built.`);
 
         var route = this.createRouteInstance();
         route.middleware = this.buildRouteMiddleware(router);
@@ -36,7 +38,6 @@ export abstract class DefaultRouteBuilder<Information, GenericRouter, RequestHan
         return route;
     }
 
-    protected abstract createRouteInstance(): Route<Information, GenericRouter, RequestHandler>;
     protected buildRouteMiddleware(router: GenericRouter): Middleware<any, RequestHandler>[] {
 
         var builders = this.middlewareReader.readRouteMiddleware<GenericRouter, RequestHandler>(router, this.target, this.propertyKey);

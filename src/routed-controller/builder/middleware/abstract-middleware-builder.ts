@@ -5,22 +5,23 @@ import { NotSpecifiedParamException } from './../../../exception/not-specified-p
 import { TsHubLogger } from './../../../logging/ts-hub-logger';
 import { Middleware } from './../../middleware';
 import { MiddlewareBuilder } from './middleware-builder';
-import { DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
+import { DEFAULT_EXECUTION_ORDER, DEFAULT_MIDDLEWARE_PRIORITY, HANDLE_REQUEST } from './middleware-constants';
+import { ExecutionOrder } from '../..';
+import { MiddlewareInformation } from './middleware-information';
 
 @injectable()
-export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, RequestHandler> 
+export abstract class AbstractMiddlewareBuilder<Information extends MiddlewareInformation, GenericRouter, RequestHandler> 
        implements MiddlewareBuilder<Information, GenericRouter, RequestHandler> {
 
     protected information: Information;
     protected propertyKey: string;
     protected middlewareConstructor: new (...args: any[]) => Object
-    protected priority: number;
 
     constructor(
         @unmanaged() protected activator: ControllerActivator<GenericRouter, RequestHandler>,
         @unmanaged() protected tsHubLogger: TsHubLogger) {
-            if(!activator) { throw new NotSpecifiedParamException("activator", ConstructorMiddlewareBuilder.name) }
-            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", ConstructorMiddlewareBuilder.name) }
+            if(!activator) { throw new NotSpecifiedParamException("activator", AbstractMiddlewareBuilder.name) }
+            if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", AbstractMiddlewareBuilder.name) }
     }
 
     
@@ -33,7 +34,7 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         if(!middlewareConstructor) { 
             throw new NotSpecifiedParamException(
                 "middlewareConstructor", 
-                ConstructorMiddlewareBuilder.name);
+                AbstractMiddlewareBuilder.name);
         }
         
         this.middlewareConstructor = middlewareConstructor;
@@ -44,23 +45,18 @@ export abstract class ConstructorMiddlewareBuilder<Information, GenericRouter, R
         this.propertyKey = propertyKey;
         return this;
     }
-    
-    public withPriority(priority: number) : this {
-        this.priority = priority;
-        return this;
-    }
-
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
         if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
-        this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being build.`);
+        this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being built.`);
 
         var middleware = this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
             this.propertyKey || HANDLE_REQUEST, router ,
             { information: this.information } );
 
-        middleware.priority = this.priority || DEFAULT_MIDDLEWARE_PRIORITY;
+        middleware.executionOrder = this.information && this.information.executionOrder || DEFAULT_EXECUTION_ORDER;
+        middleware.priority = this.information && this.information.priority || DEFAULT_MIDDLEWARE_PRIORITY;
 
         return middleware;
     }
