@@ -66,7 +66,7 @@ describe("AbstractControllerActivator", () => {
     beforeEach(() => {
         params = [];
         paramBuilders = [];
-        functionReader = jasmine.createSpyObj<FunctionReader>("functionReader", ["readFunction"]);
+        functionReader = jasmine.createSpyObj<FunctionReader>("functionReader", ["readFunctionFromNewTarget"]);
         paramsReader = jasmine.createSpyObj<ParameterReader>("paramsReader", ["readParameters"]);
         logger = jasmine.createSpyObj<TsHubLogger>("logger", ["debug"]);
         var parameterBuilder = createParameterBuilderStub(2);
@@ -117,7 +117,7 @@ describe("AbstractControllerActivator", () => {
                 staticData = { something: "something" };
 
                 activatorFunction = jasmine.createSpy("activatorFunction");
-                (<any>functionReader.readFunction).and.returnValue(activatorFunction);
+                (<any>functionReader.readFunctionFromNewTarget).and.returnValue(activatorFunction);
                 
 
                 middleware = controllerActivator.buildControllerActivationMiddleware(

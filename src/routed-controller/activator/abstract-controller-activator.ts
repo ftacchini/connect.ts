@@ -26,6 +26,12 @@ export abstract class AbstractControllerActivator<GenericRouter, RequestHandler>
 
     protected abstract createDefaultParameterBuilder(target: any, propertyKey: string, name: string, index: number) : ParameterBuilder<any, GenericRouter>;
     protected abstract turnIntoMiddleware(action: () => Promise<any>) : Middleware<any, RequestHandler>;
+    protected readActivatorFunction(
+        target: any, 
+        propertyKey: string,
+        ...args: any[]): Function{
+            return this.functionReader.readFunctionFromNewTarget(target, propertyKey);
+    }
 
     public buildControllerActivationMiddleware(
         target: any, 
@@ -45,7 +51,7 @@ export abstract class AbstractControllerActivator<GenericRouter, RequestHandler>
             let middleware = this.turnIntoMiddleware(async (...args: any[]) => {
     
                 this.tsHubLogger.debug(`${target.constructor.name}.${propertyKey} being activated`);
-                var activatorFunction = this.functionReader.readFunction(target, propertyKey);
+                var activatorFunction = this.readActivatorFunction(target, propertyKey, ...args);
                 
                 if(!paramsBuilderArray){
                     var paramName = JsHelper.instance.readFunctionParamNames(target[propertyKey]);
