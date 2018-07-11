@@ -6,5 +6,4 @@ export * from "./hub-builder";
 export * from "./hub";
 export * from "./ts-framework";
 export * from "./ts-module";
-export * from "./server-support";
 export * from "./routed-ts-framework";

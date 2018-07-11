@@ -48,7 +48,7 @@ export abstract class AbstractMiddlewareBuilder<Information extends MiddlewareIn
 
     public buildMiddleware(router: GenericRouter): Middleware<Information, RequestHandler> {
         if(!router) { throw new NotSpecifiedParamException("router", this.buildMiddleware.name) }        
-        this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.prototype.name}" being built.`);
+        this.tsHubLogger.debug(`Middleware "${this.middlewareConstructor.name}" being built.`);
 
         var middleware = this.activator.buildControllerActivationMiddleware(
             this.middlewareConstructor.prototype, 
@@ -57,6 +57,7 @@ export abstract class AbstractMiddlewareBuilder<Information extends MiddlewareIn
 
         middleware.executionOrder = this.information && this.information.executionOrder || DEFAULT_EXECUTION_ORDER;
         middleware.priority = this.information && this.information.priority || DEFAULT_MIDDLEWARE_PRIORITY;
+        middleware.information = this.information;
 
         return middleware;
     }
