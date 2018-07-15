@@ -6,7 +6,7 @@ import { JsHelper } from './../../helper/js-helper';
 import { TsHubLogger } from './../../logging/ts-hub-logger';
 import { ParameterBuilder } from './../builder';
 import { Parameter } from './../parameter';
-import { FunctionReader } from './../reader/function-reader';
+import { ActivationContextProvider } from '../activator/activation-context-provider';
 import { ParameterReader } from './../reader/parameter-reader';
 import { ControllerActivator } from './controller-activator';
 
@@ -16,10 +16,10 @@ let DEFAULT_ACTIVATOR_PRIORITY: number = 0;
 export abstract class AbstractControllerActivator<GenericRouter, RequestHandler> implements ControllerActivator<GenericRouter, RequestHandler> {
 
     constructor(
-        @unmanaged() protected functionReader: FunctionReader,
+        @unmanaged() protected activationContextProvider: ActivationContextProvider,
         @unmanaged() protected paramsReader: ParameterReader,
         @unmanaged() protected tsHubLogger: TsHubLogger) {
-            if(!functionReader) { throw new NotSpecifiedParamException("functionReader", AbstractControllerActivator.name) }
+            if(!activationContextProvider) { throw new NotSpecifiedParamException("activationContextProvider", AbstractControllerActivator.name) }
             if(!paramsReader) { throw new NotSpecifiedParamException("paramsReader", AbstractControllerActivator.name) }
             if(!tsHubLogger) { throw new NotSpecifiedParamException("tsHubLogger", AbstractControllerActivator.name) }
     }
@@ -30,7 +30,8 @@ export abstract class AbstractControllerActivator<GenericRouter, RequestHandler>
         target: any, 
         propertyKey: string,
         ...args: any[]): Function{
-            return this.functionReader.readFunctionFromNewTarget(target, propertyKey);
+            var activationContext = this.activationContextProvider.getActivationContext(target);
+            return activationContext.getActivationFunction(propertyKey);
     }
 
     public buildControllerActivationMiddleware(

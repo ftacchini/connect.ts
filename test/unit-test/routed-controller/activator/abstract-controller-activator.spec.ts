@@ -7,8 +7,9 @@ import { TsHubLogger } from './../../../../src/logging/ts-hub-logger';
 import { ParameterBuilder } from './../../../../src/routed-controller/builder/parameter/parameter-builder';
 import { Middleware } from './../../../../src/routed-controller/middleware';
 import { Parameter } from './../../../../src/routed-controller/parameter';
-import { FunctionReader } from './../../../../src/routed-controller/reader/function-reader';
+import { ActivationContextProvider } from '../../../../src/routed-controller/activator/activation-context-provider';
 import { ParameterReader } from './../../../../src/routed-controller/reader/parameter-reader';
+import { ActivationContext } from '../../../../src';
 
 
 describe("AbstractControllerActivator", () => {
@@ -35,10 +36,10 @@ describe("AbstractControllerActivator", () => {
     class DummyClassMethodControllerActivatorImplementation extends AbstractControllerActivator<any, any> {
     
         constructor(
-            functionReader: FunctionReader,
+            activationContextProvider: ActivationContextProvider,
             paramsReader: ParameterReader,
             logger: TsHubLogger) {
-                super(functionReader, paramsReader, logger);
+                super(activationContextProvider, paramsReader, logger);
         }
     
     
@@ -58,7 +59,8 @@ describe("AbstractControllerActivator", () => {
     
     }
 
-    let functionReader: FunctionReader;
+    let activationContext: ActivationContext;
+    let activationContextProvider: ActivationContextProvider;
     let paramsReader: ParameterReader;
     let logger: TsHubLogger;
     let controllerActivator: AbstractControllerActivator<any, any>;
@@ -66,7 +68,10 @@ describe("AbstractControllerActivator", () => {
     beforeEach(() => {
         params = [];
         paramBuilders = [];
-        functionReader = jasmine.createSpyObj<FunctionReader>("functionReader", ["readFunctionFromNewTarget"]);
+        activationContext = jasmine.createSpyObj<ActivationContext>("activationContext", ["getActivationFunction"]);
+        activationContextProvider = jasmine.createSpyObj<ActivationContextProvider>("activationContextProvider", ["getActivationContext"]);
+        (<any>activationContextProvider).getActivationContext.and.returnValue(activationContext);
+
         paramsReader = jasmine.createSpyObj<ParameterReader>("paramsReader", ["readParameters"]);
         logger = jasmine.createSpyObj<TsHubLogger>("logger", ["debug"]);
         var parameterBuilder = createParameterBuilderStub(2);
@@ -74,7 +79,7 @@ describe("AbstractControllerActivator", () => {
         (<any>paramsReader.readParameters).and.returnValue([parameterBuilder]);
 
         controllerActivator = new DummyClassMethodControllerActivatorImplementation(
-            functionReader,
+            activationContextProvider,
             paramsReader,
             logger
         );
@@ -117,7 +122,7 @@ describe("AbstractControllerActivator", () => {
                 staticData = { something: "something" };
 
                 activatorFunction = jasmine.createSpy("activatorFunction");
-                (<any>functionReader.readFunctionFromNewTarget).and.returnValue(activatorFunction);
+                (<any>activationContext.getActivationFunction).and.returnValue(activatorFunction);
                 
 
                 middleware = controllerActivator.buildControllerActivationMiddleware(

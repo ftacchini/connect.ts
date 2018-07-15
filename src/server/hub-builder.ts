@@ -1,10 +1,9 @@
+import { HubContainer, InversifyContainer, Types } from '../';
+import { Server } from './';
 import { ConsoleLogger } from './../logging/console-logger';
 import { TsHubLogger } from './../logging/ts-hub-logger';
+import { Hub } from './hub';
 import { TsFramework } from './ts-framework';
-import { MiddlewareReader, RouteReader } from '../routed-controller';
-import { Server } from "./";
-import { ControllerLoader, InversifyContainer, HubContainer, Types } from "../"
-import { Hub } from "./hub";
 import { TsModule } from './ts-module';
 
 export class HubBuilder {

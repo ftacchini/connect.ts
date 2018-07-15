@@ -1,5 +1,5 @@
 import { TsFramework } from './ts-framework';
-import { RouteReader, ControllerLoader, MiddlewareReader, FunctionReader, ParameterReader, Types, HubContainer } from '../index';
+import { RouteReader, ControllerLoader, MiddlewareReader, ActivationContextProvider, ParameterReader, Types, HubContainer } from '../index';
 
 export class RoutedTsFramework implements TsFramework {
 
@@ -7,14 +7,14 @@ export class RoutedTsFramework implements TsFramework {
         public readonly controllerLoader: ControllerLoader,
         public readonly routeReader: RouteReader,
         public readonly middlewareReader: MiddlewareReader,
-        public readonly functionReader: FunctionReader,
+        public readonly activationContextProvider: ActivationContextProvider,
         public readonly paramsReader: ParameterReader) {
     }
 
     public setupFramework(container: HubContainer): ControllerLoader {
         this.setupRouteReader(container)
             .setupMiddlewareReader(container)
-            .setupFunctionReader(container)
+            .setupActivationContextProvider(container)
             .setupParamsReader(container);
 
         return this.controllerLoader;
@@ -30,8 +30,8 @@ export class RoutedTsFramework implements TsFramework {
         return this;
     }
 
-    private setupFunctionReader(container: HubContainer): this {
-        this.setupInstance(Types.FunctionReader, this.functionReader, container);
+    private setupActivationContextProvider(container: HubContainer): this {
+        this.setupInstance(Types.ActivationContextProvider, this.activationContextProvider, container);
         return this;
     }
 
